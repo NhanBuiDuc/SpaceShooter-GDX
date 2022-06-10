@@ -1,7 +1,8 @@
-package hcmute.spaceshooter;
+package hcmute.spaceshooter.Animation;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -11,10 +12,9 @@ import org.w3c.dom.Text;
 public class Explosion {
     private Animation<TextureRegion> explosionAnimation;
     private float explosionTimer;
-
     private Rectangle boundingBox;
 
-    Explosion(Texture texture, Rectangle boundingBox, float totalAnimationTime){
+    public Explosion(Texture texture, Rectangle boundingBox, float totalAnimationTime){
         this.boundingBox = boundingBox;
 
         // split texture
@@ -35,7 +35,7 @@ public class Explosion {
     public void update(float deltaTime){
         explosionTimer += deltaTime;
     }
-    public void draw(SpriteBatch batch){
+    public void draw(Batch batch){
         batch.draw(explosionAnimation.getKeyFrame(explosionTimer),
                 boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
     }
