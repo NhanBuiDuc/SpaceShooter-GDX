@@ -5,8 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-abstract public class Laser {
 
+import java.io.Serializable;
+
+ public abstract class Laser implements ILaser{
+
+     int level;
+
+     String typeName;
     // position and dimensions of the laser
     Rectangle boundingBox;
 
@@ -23,6 +29,13 @@ abstract public class Laser {
     // Lasers' width and height
     float laserWidth, laserHeight;
 
+    public Laser(Laser that){
+        this.boundingBox = that.getBoundingBox();
+        this.laserMovementSpeed = that.getLaserMovementSpeed();
+        this.laserTexture = that.getLaserTexture();
+        this.laserWidth = that.getLaserWidth();
+        this.laserHeight = that.getLaserHeight();
+    }
     /**
      * Constructor of the Laser Type.
      * @param xCentre : The horizontal center-coordinate of the ship
@@ -45,9 +58,10 @@ abstract public class Laser {
 
     }
 
-    public void draw(Batch batch){
-        batch.draw(laserTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
-    }
+     public void draw(Batch batch){
+         batch.draw(laserTexture, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+     }
+
     public abstract Laser[] GetBullets();
     public abstract void setLevel(int i);
 
@@ -90,6 +104,17 @@ abstract public class Laser {
         this.laserTexture = laserTexture;
     }
 
+     public int getLevel() {
+         return level;
+     }
 
-//endregion Getter and Setter
+     public String getTypeName() {
+         return typeName;
+     }
+
+     public void setTypeName(String typeName) {
+         this.typeName = typeName;
+     }
+
+     //endregion Getter and Setter
 }

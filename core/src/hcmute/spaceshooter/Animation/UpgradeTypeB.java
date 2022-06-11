@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class UpgradeTypeA extends DropDownAnimation {
+public class UpgradeTypeB extends DropDownAnimation {
     String typeName;
     Boolean taken = false;
-    public UpgradeTypeA() {
+    public UpgradeTypeB() {
         drawingRectangle = new Rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT, 20, 20);
         movementSpeed = 20;
         totalAnimationTime = 1.5f;

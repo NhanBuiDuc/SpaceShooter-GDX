@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-public interface IAnimation {
+public interface IDropDownAnimation {
 
     /** Update method increasing timer by deltaTime
      *
@@ -27,4 +27,10 @@ public interface IAnimation {
      * Split texture to 1D Texture Region Array and return the Animation
      */
     Animation<TextureRegion> GetAnimation();
+
+    Rectangle getDrawingRectangle();
+
+    String getTypeName();
+
+    void setTaken(Boolean taken);
 }

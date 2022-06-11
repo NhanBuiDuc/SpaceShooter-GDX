@@ -7,12 +7,15 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.LinkedList;
 
+import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
 
 /**
  * Abstract class for all the ship objects
  */
 abstract public class Ship {
+
+    int HP;
 
     // ship characteristic
     // world units per second
@@ -21,10 +24,7 @@ abstract public class Ship {
     public int shield;
 
     // Laser
-    Laser laserI;
-
-    // List of player fired Lasers
-    LinkedList<Laser> laserList = new LinkedList<>();
+    ILaser laserI;
 
     // position & dimension illustrating the shape of the ship, also its size
     Rectangle boundingBox;
@@ -38,6 +38,8 @@ abstract public class Ship {
     // graphics
     TextureRegion shipTextureRegion, shieldTextureRegion;
 
+    //
+    boolean ableToFire;
     /**
      * Constructor of the Ship Type.
      * @param xCentre : The horizontal center-coordinate of the ship
@@ -49,34 +51,36 @@ abstract public class Ship {
      * @param timeBetweenShots :The amount of time the ship have to wait before shooting a new laser
      * @param shieldTextureRegion :The texture for rendering the shield
      * @param shipTextureRegion :The texture for rendering the ship
+     * @param ableToFire: Determine if the ship is able to fire or not
      **/
     public Ship(float xCentre, float yCentre,
                 float width, float height,
                 float movementSpeed, int shield,
                 float timeBetweenShots,
-                TextureRegion shipTextureRegion, TextureRegion shieldTextureRegion) {
+                TextureRegion shipTextureRegion, TextureRegion shieldTextureRegion, Boolean ableToFire, int HP) {
         this.movementSpeed = movementSpeed;
         this.shield = shield;
         this.boundingBox = new Rectangle(xCentre - width/2, yCentre - height/2, width, height);
         this.timeBetweenShots = timeBetweenShots;
         this.shipTextureRegion = shipTextureRegion;
         this.shieldTextureRegion = shieldTextureRegion;
+        this.ableToFire = ableToFire;
+        this.HP = HP;
+    }
+    public Ship(){
+
     }
 
     /**
-     *
      * @param deltaTime: Update the status of the Ship respect to the deltaTime
-     * @param batch: The batch to draws items
      */
-    public void update(float deltaTime, Batch batch, int WORLD_HEIGHT){
+    public void update(float deltaTime){
         timeSinceLastShot = timeSinceLastShot + deltaTime;
     }
     public boolean canFireLaser(){
         boolean result = timeSinceLastShot - timeBetweenShots >= 0;
         return result;
     }
-
-    public abstract void fireLasers(float deltaTime, Batch batch, int WORLD_HEIGHT);
 
     public boolean intersects(Rectangle otherRectangle){
         return this.boundingBox.overlaps(otherRectangle);
@@ -89,7 +93,7 @@ abstract public class Ship {
 
     }
 
-    public abstract boolean hitAndCheckDestroyed(Laser laser);
+    public abstract boolean hitAndCheckDestroyed();
 
     public void translate(float xChange, float yChange){
         boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);
@@ -152,21 +156,35 @@ abstract public class Ship {
         this.shieldTextureRegion = shieldTextureRegion;
     }
 
-    public Laser getLaserI() {
+    public ILaser getLaserI() {
         return laserI;
+    }
+
+    public void setLaserI(ILaser laserI) {
+        this.laserI = laserI;
     }
 
     public void setLaserI(Laser laserI) {
         this.laserI = laserI;
     }
 
-    public LinkedList<Laser> getLaserList() {
-        return laserList;
+
+
+    public boolean isAbleToFire() {
+        return ableToFire;
     }
 
-    public void setLaserList(LinkedList<Laser> laserList) {
-        this.laserList = laserList;
+    public void setAbleToFire(boolean ableToFire) {
+        this.ableToFire = ableToFire;
     }
 
-//endregion Getter and Setter
+    public int getHP() {
+        return HP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+
+    //endregion Getter and Setter
 }

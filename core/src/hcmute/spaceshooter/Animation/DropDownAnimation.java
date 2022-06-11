@@ -1,5 +1,7 @@
 package hcmute.spaceshooter.Animation;
 
+import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -7,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-public abstract class DropDownAnimation implements IAnimation {
+public abstract class DropDownAnimation implements IDropDownAnimation {
+
 
     // Gdx's Animation object
     Animation<TextureRegion> animation ;
@@ -87,6 +90,7 @@ public abstract class DropDownAnimation implements IAnimation {
         else{
             if(isFinished()){
                 animation = GetAnimation();
+                drawingRectangle.y = WORLD_HEIGHT;
             }
         }
     }
@@ -95,7 +99,10 @@ public abstract class DropDownAnimation implements IAnimation {
      * @param deltaTime The time in seconds since the last render.
      */
     public void makeDownward(float deltaTime){
-        drawingRectangle.y -= movementSpeed * deltaTime;
+        if(drawingRectangle.getY() > 0){
+            drawingRectangle.y -= movementSpeed * deltaTime;
+        }
+
     }
 
     /** Update the animation's rendering time by @param delaTime
@@ -134,5 +141,86 @@ public abstract class DropDownAnimation implements IAnimation {
     public void setTotalAnimationTime(float totalAnimationTime) {
         this.totalAnimationTime = totalAnimationTime;
     }
+
+    public Animation<TextureRegion> getAnimation() {
+        return animation;
+    }
+
+    public void setAnimation(Animation<TextureRegion> animation) {
+        this.animation = animation;
+    }
+
+    public float getTimer() {
+        return timer;
+    }
+
+    public void setTimer(float timer) {
+        this.timer = timer;
+    }
+
+    public Rectangle getDrawingRectangle() {
+        return drawingRectangle;
+    }
+
+    public void setDrawingRectangle(Rectangle drawingRectangle) {
+        this.drawingRectangle = drawingRectangle;
+    }
+
+    public int getMovementSpeed() {
+        return movementSpeed;
+    }
+
+    public void setMovementSpeed(int movementSpeed) {
+        this.movementSpeed = movementSpeed;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
+
+    public int getTitleWidth() {
+        return titleWidth;
+    }
+
+    public void setTitleWidth(int titleWidth) {
+        this.titleWidth = titleWidth;
+    }
+
+    public int getTitleHeight() {
+        return titleHeight;
+    }
+
+    public void setTitleHeight(int titleHeight) {
+        this.titleHeight = titleHeight;
+    }
+
+    public int getRowTextureCount() {
+        return rowTextureCount;
+    }
+
+    public void setRowTextureCount(int rowTextureCount) {
+        this.rowTextureCount = rowTextureCount;
+    }
+
+    public int getColumnTextureCount() {
+        return columnTextureCount;
+    }
+
+    public void setColumnTextureCount(int columnTextureCount) {
+        this.columnTextureCount = columnTextureCount;
+    }
+
+    public int getTextureNum() {
+        return textureNum;
+    }
+
+    public void setTextureNum(int textureNum) {
+        this.textureNum = textureNum;
+    }
     //endregion
 }
+

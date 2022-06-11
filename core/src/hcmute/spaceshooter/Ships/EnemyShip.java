@@ -4,66 +4,56 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+import java.awt.Rectangle;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.ListIterator;
+import java.util.Map;
+import java.util.Stack;
 
 import hcmute.spaceshooter.Lasers.Laser;
 import hcmute.spaceshooter.Lasers.LaserTypeA;
+import hcmute.spaceshooter.Lasers.LaserTypeB;
 import hcmute.spaceshooter.SpaceShooterGame;
 
-public class EnemyShip extends Ship {
+public class EnemyShip extends Ship{
 
     Vector2 directionVector;
     float timeSinceLastDirectionChange = 0;
     float directionChangeFrequency = 0.75f;
-
+    EnemyShip clonedEnemyShip;
 
     public EnemyShip(float xCentre, float yCentre,
                      float width, float height,
                      float movementSpeed, int shield, float timeBetweenShots,
-                     TextureRegion shipTextureRegion, TextureRegion shieldTextureRegion) {
+                     TextureRegion shipTextureRegion, TextureRegion shieldTextureRegion, Boolean ableToFire, int HP) {
         super   (xCentre, yCentre,
                 width, height,
                 movementSpeed, shield, timeBetweenShots,
-                shipTextureRegion, shieldTextureRegion);
+                shipTextureRegion, shieldTextureRegion, ableToFire, HP);
 
         directionVector = new Vector2(0, -1);
-        laserI = new LaserTypeA(boundingBox);
-        laserI.setLevel(2);
-    }
+        laserI = new LaserTypeB(boundingBox);
+        laserI.setLevel(1);
 
-    public Vector2 getDirectionVector() {
-        return directionVector;
+        // Clone
+
+    }
+    public EnemyShip(){
+
     }
 
     private void randomizeDirectionVector(){
         double bearing = SpaceShooterGame.random.nextDouble() * 6.283185; // 0 to 2 * pi
         directionVector.x = (float) Math.sin(bearing);
         directionVector.y = (float) Math.cos(bearing);
-
     }
 
-    @Override
-    public void update(float deltaTime, Batch batch, int WORLD_HEIGHT) {
+    public void update(float deltaTime) {
         timeSinceLastShot = timeSinceLastShot + deltaTime;
 
     }
-    public void RemoveLasers(float deltaTime, Batch batch){
-        if(!laserList.isEmpty()){
-            ListIterator<Laser> iterator = laserList.listIterator();
-            while (iterator.hasNext()) {
 
-                Laser laser = iterator.next();
-                if(laser != null){
-                    laser.draw(batch);
-                    laser.getBoundingBox().y -= laser.getLaserMovementSpeed() * deltaTime;
-                    if (laser.getBoundingBox().y + laser.getBoundingBox().height < 0) {
-                        iterator.remove();
-                    }
-                }
-            }
-        }
-    }
     public void MoveRandomly(float deltaTime){
         timeSinceLastDirectionChange += deltaTime;
         if(timeSinceLastDirectionChange > directionChangeFrequency){
@@ -71,16 +61,21 @@ public class EnemyShip extends Ship {
             timeSinceLastDirectionChange -= directionChangeFrequency;
         }
     }
-    @Override
-    public void fireLasers(float deltaTime, Batch batch, int WORLD_HEIGHT) {
+
+    public Stack<Laser> GetLasers() {
         // Enemy lasers
+        Stack<Laser> laserStack = new Stack<>();
         if(canFireLaser()){
             Laser[] lasers = this.laserI.GetBullets();
-            laserList.addAll(Arrays.asList(lasers));
+            for(int i = 0; i < lasers.length ; i++){
+                if(lasers[i] != null){
+                    laserStack.push(lasers[i]);
+                }
+
+            }
         }
-
         timeSinceLastShot = 0;
-
+        return laserStack;
     }
 
     @Override
@@ -92,12 +87,18 @@ public class EnemyShip extends Ship {
     }
 
     @Override
-    public boolean hitAndCheckDestroyed(Laser laser) {
+    public boolean hitAndCheckDestroyed() {
         if(shield > 0){
             shield --;
             return false;
         }
-        return true;
+        else{
+            if(HP > 0){
+                HP--;
+                return false;
+            }
+            return true;
+        }
     }
 
     //region Getter and Setter
@@ -119,6 +120,18 @@ public class EnemyShip extends Ship {
 
     public void setDirectionChangeFrequency(float directionChangeFrequency) {
         this.directionChangeFrequency = directionChangeFrequency;
+    }
+
+    public Vector2 getDirectionVector() {
+        return directionVector;
+    }
+
+    public EnemyShip getClonedEnemyShip() {
+        return clonedEnemyShip;
+    }
+
+    public void setClonedEnemyShip(EnemyShip clonedEnemyShip) {
+        this.clonedEnemyShip = clonedEnemyShip;
     }
     //endregion Getter and Setter
 }
