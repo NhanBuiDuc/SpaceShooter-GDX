@@ -156,6 +156,11 @@ public class LaserTypeB extends Laser {
 
     }
 
+    @Override
+    public String getMovementType() {
+        return movementType;
+    }
+
     //region Getter and Setter
 
     public int getLevel() {

@@ -33,6 +33,7 @@ import java.util.Stack;
 import hcmute.spaceshooter.Animation.Explosion;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Episode.Episode;
+import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.PlayerShip;
@@ -93,7 +94,7 @@ public class GameScreen implements Screen {
     private Stack<EnemyShip> enemyShipList;
 
     // List of enemy fired Lasers
-    private Stack<Laser> enemyLaserList;
+    private Stack<ILaser> enemyLaserList;
 
     // List of Explosion
     private LinkedList<Explosion> explosionList;
@@ -163,7 +164,7 @@ public class GameScreen implements Screen {
 
         // set up game objects
         playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 4,
-                10, 10, 50, 3, 0.4f,
+                10, 10, 50, 3, 0f,
                 playerShipTextureRegion, playerShieldTextureRegion, true, 3);
 
 //        enemyShip = new EnemyShip(WORLD_WIDTH / 2, WORLD_HEIGHT * 3 / 4,
@@ -303,7 +304,7 @@ public class GameScreen implements Screen {
     private void spawnEnemyShips(float deltaTime){
         enemySpawnTimer += deltaTime;
         if(enemySpawnTimer > timeBetweenEnemySpawns){
-            for(int i = 0; i < 10; i++){
+            for(int i = 0; i < 5; i++){
                 enemyShipList.add( new EnemyShip(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10),
                         WORLD_HEIGHT - 5,
                         7, 7, 70, 0, 10.0f,
@@ -406,12 +407,12 @@ public class GameScreen implements Screen {
     }
 
     private void detectCollisions() throws CloneNotSupportedException {
-        ListIterator<Laser> laserListIterator;
+        ListIterator<ILaser> laserListIterator;
 
         //For each player's laser, check whether it intersects an enemy ship
         laserListIterator = playerShip.getLaserList().listIterator();
         while (laserListIterator.hasNext()) {
-            Laser laser = laserListIterator.next();
+            ILaser laser = laserListIterator.next();
             ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
             while(enemyShipListIterator.hasNext()){
                 EnemyShip enemyShip = enemyShipListIterator.next();
@@ -438,7 +439,7 @@ public class GameScreen implements Screen {
         laserListIterator = enemyLaserList.listIterator();
 
         while (laserListIterator.hasNext()) {
-            Laser laser = laserListIterator.next();
+            ILaser laser = laserListIterator.next();
             if(playerShip.intersects(laser.getBoundingBox())){
                 if(playerShip.hitAndCheckDestroyed()){
                     laserListIterator.remove();
@@ -507,9 +508,9 @@ public class GameScreen implements Screen {
     }
     public void DrawAndRemoveEnemyBulletsIfAtBound(float deltaTime, Batch batch){
         if(!enemyLaserList.isEmpty()){
-            ListIterator<Laser> iterator = enemyLaserList.listIterator();
+            ListIterator<ILaser> iterator = enemyLaserList.listIterator();
             while (iterator.hasNext()) {
-                Laser laser = iterator.next();
+                ILaser laser = iterator.next();
                 if(laser != null){
                     if (laser.getBoundingBox().getY() + laser.getBoundingBox().getHeight() < (-50)) {
                         iterator.remove();

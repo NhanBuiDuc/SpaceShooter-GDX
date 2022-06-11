@@ -12,7 +12,6 @@ public class LaserTypeA extends Laser {
     int level = 1;
     LaserTypeA[] bullets;
     Rectangle shipBoundingBox;
-
     /**
      * Constructor of the Laser Type.
      *
@@ -56,8 +55,8 @@ public class LaserTypeA extends Laser {
 
             lasers[0] = new LaserTypeA(shipBoundingBox);
             lasers[0].setLaserWidth(0.4f);
-            lasers[0].setLaserHeight(4);
-            lasers[0].setLaserMovementSpeed(45);
+            lasers[0].setLaserHeight(50);
+            lasers[0].setLaserMovementSpeed(100);
             lasers[0].setBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.07f,
                     lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
@@ -65,8 +64,8 @@ public class LaserTypeA extends Laser {
 
             lasers[1] = new LaserTypeA(shipBoundingBox);
             lasers[1].setLaserWidth(0.4f);
-            lasers[1].setLaserHeight(4);
-            lasers[1].setLaserMovementSpeed(45);
+            lasers[1].setLaserHeight(50);
+            lasers[1].setLaserMovementSpeed(100);
             lasers[1].setBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.93f,
                     lasers[1].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
@@ -80,6 +79,7 @@ public class LaserTypeA extends Laser {
             lasers[0].setLaserWidth(0.4f);
             lasers[0].setLaserHeight(4);
             lasers[0].setLaserMovementSpeed(45);
+            lasers[0].setMovementType("DIAGONAL_LEFT");
             lasers[0].setBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.07f,
                     lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
@@ -98,6 +98,7 @@ public class LaserTypeA extends Laser {
             lasers[2].setLaserWidth(0.4f);
             lasers[2].setLaserHeight(4);
             lasers[2].setLaserMovementSpeed(45);
+            lasers[2].setMovementType("DIAGONAL_RIGHT");
             lasers[2].setBoundingBox(new Rectangle(lasers[2].getShipBoundingBox().getX() + lasers[2].getShipBoundingBox().getWidth() * 0.93f,
                     lasers[2].getShipBoundingBox().getY() + lasers[2].getShipBoundingBox().getHeight() * 0.55f,
                     lasers[2].getLaserWidth(), lasers[2].getLaserHeight()));
@@ -110,6 +111,7 @@ public class LaserTypeA extends Laser {
             lasers[0].setLaserWidth(0.6f);
             lasers[0].setLaserHeight(4);
             lasers[0].setLaserMovementSpeed(50);
+            lasers[0].setMovementType("DIAGONAL_LEFT");
             lasers[0].setBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.07f,
                     lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
@@ -145,6 +147,7 @@ public class LaserTypeA extends Laser {
             lasers[4].setLaserWidth(0.6f);
             lasers[4].setLaserHeight(4);
             lasers[4].setLaserMovementSpeed(50);
+            lasers[4].setMovementType("DIAGONAL_RIGHT");
             lasers[4].setBoundingBox(new Rectangle(lasers[4].getShipBoundingBox().getX() + lasers[4].getShipBoundingBox().getWidth() * 0.77f,
                     lasers[4].getShipBoundingBox().getY() + lasers[4].getShipBoundingBox().getHeight() * 0.7f,
                     lasers[4].getLaserWidth(), lasers[4].getLaserHeight()));
@@ -199,5 +202,12 @@ public class LaserTypeA extends Laser {
         this.laserTexture = laserTexture;
     }
 
-    //endregion Getter and Setter
+    public String getMovementType() {
+        return movementType;
+    }
+
+    public void setMovementType(String movementType) {
+        this.movementType = movementType;
+    }
+//endregion Getter and Setter
 }

@@ -10,6 +10,7 @@ import java.io.Serializable;
 
  public abstract class Laser implements ILaser{
 
+     public String movementType;
      int level;
 
      String typeName;
@@ -116,5 +117,13 @@ import java.io.Serializable;
          this.typeName = typeName;
      }
 
-     //endregion Getter and Setter
+     @Override
+     public String getMovementType() {
+         return movementType;
+     }
+
+     public void setMovementType(String movementType) {
+         this.movementType = movementType;
+     }
+//endregion Getter and Setter
 }

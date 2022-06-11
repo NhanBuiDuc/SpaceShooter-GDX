@@ -3,12 +3,10 @@ package hcmute.spaceshooter.Ships;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
-import hcmute.spaceshooter.Animation.UpgradeTypeA;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
 import hcmute.spaceshooter.Lasers.LaserTypeA;
@@ -17,7 +15,7 @@ public class PlayerShip extends Ship {
     int level;
     int maxLevel = 3;
     // List of player fired Lasers
-    LinkedList<Laser> laserList = new LinkedList<>();
+    LinkedList<ILaser> laserList = new LinkedList<>();
     public PlayerShip(float xCentre, float yCentre,
                       float width, float height,
                       float movementSpeed, int shield, float timeBetweenShots,
@@ -48,16 +46,27 @@ public class PlayerShip extends Ship {
     public void DrawAndRemoveBullets(float deltaTime, Batch batch, int WORLD_HEIGHT){
 
         if(!laserList.isEmpty()){
-            ListIterator<Laser> iterator = laserList.listIterator();
+            ListIterator<ILaser> iterator = laserList.listIterator();
             while (iterator.hasNext()) {
-                Laser laser = iterator.next();
+                ILaser laser = iterator.next();
                 if(laser != null){
                     if (laser.getBoundingBox().getY() + laser.getBoundingBox().getHeight() > WORLD_HEIGHT) {
                         iterator.remove();
                     }
                     else{
+                        if(laser.getMovementType() == "DIAGONAL_LEFT"){
+                            laser.getBoundingBox().setX(laser.getBoundingBox().getX() - laser.getLaserMovementSpeed() * deltaTime);
+                            laser.getBoundingBox().setY(laser.getBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        }
+                        else if(laser.getMovementType() == "DIAGONAL_RIGHT"){
+                            laser.getBoundingBox().setX(laser.getBoundingBox().getX() + laser.getLaserMovementSpeed() * deltaTime);
+                            laser.getBoundingBox().setY(laser.getBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        }
+                        else{
+                            laser.getBoundingBox().setY(laser.getBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        }
 
-                        laser.getBoundingBox().setY(laser.getBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+
                         laser.draw(batch);
                     }
                 }
@@ -94,6 +103,10 @@ public class PlayerShip extends Ship {
             dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeA();
             }
+            if( dropDownAnimation.getTypeName().equals("BLUE") &&
+                    dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
+                laserI = (ILaser) new LaserTypeA();
+            }
         }
     }
 
@@ -107,11 +120,11 @@ public class PlayerShip extends Ship {
         this.level = level;
     }
 
-    public LinkedList<Laser> getLaserList() {
+    public LinkedList<ILaser> getLaserList() {
         return laserList;
     }
 
-    public void setLaserList(LinkedList<Laser> laserList) {
+    public void setLaserList(LinkedList<ILaser> laserList) {
         this.laserList = laserList;
     }
 
