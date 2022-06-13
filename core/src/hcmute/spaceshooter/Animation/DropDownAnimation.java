@@ -222,6 +222,8 @@ public abstract class DropDownAnimation implements IDropDownAnimation {
     public void setTextureNum(int textureNum) {
         this.textureNum = textureNum;
     }
+
+
     //endregion
 }
 

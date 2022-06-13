@@ -2,6 +2,7 @@ package hcmute.spaceshooter;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class GlobalVariables {
@@ -33,4 +34,7 @@ public class GlobalVariables {
         textureRegion = textureRegion2D[4][2];
         return textureRegion;
     }
+    /* Loads images from texture atlases created by TexturePacker.
+    A TextureAtlas must be disposed to free up the resources consumed by the backing textures.*/
+    public static final TextureAtlas textureAtlas = new TextureAtlas("images.atlas");
 }

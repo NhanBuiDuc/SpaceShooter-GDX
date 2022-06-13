@@ -43,4 +43,28 @@ public class Explosion {
     public boolean isFinished(){
         return explosionAnimation.isAnimationFinished(explosionTimer);
     }
+
+    public Animation<TextureRegion> getExplosionAnimation() {
+        return explosionAnimation;
+    }
+
+    public void setExplosionAnimation(Animation<TextureRegion> explosionAnimation) {
+        this.explosionAnimation = explosionAnimation;
+    }
+
+    public float getExplosionTimer() {
+        return explosionTimer;
+    }
+
+    public void setExplosionTimer(float explosionTimer) {
+        this.explosionTimer = explosionTimer;
+    }
+
+    public Rectangle getBoundingBox() {
+        return boundingBox;
+    }
+
+    public void setBoundingBox(Rectangle boundingBox) {
+        this.boundingBox = boundingBox;
+    }
 }

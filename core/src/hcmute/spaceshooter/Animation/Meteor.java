@@ -15,6 +15,8 @@ import hcmute.spaceshooter.Ships.Ship;
 public class Meteor extends DropDownAnimation {
     String typeName;
     Boolean taken = false;
+    Boolean isDestroyed = false;
+    Integer HP = 10;
     public Meteor() {
         drawingRectangle = new Rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT, 10, 10);
         movementSpeed = 30;
@@ -35,7 +37,51 @@ public class Meteor extends DropDownAnimation {
         }
     }
 
+    /**
+     * make the coordinates of the object go down the height of the screen
+     *
+     * @param deltaTime The time in seconds since the last render.
+     * @param batch
+     */
+    @Override
+    public void dropDownward(float deltaTime, SpriteBatch batch) {
+        makeDiagonal(deltaTime);
+        update(deltaTime);
+        draw(batch);
+        if(drawingRectangle.y < 0){
+            // texture.dispose();
+        }
+        else{
+            if(isFinished()){
+                animation = GetAnimation(texture);
+                // drawingRectangle.y = WORLD_HEIGHT;
+            }
+            if(drawingRectangle.y < -50){
+//            drawingRectangle.y = WORLD_HEIGHT;
+                texture.dispose();
+            }
+        }
+    }
 
+    /** make the coordinates of the object go down the height of the screen
+     * @param deltaTime The time in seconds since the last render.
+     */
+    public void makeDiagonal(float deltaTime){
+        drawingRectangle.y -= movementSpeed * deltaTime;
+        drawingRectangle.x -= movementSpeed * 0.2 * deltaTime;
+    }
+
+    public boolean intersects(Rectangle otherRectangle){
+        return this.drawingRectangle.overlaps(otherRectangle);
+    }
+
+    public boolean hitAndCheckDestroyed() {
+        if(HP > 0){
+            HP--;
+            return false;
+        }
+        return true;
+    }
     public String getTypeName() {
         return typeName;
     }
@@ -52,4 +98,22 @@ public class Meteor extends DropDownAnimation {
     public Boolean getTaken() {
         return taken;
     }
+
+    public Integer getHP() {
+        return HP;
+    }
+
+    public void setHP(Integer HP) {
+        this.HP = HP;
+    }
+
+    public Boolean getDestroyed() {
+        return isDestroyed;
+    }
+
+    public void setDestroyed(Boolean destroyed) {
+        isDestroyed = destroyed;
+    }
 }
+
+
