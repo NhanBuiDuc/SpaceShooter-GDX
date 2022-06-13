@@ -2,6 +2,7 @@ package hcmute.spaceshooter;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
+import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -32,6 +33,7 @@ import java.util.Stack;
 
 import hcmute.spaceshooter.Animation.Explosion;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
+import hcmute.spaceshooter.Animation.Meteor;
 import hcmute.spaceshooter.Episode.Episode;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
@@ -49,10 +51,6 @@ public class GameScreen implements Screen {
 
     // Draws batched quads using indices.
     private SpriteBatch batch;
-
-    /* Loads images from texture atlases created by TexturePacker.
-    A TextureAtlas must be disposed to free up the resources consumed by the backing textures.*/
-    private TextureAtlas textureAtlas;
 
     // explosion graphic Texture
     private Texture explosionTexture;
@@ -117,14 +115,14 @@ public class GameScreen implements Screen {
 
     // Upgrade Dropping List:
     Stack<IDropDownAnimation> upgradeDroppingItemList = new Stack<>();
-
+    private Stack<Meteor> meteorList = new Stack<>();
     // Get current time:
     long startTime = TimeUtils.millis();
     // Get time elapsed since startTime:
     long elapsedTime = TimeUtils.timeSinceMillis(startTime);
 
     //
-    Episode episode = new Episode(upgradeDroppingItemList);
+    Episode episode;
 
     // Main Constructor.
     public GameScreen() {
@@ -134,8 +132,6 @@ public class GameScreen implements Screen {
         //  Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
-        //set up the texture atlas from the file assets/image.atlas.
-        textureAtlas = new TextureAtlas("images.atlas");
 
         //setting up the backgrounds
         backgrounds = new TextureRegion[4];
@@ -183,7 +179,7 @@ public class GameScreen implements Screen {
         // Render HUD(score, life, shields)
         prepareHud();
 
-        episode = new Episode(upgradeDroppingItemList);
+        episode = new Episode(upgradeDroppingItemList, meteorList);
     }
 
     /**
@@ -201,7 +197,8 @@ public class GameScreen implements Screen {
          */
         batch.enableBlending();
         batch.begin();
-
+        // Get The Input Of User
+        detectInput(deltaTime);
         timeSpan += deltaTime;
         /** Renders scrolling background, this should be the first graphic method to be called
          * Otherwise, other graphics will be overwritten
@@ -211,17 +208,10 @@ public class GameScreen implements Screen {
         episode.DropUpgrade(deltaTime, startTime, batch);
         //
         checkGetUpgrades();
+        checkCrashing();
 
-        // Get The Input Of User
-        detectInput(deltaTime);
         // player ship
         playerShip.draw(batch);
-
-        // spawnEnemyShips
-        spawnEnemyShips(deltaTime);
-
-        //lasers
-        renderLasers(deltaTime);
 
         // detect collisions between lasers and ships
         try {
@@ -229,9 +219,14 @@ public class GameScreen implements Screen {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-
         // explosions
         updateAndRenderExplosions(deltaTime);
+
+        // spawnEnemyShips
+        spawnEnemyShips(deltaTime);
+
+        //lasers
+        renderLasers(deltaTime);
 
         // hud rendering
         updateAndRenderHUD(deltaTime);
@@ -423,10 +418,60 @@ public class GameScreen implements Screen {
                         // contact with enemy ship
                         if(enemyShip.hitAndCheckDestroyed()){
                             enemyShipListIterator.remove();
-                            explosionList.add(new Explosion(explosionTexture,
-                                    new Rectangle(enemyShip.getBoundingBox()),
-                                    0.7f));
+                            Explosion explosion = new Explosion(explosionTexture, new Rectangle(enemyShip.getBoundingBox()), 1f);
+                            explosion.getBoundingBox().setWidth(explosion.getBoundingBox().getWidth() + 5);
+                            explosion.getBoundingBox().setHeight(explosion.getBoundingBox().getHeight() +5);
+                            explosionList.add(explosion);
                             score += 100;
+
+                        }
+                        else {
+                            Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(enemyShip.getBoundingBox()), 0.2f);
+                            smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth() - 10);
+                            smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight() - 10);
+                            smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() + 10);
+                            smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() + 10);
+                            explosionList.add(smallExplosion);
+                        }
+                        laserListIterator.remove();
+                        break;
+                    }
+                }
+
+            }
+
+        }
+        //For each player's laser, check whether it intersects an enemy ship
+        laserListIterator = playerShip.getLaserList().listIterator();
+        while (laserListIterator.hasNext()) {
+            ILaser laser = laserListIterator.next();
+            ListIterator<Meteor> meteorListIterator = meteorList.listIterator();
+            while(meteorListIterator.hasNext()){
+                Meteor meteor = meteorListIterator.next();
+                if(meteor != null){
+                    if(meteor.intersects(laser.getLaserBoundingBox())){
+                        Rectangle meteorRectangle = new Rectangle(meteor.getDrawingRectangle());
+                        // contact with enemy ship
+                        if(meteor.hitAndCheckDestroyed()){
+                            meteor.setDestroyed(true);
+                            meteorListIterator.remove();
+                            Explosion explosion = new Explosion(explosionTexture, meteorRectangle, 1f);
+                            explosion.getBoundingBox().setX(explosion.getBoundingBox().getX() - 5);
+                            explosion.getBoundingBox().setY(explosion.getBoundingBox().getY() - 10);
+                            explosion.getBoundingBox().setWidth(explosion.getBoundingBox().getWidth() + 5);
+                            explosion.getBoundingBox().setHeight(explosion.getBoundingBox().getHeight() +5);
+                            explosionList.add(explosion);
+                            score += 100;
+
+                        }
+                        else {
+                            Explosion smallExplosion = new Explosion(explosionTexture, meteorRectangle, 0.5f);
+                            smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
+                            smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight());
+                            smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
+                            smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
+                            explosionList.add(smallExplosion);
+
                         }
                         laserListIterator.remove();
                         break;
@@ -445,6 +490,13 @@ public class GameScreen implements Screen {
             if(playerShip.intersects(laser.getLaserBoundingBox())){
                 if(playerShip.hitAndCheckDestroyed()){
                     laserListIterator.remove();
+                    Rectangle meteorRectangle = new Rectangle(playerShip.getBoundingBox());
+                    Explosion smallExplosion = new Explosion(explosionTexture, meteorRectangle, 0.5f);
+                    smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
+                    smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight());
+                    smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
+                    smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
+                    explosionList.add(smallExplosion);
                     break;
                 }
             }
@@ -460,14 +512,28 @@ public class GameScreen implements Screen {
         while (itemsIterator.hasNext()) {
             IDropDownAnimation item = itemsIterator.next();
             if(playerShip.intersects(item.getDrawingRectangle())){
-                item.setTaken(true);
-                playerShip.upgrade(item);
-                itemsIterator.remove();
-
+                    item.setTaken(true);
+                    playerShip.upgrade(item);
+                    itemsIterator.remove();
+                }
             }
+    }
 
+
+    private void checkCrashing(){
+        // Check the Upgrade Items are collected by player's ship
+        ListIterator<Meteor> itemsIterator = meteorList.listIterator();
+        while (itemsIterator.hasNext()) {
+            Meteor item = itemsIterator.next();
+            if(playerShip.intersects(item.getDrawingRectangle())){
+                item.setTaken(true);
+                Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(playerShip.getBoundingBox()), 0.5f);
+                explosionList.add(smallExplosion);
+                itemsIterator.remove();
+            }
         }
     }
+
     private void updateAndRenderExplosions(float deltaTime) {
         ListIterator<Explosion> explosionListIterator = explosionList.listIterator();
         while (explosionListIterator.hasNext()){
@@ -480,6 +546,7 @@ public class GameScreen implements Screen {
                 explosion.draw(batch);
             }
         }
+
     }
 
     private void renderLasers(float deltaTime){
