@@ -1,6 +1,6 @@
 package hcmute.spaceshooter.Lasers;
 
-import static hcmute.spaceshooter.GlobalVariables.fireLaserTexture;
+import static hcmute.spaceshooter.GlobalVariables.blueLaserTexture;
 import static hcmute.spaceshooter.GlobalVariables.purpleLaserTexture;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -10,10 +10,10 @@ import com.badlogic.gdx.math.Rectangle;
 
 import hcmute.spaceshooter.GlobalVariables;
 
-public class LaserTypeB extends Laser {
+public class LaserTypeC extends Laser {
 
     int level = 1;
-    LaserTypeB[] bullets;
+    LaserTypeC[] bullets;
     Rectangle shipBoundingBox;
 
     /**
@@ -27,20 +27,20 @@ public class LaserTypeB extends Laser {
      * @param laserTexture      :The texture for rendering the laser
      **/
 
-    public LaserTypeB(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
+    public LaserTypeC(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
         super(xCentre, yBottom, laserWidth, laserHeight, laserMovementSpeed, laserTexture);
         typeName = "RED";
     }
 
-    public LaserTypeB(){
+    public LaserTypeC(){
 
     }
 
 
-    public LaserTypeB(Rectangle shipBoundingBox) {
+    public LaserTypeC(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
         typeName = "RED";
-        laserTexture = purpleLaserTexture;
+        laserTexture = blueLaserTexture;
         explosionTexture = GlobalVariables.explosionTexture;
         // position and dimensions of the laser
         // laserBoundingBox;
@@ -53,15 +53,15 @@ public class LaserTypeB extends Laser {
          * starting from the top left corner going to the right
          * and ending at the bottom right corner.
          */
-        laserTitleWidth = 192;
-        laserTitleHeight = 192;
+        laserTitleWidth = 182;
+        laserTitleHeight = 182;
         explosionTitleWidth = 192;
         explosionTitleHeight = 192;
         // Total time of the whole animation rendering.
         totalLaserAnimationTime = 1f;
         totalExplosionAnimationTime = 0.5f;
-        laserRowTextureCount = 2;
-        laserColumnTextureCount = 5;
+        laserRowTextureCount = 4;
+        laserColumnTextureCount = 4;
         explosionRowTextureCount = 8;
         explosionColumnTextureCount = 5;
         /**
@@ -83,8 +83,8 @@ public class LaserTypeB extends Laser {
         this.level++;
     }
 
-    public LaserTypeB[] GetBullets(){
-        LaserTypeB[] lasers = new LaserTypeB[20];
+    public LaserTypeC[] GetBullets(){
+        LaserTypeC[] lasers = new LaserTypeC[20];
         if(level == 1)
         {
 //            lasers[0] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.18f, shipBoundingBox.y - laserHeight,
@@ -92,7 +92,7 @@ public class LaserTypeB extends Laser {
 //            lasers[1] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.82f, shipBoundingBox.y - laserHeight,
 //                    laserWidth, laserHeight, laserMovementSpeed, laserTextureRegion);
 
-            lasers[0] = new LaserTypeB(shipBoundingBox);
+            lasers[0] = new LaserTypeC(shipBoundingBox);
             lasers[0].setLaserWidth(10f);
             lasers[0].setLaserHeight(10f);
             lasers[0].setLaserMovementSpeed(40);
@@ -101,7 +101,7 @@ public class LaserTypeB extends Laser {
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
 
-            lasers[1] = new LaserTypeB(shipBoundingBox);
+            lasers[1] = new LaserTypeC(shipBoundingBox);
             lasers[1].setLaserWidth(10f);
             lasers[1].setLaserHeight(10f);
             lasers[1].setLaserMovementSpeed(40);
@@ -113,7 +113,7 @@ public class LaserTypeB extends Laser {
             this.bullets = lasers;
         }
         if(level == 2){
-            lasers[0] = new LaserTypeB(shipBoundingBox);
+            lasers[0] = new LaserTypeC(shipBoundingBox);
             lasers[0].setLaserWidth(10f);
             lasers[0].setLaserHeight(10f);
             lasers[0].setLaserMovementSpeed(40);
@@ -122,7 +122,7 @@ public class LaserTypeB extends Laser {
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
 
-            lasers[1] = new LaserTypeB(shipBoundingBox);
+            lasers[1] = new LaserTypeC(shipBoundingBox);
             lasers[1].setLaserWidth(10f);
             lasers[1].setLaserHeight(10f);
             lasers[1].setLaserMovementSpeed(40);
@@ -131,7 +131,7 @@ public class LaserTypeB extends Laser {
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
 
-            lasers[2] = new LaserTypeB(shipBoundingBox);
+            lasers[2] = new LaserTypeC(shipBoundingBox);
             lasers[2].setLaserWidth(10f);
             lasers[2].setLaserHeight(10f);
             lasers[2].setLaserMovementSpeed(40);
@@ -142,7 +142,7 @@ public class LaserTypeB extends Laser {
             this.bullets = lasers;
         }
         if(level == 3){
-            lasers[0] = new LaserTypeB(shipBoundingBox);
+            lasers[0] = new LaserTypeC(shipBoundingBox);
             lasers[0].setLaserWidth(10f);
             lasers[0].setLaserHeight(10f);
             lasers[0].setLaserMovementSpeed(40);
@@ -152,7 +152,7 @@ public class LaserTypeB extends Laser {
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
 
-            lasers[1] = new LaserTypeB(shipBoundingBox);
+            lasers[1] = new LaserTypeC(shipBoundingBox);
             lasers[1].setLaserWidth(10f);
             lasers[1].setLaserHeight(10f);
             lasers[1].setLaserMovementSpeed(40);
@@ -161,7 +161,7 @@ public class LaserTypeB extends Laser {
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
 
-            lasers[2] = new LaserTypeB(shipBoundingBox);
+            lasers[2] = new LaserTypeC(shipBoundingBox);
             lasers[2].setLaserWidth(10f);
             lasers[2].setLaserHeight(10f);
             lasers[2].setLaserMovementSpeed(40);
@@ -174,7 +174,7 @@ public class LaserTypeB extends Laser {
         }
         if(level == 4){
             // Ngoài cùng trái
-            lasers[0] = new LaserTypeB(shipBoundingBox);
+            lasers[0] = new LaserTypeC(shipBoundingBox);
             lasers[0].setLaserWidth(10f);
             lasers[0].setLaserHeight(10f);
             lasers[0].setLaserMovementSpeed(40);
@@ -183,7 +183,7 @@ public class LaserTypeB extends Laser {
                     lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.5f,
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
             // Giữa
-            lasers[1] = new LaserTypeB(shipBoundingBox);
+            lasers[1] = new LaserTypeC(shipBoundingBox);
             lasers[1].setLaserWidth(10f);
             lasers[1].setLaserHeight(10f);
             lasers[1].setLaserMovementSpeed(40);
@@ -193,7 +193,7 @@ public class LaserTypeB extends Laser {
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
             // Ngoài Cùng Phải
-            lasers[2] = new LaserTypeB(shipBoundingBox);
+            lasers[2] = new LaserTypeC(shipBoundingBox);
             lasers[2].setLaserWidth(10f);
             lasers[2].setLaserHeight(10f);
             lasers[2].setLaserMovementSpeed(40);
@@ -203,7 +203,7 @@ public class LaserTypeB extends Laser {
                     lasers[2].getLaserWidth(), lasers[2].getLaserHeight()));
 
             // Thứ 2 từ trái qua
-            lasers[3] = new LaserTypeB(shipBoundingBox);
+            lasers[3] = new LaserTypeC(shipBoundingBox);
             lasers[3].setLaserWidth(10f);
             lasers[3].setLaserHeight(10f);
             lasers[3].setLaserMovementSpeed(40);
@@ -213,7 +213,7 @@ public class LaserTypeB extends Laser {
                     lasers[3].getLaserWidth(), lasers[1].getLaserHeight()));
 
             // Thứ 2 từ phải qua
-            lasers[4] = new LaserTypeB(shipBoundingBox);
+            lasers[4] = new LaserTypeC(shipBoundingBox);
             lasers[4].setLaserWidth(10f);
             lasers[4].setLaserHeight(10f);
             lasers[4].setLaserMovementSpeed(40);
@@ -226,7 +226,7 @@ public class LaserTypeB extends Laser {
         }
         if(level == 5){
             // Ngoài cùng trái
-            lasers[0] = new LaserTypeB(shipBoundingBox);
+            lasers[0] = new LaserTypeC(shipBoundingBox);
             lasers[0].setLaserWidth(10f);
             lasers[0].setLaserHeight(10f);
             lasers[0].setLaserMovementSpeed(40);
@@ -235,7 +235,7 @@ public class LaserTypeB extends Laser {
                     lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
             // Giữa trái
-            lasers[1] = new LaserTypeB(shipBoundingBox);
+            lasers[1] = new LaserTypeC(shipBoundingBox);
             lasers[1].setLaserWidth(10f);
             lasers[1].setLaserHeight(10f);
             lasers[1].setLaserMovementSpeed(40);
@@ -245,7 +245,7 @@ public class LaserTypeB extends Laser {
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
             // Ngoài Cùng Phải
-            lasers[2] = new LaserTypeB(shipBoundingBox);
+            lasers[2] = new LaserTypeC(shipBoundingBox);
             lasers[2].setLaserWidth(10f);
             lasers[2].setLaserHeight(10f);
             lasers[2].setLaserMovementSpeed(40);
@@ -255,7 +255,7 @@ public class LaserTypeB extends Laser {
                     lasers[2].getLaserWidth(), lasers[2].getLaserHeight()));
 
             // Thứ 2 từ trái qua
-            lasers[3] = new LaserTypeB(shipBoundingBox);
+            lasers[3] = new LaserTypeC(shipBoundingBox);
             lasers[3].setLaserWidth(10f);
             lasers[3].setLaserHeight(10f);
             lasers[3].setLaserMovementSpeed(40);
@@ -266,7 +266,7 @@ public class LaserTypeB extends Laser {
                     lasers[3].getLaserWidth(), lasers[3].getLaserHeight()));
 
             // Thứ 2 từ phải qua
-            lasers[4] = new LaserTypeB(shipBoundingBox);
+            lasers[4] = new LaserTypeC(shipBoundingBox);
             lasers[4].setLaserWidth(10f);
             lasers[4].setLaserHeight(10f);
             lasers[4].setLaserMovementSpeed(40);
@@ -275,7 +275,7 @@ public class LaserTypeB extends Laser {
                     lasers[4].getShipBoundingBox().getY() + lasers[4].getShipBoundingBox().getHeight() * 0.7f,
                     lasers[4].getLaserWidth(), lasers[4].getLaserHeight()));
             // Thứ 3 từ trái qua
-            lasers[5] = new LaserTypeB(shipBoundingBox);
+            lasers[5] = new LaserTypeC(shipBoundingBox);
             lasers[5].setLaserWidth(10f);
             lasers[5].setLaserHeight(10f);
             lasers[5].setLaserMovementSpeed(40);
@@ -285,7 +285,7 @@ public class LaserTypeB extends Laser {
                     lasers[3].getLaserWidth(), lasers[5].getLaserHeight()));
 
             // Thứ 3 từ phải qua
-            lasers[6] = new LaserTypeB(shipBoundingBox);
+            lasers[6] = new LaserTypeC(shipBoundingBox);
             lasers[6].setLaserWidth(10f);
             lasers[6].setLaserHeight(10f);
             lasers[6].setLaserMovementSpeed(40);
@@ -294,7 +294,7 @@ public class LaserTypeB extends Laser {
                     lasers[6].getShipBoundingBox().getY() + lasers[6].getShipBoundingBox().getHeight() * 0.9f,
                     lasers[6].getLaserWidth(), lasers[6].getLaserHeight()));
             // Giữa phải
-            lasers[7] = new LaserTypeB(shipBoundingBox);
+            lasers[7] = new LaserTypeC(shipBoundingBox);
             lasers[7].setLaserWidth(10f);
             lasers[7].setLaserHeight(10f);
             lasers[7].setLaserMovementSpeed(40);
@@ -317,29 +317,24 @@ public class LaserTypeB extends Laser {
     public Animation<TextureRegion> GetLaserAnimation(Texture texture, int titleWidth, int titleHeight, int textureNum, int rowTextureCount, int columnTextureCount) {
         // split texture
 
+        textureNum -= 5;
         TextureRegion[][] textureRegion2D = TextureRegion.split(texture, titleWidth, titleHeight);
-        textureNum = (textureNum - 2) * 2;
+
         // convert to 1D array
         TextureRegion[] textureRegion1D = new TextureRegion[textureNum];
         int index = 0;
         for(int i = 0; i < rowTextureCount; i++){
             for(int j = 0; j < columnTextureCount; j++){
-                if(i == 1 && j == 3) {
-                    break;
-                }
                 try{
+                    if( (i != 0 && j != 0 ) || (i != 0 && j != 1) || (i != 3 && j != 1) || (i != 3 && j != 2) || (i != 3 && j != 3)){
                         textureRegion1D[index] = textureRegion2D[i][j];
                         index++;
+                    }
                 }
                 catch (Exception e){
 
                 }
             }
-        }
-        index = 8;
-        for(int i = 7; i >= 0; i--){
-            textureRegion1D[index] = textureRegion1D[i];
-            index++;
         }
         laserTimer = 0;
 
@@ -363,11 +358,11 @@ public class LaserTypeB extends Laser {
         this.laserBoundingBox = laserBoundingBox;
     }
 
-    public LaserTypeB[] getBullets() {
+    public LaserTypeC[] getBullets() {
         return bullets;
     }
 
-    public void setBullets(LaserTypeB[] bullets) {
+    public void setBullets(LaserTypeC[] bullets) {
         this.bullets = bullets;
     }
 

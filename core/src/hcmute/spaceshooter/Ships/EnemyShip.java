@@ -4,16 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import java.awt.Rectangle;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.ListIterator;
-import java.util.Map;
 import java.util.Stack;
 
 import hcmute.spaceshooter.Lasers.Laser;
-import hcmute.spaceshooter.Lasers.LaserTypeA;
-import hcmute.spaceshooter.Lasers.LaserTypeB;
+import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
 import hcmute.spaceshooter.SpaceShooterGame;
 
 public class EnemyShip extends Ship{
@@ -33,7 +27,7 @@ public class EnemyShip extends Ship{
                 shipTextureRegion, shieldTextureRegion, ableToFire, HP);
 
         directionVector = new Vector2(0, -1);
-        laserI = new LaserTypeB(boundingBox);
+        laserI = new EnemyLaserTypeA(boundingBox);
         laserI.setLevel(1);
 
         // Clone

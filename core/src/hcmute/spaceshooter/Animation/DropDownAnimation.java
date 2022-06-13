@@ -13,42 +13,42 @@ public abstract class DropDownAnimation implements IDropDownAnimation {
 
 
     // Gdx's Animation object
-    Animation<TextureRegion> animation ;
+    public Animation<TextureRegion> animation ;
 
     // A timer increased with each update method call
-    float timer = 0;
+    public float timer = 0;
 
     // To specified the coordinate to draw into
-    Rectangle drawingRectangle = new Rectangle();
+    public Rectangle drawingRectangle = new Rectangle();
     /**
      * Initialize these fields in subclass
      */
     //region
     // Movement speed of the object
-    int movementSpeed;
+    public int movementSpeed;
 
     // Total time of the whole animation rendering.
-    float totalAnimationTime;
+    public float totalAnimationTime;
 
     // Drawing Animation drawn by Texture from assets
-    Texture texture;
+    public Texture texture;
 
     /**
      * The title width and height of the given Texture
      * starting from the top left corner going to the right
      * and ending at the bottom right corner.
      */
-    int titleWidth;
-    int titleHeight;
+    public int titleWidth;
+    public int titleHeight;
 
-    int rowTextureCount;
-    int columnTextureCount;
+    public int rowTextureCount;
+    public int columnTextureCount;
 
     /**
      *  The number of texture region after splitting the texture,
      *  equals to the number of images from the whole Texture
      */
-    int textureNum = rowTextureCount * columnTextureCount;
+    public int textureNum = rowTextureCount * columnTextureCount;
 
     //endregion
 
@@ -58,7 +58,7 @@ public abstract class DropDownAnimation implements IDropDownAnimation {
      * @return Animation with the Texture transformed to type TextureRegion
      */
     @Override
-    public Animation<TextureRegion> GetAnimation() {
+    public Animation<TextureRegion> GetAnimation(Texture texture) {
         // split texture
         TextureRegion[][] textureRegion2D = TextureRegion.split(texture, titleWidth, titleHeight);
 
@@ -85,12 +85,16 @@ public abstract class DropDownAnimation implements IDropDownAnimation {
         update(deltaTime);
         draw(batch);
         if(drawingRectangle.y < 0){
-            texture.dispose();
+            // texture.dispose();
         }
         else{
             if(isFinished()){
-                animation = GetAnimation();
-                drawingRectangle.y = WORLD_HEIGHT;
+                animation = GetAnimation(texture);
+                // drawingRectangle.y = WORLD_HEIGHT;
+            }
+            if(drawingRectangle.y < -50){
+//            drawingRectangle.y = WORLD_HEIGHT;
+                texture.dispose();
             }
         }
     }
@@ -99,10 +103,7 @@ public abstract class DropDownAnimation implements IDropDownAnimation {
      * @param deltaTime The time in seconds since the last render.
      */
     public void makeDownward(float deltaTime){
-        if(drawingRectangle.getY() > 0){
             drawingRectangle.y -= movementSpeed * deltaTime;
-        }
-
     }
 
     /** Update the animation's rendering time by @param delaTime
