@@ -5,6 +5,7 @@ import static hcmute.spaceshooter.GlobalVariables.purpleLaserTexture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -311,6 +312,12 @@ public class LaserTypeC extends Laser {
     @Override
     public void setTypename(String red) {
 
+    }
+
+    @Override
+    public void drawLaser(Batch batch) {
+        batch.draw(laserTexture,
+                laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
     }
 
     @Override

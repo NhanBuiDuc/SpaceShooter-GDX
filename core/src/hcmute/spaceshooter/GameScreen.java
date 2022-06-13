@@ -2,6 +2,7 @@ package hcmute.spaceshooter;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
+import static hcmute.spaceshooter.GlobalVariables.backgrounds;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -22,6 +23,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -56,10 +59,6 @@ public class GameScreen implements Screen {
 
     // explosion graphic Texture
     private Texture explosionTexture;
-
-    /* Backgrounds Texture Array . Each item defines a rectangular area of a texture.
-    The coordinate system used has its origin in the upper left corner with the x-axis pointing to the right and the y axis pointing downwards.*/
-    private TextureRegion[] backgrounds;
 
 //    // height of background in World units
 //    private float backgroundHeight;
@@ -132,17 +131,23 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
 
         //  Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
-        viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+        viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+
+        //setting up the backgrounds
+//        backgrounds = new TextureRegion[4];
+//        backgrounds[0] = textureAtlas.findRegion("Starscape00");
+//        backgrounds[1] = textureAtlas.findRegion("Starscape01");
+//        backgrounds[2] = textureAtlas.findRegion("Starscape02");
+//        backgrounds[3] = textureAtlas.findRegion("Starscape03");
+
+        backgrounds[0] = new Texture("Starscape00.png");
+        backgrounds[1] = new Texture("Starscape01.png");
+        backgrounds[2] = new Texture("Starscape02.png");
+        backgrounds[3] = new Texture("Starscape03.png");
+
 
         //set up the texture atlas from the file assets/image.atlas.
         textureAtlas = new TextureAtlas("images.atlas");
-
-        //setting up the backgrounds
-        backgrounds = new TextureRegion[4];
-        backgrounds[0] = textureAtlas.findRegion("Starscape00");
-        backgrounds[1] = textureAtlas.findRegion("Starscape01");
-        backgrounds[2] = textureAtlas.findRegion("Starscape02");
-        backgrounds[3] = textureAtlas.findRegion("Starscape03");
 
         //backgroundHeight = WORLD_HEIGHT * 2;
 

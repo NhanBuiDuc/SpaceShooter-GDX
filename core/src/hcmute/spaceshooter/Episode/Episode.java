@@ -53,24 +53,24 @@ public class Episode{
     public void DropUpgrade(float deltaTime, long startTime, SpriteBatch batch) {
         System.out.println("Time elapsed in seconds = " + ((System.currentTimeMillis() - startTime) / 1000));
         float elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
-//        if (elapsedTime >= 1 && meteor.getTaken() == false) {
-//            meteor.dropDownward(deltaTime, batch);
-//        }
-//        if (elapsedTime >= 1 && upgradeTypeA_1.getTaken() == false) {
-//            upgradeTypeA_1.dropDownward(deltaTime, batch);
-//        }
-//        if (elapsedTime >= 1 && upgradeTypeA_2.getTaken() == false) {
-//            upgradeTypeA_2.dropDownward(deltaTime, batch);
-//        }
-//        if (elapsedTime >= 1 && upgradeTypeA_3.getTaken() == false) {
-//            upgradeTypeA_3.dropDownward(deltaTime, batch);
-//        }
-//        if (elapsedTime >= 4 && upgradeTypeA_4.getTaken() == false) {
-//            upgradeTypeA_4.dropDownward(deltaTime, batch);
-//        }
-//        if (elapsedTime >= 1 && upgradeTypeA_5.getTaken() == false) {
-//            upgradeTypeA_5.dropDownward(deltaTime, batch);
-//        }
+        if (elapsedTime >= 1 && meteor.getTaken() == false) {
+            meteor.dropDownward(deltaTime, batch);
+        }
+        if (elapsedTime >= 1 && upgradeTypeA_1.getTaken() == false) {
+            upgradeTypeA_1.dropDownward(deltaTime, batch);
+        }
+        if (elapsedTime >= 1 && upgradeTypeA_2.getTaken() == false) {
+            upgradeTypeA_2.dropDownward(deltaTime, batch);
+        }
+        if (elapsedTime >= 1 && upgradeTypeA_3.getTaken() == false) {
+            upgradeTypeA_3.dropDownward(deltaTime, batch);
+        }
+        if (elapsedTime >= 4 && upgradeTypeA_4.getTaken() == false) {
+            upgradeTypeA_4.dropDownward(deltaTime, batch);
+        }
+        if (elapsedTime >= 1 && upgradeTypeA_5.getTaken() == false) {
+            upgradeTypeA_5.dropDownward(deltaTime, batch);
+        }
 //        if (elapsedTime >= 1 && explosiveDrone1.getTaken() == false) {
 //            explosiveDrone1.dropDownward(deltaTime, batch);
 //        }

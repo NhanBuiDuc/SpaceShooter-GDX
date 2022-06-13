@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
+import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
 import hcmute.spaceshooter.Lasers.LaserTypeA;
@@ -30,7 +31,7 @@ public class PlayerShip extends Ship {
                 shipTextureRegion, shieldTextureRegion, ableToFire, HP);
 
         level = 1;
-        laserI = new LaserTypeE(boundingBox);
+        laserI = new LaserTypeC(boundingBox);
         laserI.setLevel(level);
         laserI.setTypename("RED");
     }
