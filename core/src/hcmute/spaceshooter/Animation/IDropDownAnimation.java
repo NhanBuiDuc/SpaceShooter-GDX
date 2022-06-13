@@ -1,5 +1,6 @@
 package hcmute.spaceshooter.Animation;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +27,7 @@ public interface IDropDownAnimation {
     /**
      * Split texture to 1D Texture Region Array and return the Animation
      */
-    Animation<TextureRegion> GetAnimation();
+    Animation<TextureRegion> GetAnimation(Texture texture);
 
     Rectangle getDrawingRectangle();
 

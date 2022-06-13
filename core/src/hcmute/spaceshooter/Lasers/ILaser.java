@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public interface ILaser {
 
-    void draw(Batch batch);
+    void drawLaser(Batch batch);
 
     void setLevel(int i);
 
@@ -15,9 +15,17 @@ public interface ILaser {
 
     void setTypename(String red);
 
-    Rectangle getBoundingBox();
+    Rectangle getLaserBoundingBox();
 
     float getLaserMovementSpeed();
 
     String getMovementType();
+
+    void setLaserMovementSpeed(float v);
+
+    int getLevel();
+
+    void drawExplosion(Batch batch);
+
+    void pushLaserUpward(float deltaTime,Batch batch);
 }

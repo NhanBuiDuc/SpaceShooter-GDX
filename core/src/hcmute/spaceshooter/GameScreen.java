@@ -164,7 +164,7 @@ public class GameScreen implements Screen {
 
         // set up game objects
         playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 4,
-                10, 10, 50, 3, 0f,
+                10, 10, 50, 3, 0.5f,
                 playerShipTextureRegion, playerShieldTextureRegion, true, 3);
 
 //        enemyShip = new EnemyShip(WORLD_WIDTH / 2, WORLD_HEIGHT * 3 / 4,
@@ -199,7 +199,9 @@ public class GameScreen implements Screen {
             This will disable depth buffer writing.
             It enables blending and texturing.
          */
+        batch.enableBlending();
         batch.begin();
+
         timeSpan += deltaTime;
         /** Renders scrolling background, this should be the first graphic method to be called
          * Otherwise, other graphics will be overwritten
@@ -417,7 +419,7 @@ public class GameScreen implements Screen {
             while(enemyShipListIterator.hasNext()){
                 EnemyShip enemyShip = enemyShipListIterator.next();
                 if(enemyShip != null){
-                    if(enemyShip.intersects(laser.getBoundingBox())){
+                    if(enemyShip.intersects(laser.getLaserBoundingBox())){
                         // contact with enemy ship
                         if(enemyShip.hitAndCheckDestroyed()){
                             enemyShipListIterator.remove();
@@ -440,7 +442,7 @@ public class GameScreen implements Screen {
 
         while (laserListIterator.hasNext()) {
             ILaser laser = laserListIterator.next();
-            if(playerShip.intersects(laser.getBoundingBox())){
+            if(playerShip.intersects(laser.getLaserBoundingBox())){
                 if(playerShip.hitAndCheckDestroyed()){
                     laserListIterator.remove();
                     break;
@@ -512,12 +514,12 @@ public class GameScreen implements Screen {
             while (iterator.hasNext()) {
                 ILaser laser = iterator.next();
                 if(laser != null){
-                    if (laser.getBoundingBox().getY() + laser.getBoundingBox().getHeight() < (-50)) {
+                    if (laser.getLaserBoundingBox().getY() + laser.getLaserBoundingBox().getHeight() < (-50)) {
                         iterator.remove();
                     }
                     else{
-                        laser.getBoundingBox().setY(laser.getBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
-                        laser.draw(batch);
+                        laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
+                        laser.drawLaser(batch);
                     }
                 }
             }

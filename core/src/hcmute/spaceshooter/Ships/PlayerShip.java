@@ -10,10 +10,14 @@ import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
 import hcmute.spaceshooter.Lasers.LaserTypeA;
+import hcmute.spaceshooter.Lasers.LaserTypeB;
+import hcmute.spaceshooter.Lasers.LaserTypeC;
+import hcmute.spaceshooter.Lasers.LaserTypeD;
+import hcmute.spaceshooter.Lasers.LaserTypeE;
 
 public class PlayerShip extends Ship {
     int level;
-    int maxLevel = 3;
+    int maxLevel = 5;
     // List of player fired Lasers
     LinkedList<ILaser> laserList = new LinkedList<>();
     public PlayerShip(float xCentre, float yCentre,
@@ -26,7 +30,7 @@ public class PlayerShip extends Ship {
                 shipTextureRegion, shieldTextureRegion, ableToFire, HP);
 
         level = 1;
-        laserI = new LaserTypeA(boundingBox);
+        laserI = new LaserTypeE(boundingBox);
         laserI.setLevel(level);
         laserI.setTypename("RED");
     }
@@ -50,24 +54,41 @@ public class PlayerShip extends Ship {
             while (iterator.hasNext()) {
                 ILaser laser = iterator.next();
                 if(laser != null){
-                    if (laser.getBoundingBox().getY() + laser.getBoundingBox().getHeight() > WORLD_HEIGHT) {
+                    if (laser.getLaserBoundingBox().getY() + laser.getLaserBoundingBox().getHeight() > WORLD_HEIGHT) {
                         iterator.remove();
                     }
+
                     else{
-                        if(laser.getMovementType() == "DIAGONAL_LEFT"){
-                            laser.getBoundingBox().setX(laser.getBoundingBox().getX() - laser.getLaserMovementSpeed() * deltaTime);
-                            laser.getBoundingBox().setY(laser.getBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        if(laser.getMovementType() == "DIAGONAL_LEFT_15"){
+                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 30f  * deltaTime);
+                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
                         }
-                        else if(laser.getMovementType() == "DIAGONAL_RIGHT"){
-                            laser.getBoundingBox().setX(laser.getBoundingBox().getX() + laser.getLaserMovementSpeed() * deltaTime);
-                            laser.getBoundingBox().setY(laser.getBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        else if(laser.getMovementType() == "DIAGONAL_RIGHT_15"){
+                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() + 30f * deltaTime);
+                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
                         }
-                        else{
-                            laser.getBoundingBox().setY(laser.getBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        else if(laser.getMovementType() == "DIAGONAL_LEFT_30"){
+                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 10f  * deltaTime);
+                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        }
+                        else if(laser.getMovementType() == "DIAGONAL_RIGHT_30"){
+                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() + 10f * deltaTime);
+                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        }
+                        else if(laser.getMovementType() == "DIAGONAL_LEFT_60"){
+                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 2.5f  * deltaTime);
+                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        }
+                        else if(laser.getMovementType() == "DIAGONAL_RIGHT_60"){
+                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() + 2.5f * deltaTime);
+                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                        }
+                        else {
+                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
                         }
 
 
-                        laser.draw(batch);
+                        laser.pushLaserUpward(deltaTime, batch);
                     }
                 }
             }
@@ -94,6 +115,8 @@ public class PlayerShip extends Ship {
             if(level < maxLevel){
                 level++;
                 laserI.setLevel(level);
+                // laserI.setLaserMovementSpeed(laserI.getLaserMovementSpeed() + 5f);
+                //timeBetweenShots -= 0.05f;
             }
 
         }

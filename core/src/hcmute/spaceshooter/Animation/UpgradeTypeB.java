@@ -2,6 +2,7 @@ package hcmute.spaceshooter.Animation;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
+import static hcmute.spaceshooter.GlobalVariables.bluePowerUpTexture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -12,11 +13,11 @@ public class UpgradeTypeB extends DropDownAnimation {
     String typeName;
     Boolean taken = false;
     public UpgradeTypeB() {
-        drawingRectangle = new Rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT, 20, 20);
+        drawingRectangle = new Rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT, 5, 5);
         movementSpeed = 20;
         totalAnimationTime = 1.5f;
         typeName = "RED";
-        texture = new Texture("red_present.png");
+        texture = bluePowerUpTexture;
         titleWidth = 64;
         titleHeight = 64;
 
@@ -24,7 +25,7 @@ public class UpgradeTypeB extends DropDownAnimation {
         columnTextureCount = 4;
         textureNum = rowTextureCount * columnTextureCount;
         try{
-            animation = GetAnimation();
+            animation = GetAnimation(texture);
         }
         catch (Exception e){
             animation = null;
