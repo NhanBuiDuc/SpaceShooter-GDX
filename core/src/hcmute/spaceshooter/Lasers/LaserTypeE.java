@@ -43,8 +43,8 @@ public class LaserTypeE extends Laser {
         laserTexture = greenBulletTexture;
         explosionTexture = GlobalVariables.explosionTexture;
         // laser width and height
-        laserWidth = 6f;
-        laserHeight = 8f;
+        laserWidth = 4f;
+        laserHeight = 6f;
         // position and dimensions of the laser
         // laserBoundingBox;
         // position and dimensions of the explosion
