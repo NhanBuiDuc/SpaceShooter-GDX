@@ -16,7 +16,7 @@ public class Meteor extends DropDownAnimation {
     String typeName;
     Boolean taken = false;
     Boolean isDestroyed = false;
-    Integer HP = 10;
+    Integer HP = 5;
     public Meteor() {
         drawingRectangle = new Rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT, 10, 10);
         movementSpeed = 30;

@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-
+import static hcmute.spaceshooter.GlobalVariables.backgroundMusic;
 import java.util.Random;
 
 public class SpaceShooterGame extends Game {
@@ -17,6 +17,9 @@ public class SpaceShooterGame extends Game {
 
 	@Override
 	public void create () {
+		backgroundMusic.setVolume(0.2f);
+		backgroundMusic.setLooping(true);
+		backgroundMusic.play();
 		gameScreen = new GameScreen();
 		setScreen(gameScreen);
 	}

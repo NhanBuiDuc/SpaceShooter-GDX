@@ -10,7 +10,7 @@ import hcmute.spaceshooter.Lasers.Laser;
 import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
 import hcmute.spaceshooter.SpaceShooterGame;
 
-public class EnemyShip extends Ship{
+public abstract class EnemyShip extends Ship{
 
     Vector2 directionVector;
     float timeSinceLastDirectionChange = 0;

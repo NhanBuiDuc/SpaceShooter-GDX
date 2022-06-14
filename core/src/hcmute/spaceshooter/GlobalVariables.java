@@ -1,9 +1,14 @@
 package hcmute.spaceshooter;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import org.w3c.dom.Text;
 
 public class GlobalVariables {
     // world parameters
@@ -34,4 +39,8 @@ public class GlobalVariables {
     /* Loads images from texture atlases created by TexturePacker.
     A TextureAtlas must be disposed to free up the resources consumed by the backing textures.*/
     public static final TextureAtlas textureAtlas = new TextureAtlas("images.atlas");
+    public static final Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Sprites_bg_music.ogg"));
+    public static final Music bossMusic = Gdx.audio.newMusic(Gdx.files.internal("Sprites_boss_music.ogg"));
+    public static final Music explosionEffect = Gdx.audio.newMusic(Gdx.files.internal("Sprites_explosion.wav"));
+    public static final Music laserEffect = Gdx.audio.newMusic(Gdx.files.internal("laser_effect1.mp3"));
 }

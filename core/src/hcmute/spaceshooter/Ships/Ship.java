@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import java.util.LinkedList;
 
+import hcmute.spaceshooter.Animation.SoundEffect.LaserSoundEffect;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
 
@@ -86,6 +87,7 @@ abstract public class Ship {
         return this.boundingBox.overlaps(otherRectangle);
     }
     public void draw(Batch batch){
+        LaserSoundEffect.laserSound();
         batch.draw(shipTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         if(shield > 0) {
             batch.draw(shieldTextureRegion,  boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
