@@ -2,7 +2,7 @@ package hcmute.spaceshooter;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
-import static hcmute.spaceshooter.GlobalVariables.backgrounds;
+import static hcmute.spaceshooter.GlobalVariables.background;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -70,7 +70,7 @@ public class GameScreen implements Screen {
 
     /* An Array of backgroundOffSet for each background texture
     A BackgroundOffSet determine how much downward a background go down at that specific deltaTime and multiply by the "backgroundMaxScrollingSpeed"*/
-    private float[] backgroundOffSets = {0,0,0,0};
+    private float backgroundOffSet = 0;
 
     // Max Background Scrolling Speed, Specified at the start of the program
     private float backgroundMaxScrollingSpeed;
@@ -129,7 +129,7 @@ public class GameScreen implements Screen {
         camera = new OrthographicCamera();
 
         //  Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
-        viewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+        viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //setting up the backgrounds
 //        backgrounds = new TextureRegion[4];
@@ -137,12 +137,6 @@ public class GameScreen implements Screen {
 //        backgrounds[1] = textureAtlas.findRegion("Starscape01");
 //        backgrounds[2] = textureAtlas.findRegion("Starscape02");
 //        backgrounds[3] = textureAtlas.findRegion("Starscape03");
-
-        backgrounds[0] = new Texture("Starscape00.png");
-        backgrounds[1] = new Texture("Starscape01.png");
-        backgrounds[2] = new Texture("Starscape02.png");
-        backgrounds[3] = new Texture("Starscape03.png");
-
 
 
         //backgroundHeight = WORLD_HEIGHT * 2;
@@ -604,20 +598,16 @@ public class GameScreen implements Screen {
      */
     private void renderBackground(float deltaTime) {
 
-        // The backgroundOffSets of each layer determine how far to the bottom a layer is placed.
-        backgroundOffSets[0] += deltaTime * backgroundMaxScrollingSpeed / 8;
-        backgroundOffSets[1] += deltaTime * backgroundMaxScrollingSpeed / 4;
-        backgroundOffSets[2] += deltaTime * backgroundMaxScrollingSpeed / 2;
-        backgroundOffSets[3] += deltaTime * backgroundMaxScrollingSpeed;
+        // The backgroundOffSet determine how far to the bottom a layer is placed.
+        backgroundOffSet++;
 
-        // Render for each layer
-        for (int layer = 0; layer < backgroundOffSets.length; layer++){
-            if(backgroundOffSets[layer] > WORLD_HEIGHT){
-                backgroundOffSets[layer] = 0;
-            }
-            batch.draw(backgrounds[layer], 0, -backgroundOffSets[layer], WORLD_WIDTH, WORLD_HEIGHT);
-            batch.draw(backgrounds[layer], 0, -backgroundOffSets[layer] + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
+        // Scrolling background
+        if(backgroundOffSet % WORLD_HEIGHT == 0){
+            backgroundOffSet = 0;
         }
+
+        batch.draw(background, 0, -backgroundOffSet, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.draw(background, 0, -backgroundOffSet + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
     }
 
     /**
