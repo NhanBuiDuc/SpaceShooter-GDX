@@ -2,6 +2,7 @@ package hcmute.spaceshooter;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
+import static hcmute.spaceshooter.GlobalVariables.background;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -22,6 +23,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -58,10 +61,6 @@ public class GameScreen implements Screen {
     // explosion graphic Texture
     private Texture explosionTexture;
 
-    /* Backgrounds Texture Array . Each item defines a rectangular area of a texture.
-    The coordinate system used has its origin in the upper left corner with the x-axis pointing to the right and the y axis pointing downwards.*/
-    private TextureRegion[] backgrounds;
-
 //    // height of background in World units
 //    private float backgroundHeight;
 
@@ -74,7 +73,7 @@ public class GameScreen implements Screen {
 
     /* An Array of backgroundOffSet for each background texture
     A BackgroundOffSet determine how much downward a background go down at that specific deltaTime and multiply by the "backgroundMaxScrollingSpeed"*/
-    private float[] backgroundOffSets = {0,0,0,0};
+    private float backgroundOffSet = 0;
 
     // Max Background Scrolling Speed, Specified at the start of the program
     private float backgroundMaxScrollingSpeed;
@@ -135,13 +134,13 @@ public class GameScreen implements Screen {
         //  Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
-
         //setting up the backgrounds
-        backgrounds = new TextureRegion[4];
-        backgrounds[0] = textureAtlas.findRegion("Starscape00");
-        backgrounds[1] = textureAtlas.findRegion("Starscape01");
-        backgrounds[2] = textureAtlas.findRegion("Starscape02");
-        backgrounds[3] = textureAtlas.findRegion("Starscape03");
+//        backgrounds = new TextureRegion[4];
+//        backgrounds[0] = textureAtlas.findRegion("Starscape00");
+//        backgrounds[1] = textureAtlas.findRegion("Starscape01");
+//        backgrounds[2] = textureAtlas.findRegion("Starscape02");
+//        backgrounds[3] = textureAtlas.findRegion("Starscape03");
+
 
         //backgroundHeight = WORLD_HEIGHT * 2;
 
@@ -612,20 +611,16 @@ public class GameScreen implements Screen {
      */
     private void renderBackground(float deltaTime) {
 
-        // The backgroundOffSets of each layer determine how far to the bottom a layer is placed.
-        backgroundOffSets[0] += deltaTime * backgroundMaxScrollingSpeed / 8;
-        backgroundOffSets[1] += deltaTime * backgroundMaxScrollingSpeed / 4;
-        backgroundOffSets[2] += deltaTime * backgroundMaxScrollingSpeed / 2;
-        backgroundOffSets[3] += deltaTime * backgroundMaxScrollingSpeed;
+        // The backgroundOffSet determine how far to the bottom a layer is placed.
+        backgroundOffSet++;
 
-        // Render for each layer
-        for (int layer = 0; layer < backgroundOffSets.length; layer++){
-            if(backgroundOffSets[layer] > WORLD_HEIGHT){
-                backgroundOffSets[layer] = 0;
-            }
-            batch.draw(backgrounds[layer], 0, -backgroundOffSets[layer], WORLD_WIDTH, WORLD_HEIGHT);
-            batch.draw(backgrounds[layer], 0, -backgroundOffSets[layer] + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
+        // Scrolling background
+        if(backgroundOffSet % WORLD_HEIGHT == 0){
+            backgroundOffSet = 0;
         }
+
+        batch.draw(background, 0, -backgroundOffSet, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.draw(background, 0, -backgroundOffSet + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
     }
 
     /**

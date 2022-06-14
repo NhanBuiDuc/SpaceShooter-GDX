@@ -56,7 +56,7 @@ public class EnemyLaserTypeA extends Laser {
             lasers[0].setLaserHeight(2);
             lasers[0].setLaserMovementSpeed(45);
             lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.07f,
-                    lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
+                    lasers[0].getShipBoundingBox().getY(),
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
 
@@ -65,7 +65,7 @@ public class EnemyLaserTypeA extends Laser {
             lasers[1].setLaserHeight(2);
             lasers[1].setLaserMovementSpeed(45);
             lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.93f,
-                    lasers[1].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
+                    lasers[1].getShipBoundingBox().getY(),
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
 

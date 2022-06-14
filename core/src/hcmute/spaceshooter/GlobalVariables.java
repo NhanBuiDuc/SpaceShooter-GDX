@@ -18,11 +18,15 @@ public class GlobalVariables {
     // The Height of the screen
     public static final int WORLD_HEIGHT = 128;
 
-    public static final Texture fireLaserTexture = new Texture("hitting_effect.png");
-    public static final Texture blueLaserTexture = new Texture("blue_fireball.png");
-    public static final Texture purpleLaserTexture = new Texture("theVoid_fireball.png");
+    /* Backgrounds Texture Array . Each item defines a rectangular area of a texture.
+    The coordinate system used has its origin in the upper left corner with the x-axis pointing to the right and the y axis pointing downwards.*/
+    public static final Texture background = new Texture("Space Background.png");
+    public static final Texture redLaserBulletTexture = new Texture("bullet_red_laser.png");
+    public static final Texture blueBulletTexture = new Texture("bullet_blue.png");
+    public static final Texture yellowBulletTexture = new Texture("bullet_yellow.png");
+    public static final Texture archBulletTexture = new Texture("bullet_arch.png");
+    public static final Texture greenBulletTexture = new Texture("bullet_green.png");
     public static final Texture explosionTexture = new Texture("hitting_effect.png");
-    public static final Texture magicCircleTexture = new Texture("shuriken.png");
     public static final Texture meteorTexture = new Texture("meteor.png");
     public static final Texture redPowerUpTexture = new Texture("powerupRed_bolt.png");
     public static final Texture bluePowerUpTexture = new Texture("powerupGreen_bolt.png");
