@@ -1,20 +1,18 @@
 package hcmute.spaceshooter.Ships;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.LinkedList;
-
-import hcmute.spaceshooter.Animation.SoundEffect.LaserSoundEffect;
+import hcmute.spaceshooter.Lasers.IEnemyLaser;
+import hcmute.spaceshooter.SoundEffect.LaserSoundEffect;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
 
 /**
  * Abstract class for all the ship objects
  */
-abstract public class Ship {
+abstract public class Ship implements IShip{
 
     int HP;
 
@@ -86,7 +84,7 @@ abstract public class Ship {
     public boolean intersects(Rectangle otherRectangle){
         return this.boundingBox.overlaps(otherRectangle);
     }
-    public void draw(Batch batch){
+    public void drawShip(Batch batch){
         LaserSoundEffect.laserSound();
         batch.draw(shipTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         if(shield > 0) {
@@ -162,13 +160,8 @@ abstract public class Ship {
         return laserI;
     }
 
-    public void setLaserI(ILaser laserI) {
-        this.laserI = laserI;
-    }
+    public abstract void setLaserI(ILaser laserI);
 
-    public void setLaserI(Laser laserI) {
-        this.laserI = laserI;
-    }
 
 
 

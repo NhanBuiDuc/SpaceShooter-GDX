@@ -4,29 +4,27 @@ import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.collision.BoundingBox;
 
-import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
-import hcmute.spaceshooter.Lasers.IEnemyLaser;
+import hcmute.spaceshooter.Lasers.EnemyLaserTypeB;
+import hcmute.spaceshooter.Lasers.EnemyLaserTypeC;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.SpaceShooterGame;
 
-public class EnemyShipTypeA extends EnemyShip{
-
-    public EnemyShipTypeA(){
-        boundingBox = new Rectangle(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10), WORLD_HEIGHT - 5, 7, 7);
-        movementSpeed = 70;
+public class EnemyShipTypeC extends EnemyShip {
+    public EnemyShipTypeC(){
+        super();
+        boundingBox = new Rectangle(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10), WORLD_HEIGHT - 5, 15, 15);
+        movementSpeed = 50;
         shield = 0;
-        timeBetweenShots = 10.f;
-        shipTextureRegion = textureAtlas.findRegion("enemy_ship04");
+        timeBetweenShots = 1f;
+        shipTextureRegion = textureAtlas.findRegion("enemy_ship03");
         shieldTextureRegion = textureAtlas.findRegion("shield1");
-        ableToFire = false;
+        ableToFire = true;
         HP = 5;
         directionVector = new Vector2(0, -1);
-        IEnemyLaser laserI = new EnemyLaserTypeA(boundingBox);
+        laserI = new EnemyLaserTypeC(boundingBox);
         laserI.setLevel(1);
     }
 

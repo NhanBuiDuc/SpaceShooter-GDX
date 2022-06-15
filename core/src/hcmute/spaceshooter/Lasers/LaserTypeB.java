@@ -365,6 +365,11 @@ public class LaserTypeB extends Laser {
         return level;
     }
 
+    @Override
+    public void increaseShootingDuration(float elapsedTime) {
+
+    }
+
     public void setLevel(int level) {
         this.level = level;
     }

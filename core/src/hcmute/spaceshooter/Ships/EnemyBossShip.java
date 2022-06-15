@@ -6,23 +6,22 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.Stack;
 
+import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Lasers.ILaser;
-import hcmute.spaceshooter.Lasers.Laser;
-import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
 import hcmute.spaceshooter.SpaceShooterGame;
 
-public abstract class EnemyShip extends Ship{
+public abstract class EnemyBossShip extends EnemyShip{
 
     Vector2 directionVector;
     float timeSinceLastDirectionChange = 0;
     float directionChangeFrequency = 0.75f;
-    EnemyShip clonedEnemyShip;
+    EnemyBossShip clonedEnemyShip;
     IEnemyLaser laserI;
-    public EnemyShip(float xCentre, float yCentre,
-                     float width, float height,
-                     float movementSpeed, int shield, float timeBetweenShots,
-                     TextureRegion shipTextureRegion, TextureRegion shieldTextureRegion, Boolean ableToFire, int HP) {
+    public EnemyBossShip(float xCentre, float yCentre,
+                         float width, float height,
+                         float movementSpeed, int shield, float timeBetweenShots,
+                         TextureRegion shipTextureRegion, TextureRegion shieldTextureRegion, Boolean ableToFire, int HP) {
         super   (xCentre, yCentre,
                 width, height,
                 movementSpeed, shield, timeBetweenShots,
@@ -35,8 +34,10 @@ public abstract class EnemyShip extends Ship{
         // Clone
 
     }
-    public EnemyShip(){
-
+    public EnemyBossShip(){
+        directionVector = new Vector2(0, -1);
+        laserI = new EnemyLaserTypeA(boundingBox);
+        laserI.setLevel(1);
     }
 
     private void randomizeDirectionVector(){
@@ -122,17 +123,17 @@ public abstract class EnemyShip extends Ship{
         return directionVector;
     }
 
-    public EnemyShip getClonedEnemyShip() {
+    public EnemyBossShip getClonedEnemyShip() {
         return clonedEnemyShip;
     }
 
-    public void setClonedEnemyShip(EnemyShip clonedEnemyShip) {
+    public void setClonedEnemyShip(EnemyBossShip clonedEnemyShip) {
         this.clonedEnemyShip = clonedEnemyShip;
     }
 
-
     public void setLaserI(IEnemyLaser laserI) {
-        this.laserI = laserI;
+
     }
+
     //endregion Getter and Setter
 }

@@ -1,4 +1,4 @@
-package hcmute.spaceshooter.Animation.SoundEffect;
+package hcmute.spaceshooter.SoundEffect;
 
 import static hcmute.spaceshooter.GlobalVariables.explosionEffect;
 

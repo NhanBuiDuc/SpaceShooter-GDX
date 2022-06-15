@@ -37,6 +37,7 @@ public class GlobalVariables {
     public static final Texture archPowerUpTexture = new Texture("powerupArch_bolt.png");
     public static final Texture greenPowerUpTexture = new Texture("powerupGreen_bolt.png");
     public static final Texture explosiveDrone = new Texture("explosive_drone_sprite.png");
+    public static final Texture boss1_LaserTypeA_Texture = new Texture("boss03_bullet03_sprite.png");
     public static final TextureRegion finalDroneExplosionTextureRegion = GetFinalExplosionAnimation(explosiveDrone);
     public static TextureRegion GetFinalExplosionAnimation(Texture texture) {
         TextureRegion textureRegion = new TextureRegion();
@@ -50,4 +51,5 @@ public class GlobalVariables {
     public static final Music bossMusic = Gdx.audio.newMusic(Gdx.files.internal("Sprites_boss_music.ogg"));
     public static final Music explosionEffect = Gdx.audio.newMusic(Gdx.files.internal("Sprites_explosion.wav"));
     public static final Music laserEffect = Gdx.audio.newMusic(Gdx.files.internal("laser_effect1.mp3"));
+
 }

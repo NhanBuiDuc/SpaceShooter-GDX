@@ -31,14 +31,14 @@ public class PlayerShip extends Ship {
                 shipTextureRegion, shieldTextureRegion, ableToFire, HP);
 
         level = 1;
-        laserI = new LaserTypeE(boundingBox);
+        laserI = new LaserTypeA(boundingBox);
         laserI.setLevel(level);
         laserI.setTypename("RED");
     }
 
     public void GetLasers() {
         if(canFireLaser()){
-            Laser[] lasers = this.laserI.GetBullets();
+            ILaser[] lasers = this.laserI.GetBullets();
             for(int i = 0; i < lasers.length ; i++){
                 if(lasers[i] != null){
                     laserList.add(lasers[i]);
@@ -109,6 +109,11 @@ public class PlayerShip extends Ship {
             }
             return true;
         }
+    }
+
+    @Override
+    public void setLaserI(ILaser laserI) {
+
     }
 
     public void upgrade(IDropDownAnimation dropDownAnimation){
