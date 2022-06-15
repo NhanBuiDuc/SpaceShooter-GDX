@@ -8,7 +8,7 @@ public class LaserSoundEffect {
     private static final Music soundEffect = laserEffect;
 
     public static final void laserSound(){
-        soundEffect.setVolume(1f);
+        soundEffect.setVolume(0.1f);
         soundEffect.setLooping(false);
         soundEffect.play();
     }

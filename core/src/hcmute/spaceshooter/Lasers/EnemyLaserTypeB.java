@@ -33,7 +33,7 @@ public class EnemyLaserTypeB extends Laser {
 
     public EnemyLaserTypeB(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
-        laserTexture = new Texture("laserBlue13.png");
+        laserTexture = new Texture("bullet_enemy02.png");
         typeName = "RED";
     }
 

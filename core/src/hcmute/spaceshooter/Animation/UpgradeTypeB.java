@@ -16,7 +16,7 @@ public class UpgradeTypeB extends DropDownAnimation {
         drawingRectangle = new Rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT, 5, 5);
         movementSpeed = 20;
         totalAnimationTime = 1.5f;
-        typeName = "RED";
+        typeName = "BLUE";
         texture = bluePowerUpTexture;
         titleWidth = 64;
         titleHeight = 64;

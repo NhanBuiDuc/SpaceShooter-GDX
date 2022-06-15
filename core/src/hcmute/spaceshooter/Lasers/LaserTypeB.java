@@ -1,7 +1,6 @@
 package hcmute.spaceshooter.Lasers;
 
-import static hcmute.spaceshooter.GlobalVariables.redLaserBulletTexture;
-import static hcmute.spaceshooter.GlobalVariables.yellowBulletTexture;
+import static hcmute.spaceshooter.GlobalVariables.blueBulletTexture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -30,7 +29,7 @@ public class LaserTypeB extends Laser {
 
     public LaserTypeB(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
         super(xCentre, yBottom, laserWidth, laserHeight, laserMovementSpeed, laserTexture);
-        typeName = "RED";
+        typeName = "BLUE";
     }
 
     public LaserTypeB(){
@@ -40,12 +39,14 @@ public class LaserTypeB extends Laser {
 
     public LaserTypeB(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
-        typeName = "RED";
-        laserTexture = yellowBulletTexture;
+        typeName = "BLUE";
+        laserTexture = blueBulletTexture;
         explosionTexture = GlobalVariables.explosionTexture;
         // laser width and height
-        laserWidth = 3f;
-        laserHeight = 8f;
+        laserWidth = 10f;
+        laserHeight = 10f;
+        // laser movement speed
+        laserMovementSpeed = 10f;
         // position and dimensions of the laser
         // laserBoundingBox;
         // position and dimensions of the explosion

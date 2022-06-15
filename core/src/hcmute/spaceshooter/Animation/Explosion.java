@@ -22,18 +22,18 @@ public class Explosion {
     public Explosion(Texture texture, Rectangle boundingBox, float totalAnimationTime){
         this.boundingBox = boundingBox;
         // split texture
-        TextureRegion[][] textureRegion2D = TextureRegion.split(texture, 256, 256);
+        TextureRegion[][] textureRegion2D = TextureRegion.split(texture, 32, 32);
 
         // convert to 1D array
-        TextureRegion[] textureRegion1D = new TextureRegion[48];
+        TextureRegion[] textureRegion1D = new TextureRegion[8];
         int index = 0;
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 1; i++){
             for(int j = 0; j < 8; j++){
                 textureRegion1D[index] = textureRegion2D[i][j];
                 index++;
             }
         }
-        explosionAnimation = new Animation<TextureRegion>(totalAnimationTime / 48, textureRegion1D);
+        explosionAnimation = new Animation<TextureRegion>(totalAnimationTime / 8, textureRegion1D);
         explosionTimer = 0;
     }
     public void update(float deltaTime){
@@ -43,7 +43,7 @@ public class Explosion {
     public void draw(Batch batch){
 
         batch.draw(explosionAnimation.getKeyFrame(explosionTimer),
-                boundingBox.x, boundingBox.y, boundingBox.width * 2, boundingBox.height * 2);
+                boundingBox.x, boundingBox.y, boundingBox.width * 1.25f, boundingBox.height * 1.25f);
     }
 
     public boolean isFinished(){

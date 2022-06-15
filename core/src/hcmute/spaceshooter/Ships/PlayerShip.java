@@ -31,7 +31,7 @@ public class PlayerShip extends Ship {
                 shipTextureRegion, shieldTextureRegion, ableToFire, HP);
 
         level = 1;
-        laserI = new LaserTypeE(boundingBox);
+        laserI = new LaserTypeB(boundingBox);
         laserI.setLevel(level);
         laserI.setTypename("RED");
     }
@@ -123,13 +123,25 @@ public class PlayerShip extends Ship {
         }
         else
         {
-            if( dropDownAnimation.getTypeName().equals("RED") &&
+            if( dropDownAnimation.getTypeName().equals("ORANGE") &&
             dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeA();
             }
-            if( dropDownAnimation.getTypeName().equals("BLUE") &&
+            else if( dropDownAnimation.getTypeName().equals("BLUE") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
-                laserI = (ILaser) new LaserTypeA();
+                laserI = (ILaser) new LaserTypeB();
+            }
+            else if( dropDownAnimation.getTypeName().equals("YELLOW") &&
+                    dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
+                laserI = (ILaser) new LaserTypeC();
+            }
+            else if( dropDownAnimation.getTypeName().equals("ARCH") &&
+                    dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
+                laserI = (ILaser) new LaserTypeD();
+            }
+            else if( dropDownAnimation.getTypeName().equals("GREEN") &&
+                    dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
+                laserI = (ILaser) new LaserTypeE();
             }
         }
     }

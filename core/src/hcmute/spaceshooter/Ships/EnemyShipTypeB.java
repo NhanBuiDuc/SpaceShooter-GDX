@@ -18,7 +18,7 @@ public class EnemyShipTypeB extends EnemyShip{
         movementSpeed = 50;
         shield = 1;
         timeBetweenShots = 1f;
-        shipTextureRegion = textureAtlas.findRegion("enemyBlack1");
+        shipTextureRegion = textureAtlas.findRegion("enemy_ship01");
         shieldTextureRegion = textureAtlas.findRegion("shield1");
         ableToFire = true;
         HP = 5;

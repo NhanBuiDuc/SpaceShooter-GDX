@@ -5,7 +5,6 @@ import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 import static hcmute.spaceshooter.GlobalVariables.explosionTexture;
 import static hcmute.spaceshooter.GlobalVariables.explosiveDrone;
 import static hcmute.spaceshooter.GlobalVariables.finalDroneExplosionTextureRegion;
-import static hcmute.spaceshooter.GlobalVariables.redPowerUpTexture;
 import hcmute.spaceshooter.Animation.DropDownAnimation;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 

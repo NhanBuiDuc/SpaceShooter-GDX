@@ -2,7 +2,7 @@ package hcmute.spaceshooter.Animation;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
-import static hcmute.spaceshooter.GlobalVariables.redPowerUpTexture;
+import static hcmute.spaceshooter.GlobalVariables.greenPowerUpTexture;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,8 +15,8 @@ public class UpgradeTypeE extends DropDownAnimation {
         drawingRectangle = new Rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT, 5, 5);
         movementSpeed = 20;
         totalAnimationTime = 1.5f;
-        typeName = "RED";
-        texture = redPowerUpTexture;
+        typeName = "GREEN";
+        texture = greenPowerUpTexture;
         titleWidth = 64;
         titleHeight = 64;
 

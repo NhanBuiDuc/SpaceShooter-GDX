@@ -29,7 +29,7 @@ public class LaserTypeE extends Laser {
 
     public LaserTypeE(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
         super(xCentre, yBottom, laserWidth, laserHeight, laserMovementSpeed, laserTexture);
-        typeName = "RED";
+        typeName = "GREEN";
     }
 
     public LaserTypeE(){
@@ -39,7 +39,7 @@ public class LaserTypeE extends Laser {
 
     public LaserTypeE(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
-        typeName = "RED";
+        typeName = "GREEN";
         laserTexture = greenBulletTexture;
         explosionTexture = GlobalVariables.explosionTexture;
         // laser width and height

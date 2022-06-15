@@ -9,14 +9,18 @@ import java.util.Stack;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
 import hcmute.spaceshooter.Animation.UpgradeTypeA;
+import hcmute.spaceshooter.Animation.UpgradeTypeB;
+import hcmute.spaceshooter.Animation.UpgradeTypeC;
+import hcmute.spaceshooter.Animation.UpgradeTypeD;
+import hcmute.spaceshooter.Animation.UpgradeTypeE;
 import hcmute.spaceshooter.Ships.ExplosiveDrone;
 
 public class Episode{
     UpgradeTypeA upgradeTypeA_1;
-    UpgradeTypeA upgradeTypeA_2;
-    UpgradeTypeA upgradeTypeA_3;
-    UpgradeTypeA upgradeTypeA_4;
-    UpgradeTypeA upgradeTypeA_5;
+    UpgradeTypeB upgradeTypeA_2;
+    UpgradeTypeC upgradeTypeA_3;
+    UpgradeTypeD upgradeTypeA_4;
+    UpgradeTypeE upgradeTypeA_5;
 
     Meteor meteor;
     Stack<IDropDownAnimation> mainAnimationList;
@@ -24,17 +28,17 @@ public class Episode{
         this.mainAnimationList = mainAnimationList;
 
         upgradeTypeA_1 = new UpgradeTypeA();
-        upgradeTypeA_2 = new UpgradeTypeA();
-        upgradeTypeA_3 = new UpgradeTypeA();
-        upgradeTypeA_4 = new UpgradeTypeA();
-        upgradeTypeA_5 = new UpgradeTypeA();
+        upgradeTypeA_2 = new UpgradeTypeB();
+        upgradeTypeA_3 = new UpgradeTypeC();
+        upgradeTypeA_4 = new UpgradeTypeD();
+        upgradeTypeA_5 = new UpgradeTypeE();
         meteor = new Meteor();
         // fireMeteor1 = new FireMeteor();
         upgradeTypeA_1.getDrawingRectangle().setX(WORLD_WIDTH / 1);
         upgradeTypeA_2.getDrawingRectangle().setX(WORLD_WIDTH / 3);
         upgradeTypeA_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
-        upgradeTypeA_4.getDrawingRectangle().setX(WORLD_WIDTH / 2.5f);
-        upgradeTypeA_5.getDrawingRectangle().setX(WORLD_WIDTH / 7f);
+        upgradeTypeA_4.getDrawingRectangle().setX(WORLD_WIDTH / 7f);
+        upgradeTypeA_5.getDrawingRectangle().setX(WORLD_WIDTH / 9f);
         meteor.getDrawingRectangle().setX(WORLD_WIDTH/3);
         mainAnimationList.push(upgradeTypeA_1);
         mainAnimationList.push(upgradeTypeA_2);

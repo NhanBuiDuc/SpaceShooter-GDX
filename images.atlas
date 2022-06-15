@@ -1,97 +1,202 @@
 
 images.png
-size: 8192, 2048
+size: 4096, 2048
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-Starscape00
+Space Background
   rotate: false
-  xy: 2166, 123
-  size: 1080, 1920
-  orig: 1080, 1920
+  xy: 3416, 1648
+  size: 100, 178
+  orig: 100, 178
   offset: 0, 0
   index: -1
-Starscape01
+boss01
   rotate: false
-  xy: 2, 123
-  size: 1080, 1920
-  orig: 1080, 1920
-  offset: 0, 0
-  index: -1
-Starscape02
-  rotate: false
-  xy: 3248, 123
-  size: 1080, 1920
-  orig: 1080, 1920
-  offset: 0, 0
-  index: -1
-Starscape03
-  rotate: false
-  xy: 1084, 123
-  size: 1080, 1920
-  orig: 1080, 1920
-  offset: 0, 0
-  index: -1
-darkPurpleStarscape
-  rotate: false
-  xy: 4330, 1529
+  xy: 847, 566
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: -1
-enemyBlack1
+boss02
   rotate: false
-  xy: 4760, 1959
-  size: 93, 84
-  orig: 93, 84
+  xy: 2240, 1157
+  size: 661, 881
+  orig: 661, 881
+  offset: 0, 0
+  index: -1
+bullet01_boss01
+  rotate: false
+  xy: 1103, 770
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+bullet01_boss02
+  rotate: false
+  xy: 847, 511
+  size: 55, 55
+  orig: 55, 55
+  offset: 0, 0
+  index: -1
+bullet02_boss01
+  rotate: false
+  xy: 2901, 1188
+  size: 55, 55
+  orig: 55, 55
+  offset: 0, 0
+  index: -1
+bullet02_boss02
+  rotate: false
+  xy: 591, 446
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: -1
+bullet_arch
+  rotate: false
+  xy: 3416, 1826
+  size: 336, 212
+  orig: 336, 212
+  offset: 0, 0
+  index: -1
+bullet_blue
+  rotate: false
+  xy: 0, 822
+  size: 1216, 1216
+  orig: 1216, 1216
+  offset: 0, 0
+  index: -1
+bullet_enemy01
+  rotate: false
+  xy: 3416, 1613
+  size: 33, 35
+  orig: 33, 35
+  offset: 0, 0
+  index: -1
+bullet_enemy02
+  rotate: false
+  xy: 2901, 1243
+  size: 240, 310
+  orig: 240, 310
+  offset: 0, 0
+  index: -1
+bullet_green
+  rotate: false
+  xy: 1216, 872
+  size: 239, 142
+  orig: 239, 142
+  offset: 0, 0
+  index: -1
+bullet_orange_laser
+  rotate: false
+  xy: 3141, 1383
+  size: 110, 170
+  orig: 110, 170
+  offset: 0, 0
+  index: -1
+bullet_yellow
+  rotate: false
+  xy: 400, 208
+  size: 132, 192
+  orig: 132, 192
+  offset: 0, 0
+  index: -1
+enemy_ship01
+  rotate: false
+  xy: 0, 0
+  size: 400, 400
+  orig: 400, 400
+  offset: 0, 0
+  index: -1
+enemy_ship02
+  rotate: false
+  xy: 0, 400
+  size: 591, 422
+  orig: 591, 422
   offset: 0, 0
   index: -1
 explosion
   rotate: false
-  xy: 4330, 1787
-  size: 256, 256
-  orig: 256, 256
+  xy: 2240, 1125
+  size: 256, 32
+  orig: 256, 32
   offset: 0, 0
   index: -1
-laserBlue13
+explosive_drone
   rotate: false
-  xy: 4330, 1360
-  size: 9, 57
-  orig: 9, 57
+  xy: 2901, 1553
+  size: 515, 485
+  orig: 515, 485
   offset: 0, 0
   index: -1
-laserRed13
+explosive_drone_sprite
   rotate: false
-  xy: 147, 64
-  size: 9, 57
-  orig: 9, 57
+  xy: 591, 502
+  size: 256, 320
+  orig: 256, 320
   offset: 0, 0
   index: -1
-playerShip2_blue
+meteor
   rotate: false
-  xy: 4588, 1706
-  size: 112, 75
-  orig: 112, 75
+  xy: 1216, 1014
+  size: 1024, 1024
+  orig: 1024, 1024
+  offset: 0, 0
+  index: -1
+player_ship
+  rotate: false
+  xy: 3251, 1505
+  size: 48, 48
+  orig: 48, 48
+  offset: 0, 0
+  index: -1
+powerupArch_bolt
+  rotate: false
+  xy: 400, 158
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+powerupBlue_bolt
+  rotate: false
+  xy: 532, 350
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+powerupGreen_bolt
+  rotate: false
+  xy: 2240, 1075
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+powerupOrange_bolt
+  rotate: false
+  xy: 3141, 1333
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+powerupYellow_bolt
+  rotate: false
+  xy: 1216, 822
+  size: 50, 50
+  orig: 50, 50
   offset: 0, 0
   index: -1
 shield1
   rotate: false
-  xy: 4330, 1419
+  xy: 1455, 906
   size: 133, 108
   orig: 133, 108
   offset: 0, 0
   index: -1
 shield2
   rotate: false
-  xy: 2, 2
+  xy: 3752, 1919
   size: 143, 119
   orig: 143, 119
-  offset: 0, 0
-  index: -1
-small.drone
-  rotate: false
-  xy: 4588, 1783
-  size: 170, 260
-  orig: 170, 260
   offset: 0, 0
   index: -1

@@ -149,9 +149,9 @@ public class GameScreen implements Screen {
 
         // initialize texture regions for animation
         // PlayerShip And Enemy Ship
-        playerShipTextureRegion = textureAtlas.findRegion("playerShip2_blue");
-        enemyShip_drone1_TextureRegion = textureAtlas.findRegion("small.drone");
-        enemyShip_battleShip1_TextureRegion = textureAtlas.findRegion("enemyBlack1");
+        playerShipTextureRegion = textureAtlas.findRegion("player_ship");
+        enemyShip_drone1_TextureRegion = textureAtlas.findRegion("explosive_drone");
+        enemyShip_battleShip1_TextureRegion = textureAtlas.findRegion("enemy_ship01");
         //PlayerShield And EnemyShield
         playerShieldTextureRegion = textureAtlas.findRegion("shield2");
         enemyShieldTextureRegion = textureAtlas.findRegion("shield1");
@@ -162,7 +162,7 @@ public class GameScreen implements Screen {
 
         // set up game objects
         playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 4,
-                10, 10, 50, 3, 0.5f,
+                10, 10, 100, 3, 0.5f,
                 playerShipTextureRegion, playerShieldTextureRegion, true, 3);
 
 //        enemyShip = new EnemyShip(WORLD_WIDTH / 2, WORLD_HEIGHT * 3 / 4,
