@@ -8,13 +8,14 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
+import hcmute.spaceshooter.Lasers.EnemyLaserTypeB;
 import hcmute.spaceshooter.SpaceShooterGame;
 
 public class EnemyShipTypeB extends EnemyShip{
 
     public EnemyShipTypeB(){
         super();
-        boundingBox = new Rectangle(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10), WORLD_HEIGHT - 5, 10, 10);
+        boundingBox = new Rectangle(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10), WORLD_HEIGHT - 5, 15, 15);
         movementSpeed = 50;
         shield = 1;
         timeBetweenShots = 1f;
@@ -23,7 +24,7 @@ public class EnemyShipTypeB extends EnemyShip{
         ableToFire = true;
         HP = 5;
         directionVector = new Vector2(0, -1);
-        laserI = new EnemyLaserTypeA(boundingBox);
+        laserI = new EnemyLaserTypeB(boundingBox);
         laserI.setLevel(1);
     }
 }

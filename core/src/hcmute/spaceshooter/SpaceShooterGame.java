@@ -17,7 +17,7 @@ public class SpaceShooterGame extends Game {
 
 	@Override
 	public void create () {
-		backgroundMusic.setVolume(0.5f);
+		backgroundMusic.setVolume(1f);
 		backgroundMusic.setLooping(true);
 		backgroundMusic.play();
 		gameScreen = new GameScreen();
