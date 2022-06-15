@@ -125,23 +125,28 @@ public class PlayerShip extends Ship {
         {
             if( dropDownAnimation.getTypeName().equals("ORANGE") &&
             dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
-                laserI = (ILaser) new LaserTypeA();
+                laserI = (ILaser) new LaserTypeA(this.boundingBox);
+                laserI.setLevel(level);
             }
             else if( dropDownAnimation.getTypeName().equals("BLUE") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
-                laserI = (ILaser) new LaserTypeB();
+                laserI = (ILaser) new LaserTypeB(this.boundingBox);
+                laserI.setLevel(level);
             }
             else if( dropDownAnimation.getTypeName().equals("YELLOW") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
-                laserI = (ILaser) new LaserTypeC();
+                laserI = (ILaser) new LaserTypeC(this.boundingBox);
+                laserI.setLevel(level);
             }
             else if( dropDownAnimation.getTypeName().equals("ARCH") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
-                laserI = (ILaser) new LaserTypeD();
+                laserI = (ILaser) new LaserTypeD(this.boundingBox);
+                laserI.setLevel(level);
             }
             else if( dropDownAnimation.getTypeName().equals("GREEN") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
-                laserI = (ILaser) new LaserTypeE();
+                laserI = (ILaser) new LaserTypeE(this.boundingBox);
+                laserI.setLevel(level);
             }
         }
     }
