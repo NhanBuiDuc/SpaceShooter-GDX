@@ -51,6 +51,7 @@ public class EnemyBoss1 extends EnemyBossShip{
     }
 
 
+
     public boolean isDestroyed() {
         return isDestroyed;
     }

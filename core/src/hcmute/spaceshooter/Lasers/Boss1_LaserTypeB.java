@@ -121,6 +121,16 @@ public class Boss1_LaserTypeB extends EnemyLaser {
         batch.draw(animation.getKeyFrame(timer),
                 laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
     }
+    /**
+     * Draw the laser animation
+     *
+     * @param batch Draws batched quads using indices.
+     */
+    @Override
+    public void drawLaser(Batch batch) {
+        batch.draw(laserTexture,
+                laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
+    }
 
     public Boss1_LaserTypeB[] GetBullets(float deltaTime) {
         Boss1_LaserTypeB[] lasers = new Boss1_LaserTypeB[6];
@@ -200,16 +210,6 @@ public class Boss1_LaserTypeB extends EnemyLaser {
 
     }
 
-    /**
-     * Draw the laser animation
-     *
-     * @param batch Draws batched quads using indices.
-     */
-    @Override
-    public void drawLaser(Batch batch) {
-        batch.draw(laserTexture,
-                laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
-    }
 
     @Override
     public IEnemyLaser[] GetBullets() {
