@@ -31,7 +31,7 @@ public class PlayerShip extends Ship {
                 shipTextureRegion, shieldTextureRegion, ableToFire, HP);
 
         level = 1;
-        laserI = new LaserTypeE(boundingBox);
+        laserI = new LaserTypeC(boundingBox);
         laserI.setLevel(level);
         laserI.setTypename("RED");
     }

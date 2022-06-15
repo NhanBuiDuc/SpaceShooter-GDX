@@ -46,7 +46,7 @@ public class LaserTypeC extends Laser {
         laserWidth = 1f;
         laserHeight = 7f;
         // laser movement speed
-        laserMovementSpeed = 40;
+        laserMovementSpeed = 130;
         // position and dimensions of the laser
         // laserBoundingBox;
         // position and dimensions of the explosion

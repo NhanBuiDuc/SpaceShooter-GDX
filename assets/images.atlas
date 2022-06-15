@@ -6,16 +6,30 @@ filter: Nearest, Nearest
 repeat: none
 Space Background
   rotate: false
-  xy: 3416, 1648
+  xy: 400, 222
   size: 100, 178
   orig: 100, 178
   offset: 0, 0
   index: -1
 boss01
   rotate: false
-  xy: 847, 566
+  xy: 1346, 367
   size: 256, 256
   orig: 256, 256
+  offset: 0, 0
+  index: -1
+boss01_bullet01
+  rotate: false
+  xy: 3889, 1525
+  size: 12, 13
+  orig: 12, 13
+  offset: 0, 0
+  index: -1
+boss01_bullet02
+  rotate: false
+  xy: 500, 326
+  size: 81, 74
+  orig: 81, 74
   offset: 0, 0
   index: -1
 boss02
@@ -25,37 +39,58 @@ boss02
   orig: 661, 881
   offset: 0, 0
   index: -1
-bullet01_boss01
+boss02_bullet01
   rotate: false
-  xy: 1103, 770
-  size: 52, 52
-  orig: 52, 52
+  xy: 3901, 1686
+  size: 90, 160
+  orig: 90, 160
   offset: 0, 0
   index: -1
-bullet01_boss02
+boss02_bullet02
   rotate: false
-  xy: 847, 511
-  size: 55, 55
-  orig: 55, 55
+  xy: 3991, 1801
+  size: 38, 45
+  orig: 38, 45
   offset: 0, 0
   index: -1
-bullet02_boss01
+boss02_bullet03
   rotate: false
-  xy: 2901, 1188
-  size: 55, 55
-  orig: 55, 55
+  xy: 3901, 1618
+  size: 68, 68
+  orig: 68, 68
   offset: 0, 0
   index: -1
-bullet02_boss02
+boss03
   rotate: false
-  xy: 591, 446
-  size: 56, 56
-  orig: 56, 56
+  xy: 3401, 1538
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+boss03_bullet01
+  rotate: false
+  xy: 1106, 624
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: -1
+boss03_bullet02
+  rotate: false
+  xy: 400, 152
+  size: 83, 70
+  orig: 83, 70
+  offset: 0, 0
+  index: -1
+boss03_bullet03_sprite
+  rotate: false
+  xy: 2479, 1019
+  size: 128, 138
+  orig: 128, 138
   offset: 0, 0
   index: -1
 bullet_arch
   rotate: false
-  xy: 3416, 1826
+  xy: 1607, 522
   size: 336, 212
   orig: 336, 212
   offset: 0, 0
@@ -69,35 +104,35 @@ bullet_blue
   index: -1
 bullet_enemy01
   rotate: false
-  xy: 3416, 1613
-  size: 33, 35
-  orig: 33, 35
+  xy: 1216, 623
+  size: 391, 391
+  orig: 391, 391
   offset: 0, 0
   index: -1
 bullet_enemy02
   rotate: false
-  xy: 2901, 1243
+  xy: 1106, 313
   size: 240, 310
   orig: 240, 310
   offset: 0, 0
   index: -1
 bullet_green
   rotate: false
-  xy: 1216, 872
+  xy: 2240, 1015
   size: 239, 142
   orig: 239, 142
   offset: 0, 0
   index: -1
 bullet_orange_laser
   rotate: false
-  xy: 3141, 1383
+  xy: 1106, 652
   size: 110, 170
   orig: 110, 170
   offset: 0, 0
   index: -1
 bullet_yellow
   rotate: false
-  xy: 400, 208
+  xy: 3901, 1846
   size: 132, 192
   orig: 132, 192
   offset: 0, 0
@@ -116,23 +151,58 @@ enemy_ship02
   orig: 591, 422
   offset: 0, 0
   index: -1
+enemy_ship03
+  rotate: false
+  xy: 1957, 714
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+enemy_ship04
+  rotate: false
+  xy: 1607, 734
+  size: 350, 280
+  orig: 350, 280
+  offset: 0, 0
+  index: -1
+enemy_ship05
+  rotate: false
+  xy: 3401, 1027
+  size: 488, 511
+  orig: 488, 511
+  offset: 0, 0
+  index: -1
+enemy_ship06
+  rotate: false
+  xy: 2901, 1538
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+enemy_ship07
+  rotate: false
+  xy: 2901, 1038
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
 explosion
   rotate: false
-  xy: 2240, 1125
+  xy: 1346, 335
   size: 256, 32
   orig: 256, 32
   offset: 0, 0
   index: -1
 explosive_drone
   rotate: false
-  xy: 2901, 1553
+  xy: 591, 337
   size: 515, 485
   orig: 515, 485
   offset: 0, 0
   index: -1
 explosive_drone_sprite
   rotate: false
-  xy: 591, 502
+  xy: 1943, 394
   size: 256, 320
   orig: 256, 320
   offset: 0, 0
@@ -146,56 +216,63 @@ meteor
   index: -1
 player_ship
   rotate: false
-  xy: 3251, 1505
+  xy: 4033, 1940
   size: 48, 48
   orig: 48, 48
   offset: 0, 0
   index: -1
 powerupArch_bolt
   rotate: false
-  xy: 400, 158
+  xy: 4033, 1988
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+powerupArmor
+  rotate: false
+  xy: 500, 276
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 powerupBlue_bolt
   rotate: false
-  xy: 532, 350
+  xy: 400, 102
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 powerupGreen_bolt
   rotate: false
-  xy: 2240, 1075
+  xy: 3901, 1568
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 powerupOrange_bolt
   rotate: false
-  xy: 3141, 1333
+  xy: 2199, 614
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 powerupYellow_bolt
   rotate: false
-  xy: 1216, 822
+  xy: 2199, 664
   size: 50, 50
   orig: 50, 50
   offset: 0, 0
   index: -1
 shield1
   rotate: false
-  xy: 1455, 906
+  xy: 2750, 1049
   size: 133, 108
   orig: 133, 108
   offset: 0, 0
   index: -1
 shield2
   rotate: false
-  xy: 3752, 1919
+  xy: 2607, 1038
   size: 143, 119
   orig: 143, 119
   offset: 0, 0
