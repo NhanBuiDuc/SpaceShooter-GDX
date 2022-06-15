@@ -4,16 +4,18 @@ import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ListIterator;
 import java.util.Stack;
 
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
-import hcmute.spaceshooter.Animation.UpgradeTypeA;
-import hcmute.spaceshooter.Animation.UpgradeTypeB;
 import hcmute.spaceshooter.Animation.UpgradeTypeC;
-import hcmute.spaceshooter.Animation.UpgradeTypeD;
-import hcmute.spaceshooter.Animation.UpgradeTypeE;
-import hcmute.spaceshooter.Ships.ExplosiveDrone;
+import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
+import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
+import hcmute.spaceshooter.Lasers.IEnemyLaser;
+import hcmute.spaceshooter.Lasers.ILaser;
+import hcmute.spaceshooter.Ships.EnemyBoss1;
+import hcmute.spaceshooter.Ships.EnemyBossShip;
 
 public class Episode{
     UpgradeTypeC upgradeTypeA_1;
@@ -21,17 +23,24 @@ public class Episode{
     UpgradeTypeC upgradeTypeA_3;
     UpgradeTypeC upgradeTypeA_4;
     UpgradeTypeC upgradeTypeA_5;
-
+    EnemyBoss1 enemyBoss1;
     Meteor meteor;
     Stack<IDropDownAnimation> mainAnimationList;
-    public Episode(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList) {
+    Stack<IEnemyLaser> enemyBossLaserList;
+    // List of Enemy Ships
+    private Stack<EnemyBossShip> enemyBossesList;
+
+    public Episode(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList, Stack<EnemyBossShip> enemyBossesList) {
         this.mainAnimationList = mainAnimationList;
+        this.enemyBossLaserList = enemyBossLaserList;
+        this.enemyBossesList = enemyBossesList;
 
         upgradeTypeA_1 = new UpgradeTypeC();
         upgradeTypeA_2 = new UpgradeTypeC();
         upgradeTypeA_3 = new UpgradeTypeC();
         upgradeTypeA_4 = new UpgradeTypeC();
         upgradeTypeA_5 = new UpgradeTypeC();
+        enemyBoss1 = new EnemyBoss1();
         meteor = new Meteor();
         // fireMeteor1 = new FireMeteor();
         upgradeTypeA_1.getDrawingRectangle().setX(WORLD_WIDTH / 2);
@@ -45,7 +54,7 @@ public class Episode{
         mainAnimationList.push(upgradeTypeA_3);
         mainAnimationList.push(upgradeTypeA_4);
         mainAnimationList.push(upgradeTypeA_5);
-
+        enemyBossesList.push(enemyBoss1);
         meteorList.push(meteor);
     }
 
@@ -70,22 +79,34 @@ public class Episode{
         if (elapsedTime >= 1 && upgradeTypeA_5.getTaken() == false) {
             upgradeTypeA_5.dropDownward(deltaTime, batch);
         }
-//        if (elapsedTime >= 1 && explosiveDrone1.getTaken() == false) {
-//            explosiveDrone1.dropDownward(deltaTime, batch);
-//        }
-//        if (elapsedTime >= 1 && elapsedTime <= 9 && fireMeteor1.getTaken() == false) {
-//            fireMeteor1.dropDownward(deltaTime, batch);
-//        }
+        if(elapsedTime >= 1){
+            SpawnBoss1(deltaTime, startTime, batch);
+        }
     }
 
-
-//    @Override
-//    public void DropUpgrade() {
-//
-//    }
-//
-//    @Override
-//    public void SpawnEnemy() {
-//
-//    }
+    public void SpawnBoss1(float deltaTime, long startTime,  SpriteBatch batch){
+        System.out.println("Time elapsed in seconds = " + ((System.currentTimeMillis() - startTime) / 1000));
+        float elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
+        if (elapsedTime >= 1) {
+            enemyBoss1.drawShip(batch);
+            makeBoss1Lasers(deltaTime, elapsedTime);
+        }
+    }
+    private void makeBoss1Lasers(float deltaTime, float elapsedTime){
+        ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
+        while (enemyBossShipListIterator.hasNext()) {
+            EnemyBossShip enemyBossShip = enemyBossShipListIterator.next();
+            enemyBossShip.update(deltaTime);
+            if (enemyBossShip.canFireLaser() && enemyBossShip.isAbleToFire()){
+                for(IEnemyLaser laser: enemyBossShip.GetLasers()){
+                    enemyBossLaserList.push(laser);
+                    laser.increaseShootingDuration(elapsedTime);
+                }
+               enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
+                for(IEnemyLaser laser: enemyBossShip.GetLasers()){
+                    enemyBossLaserList.push(laser);
+                }
+            }
+        }
+    }
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class EnemyLaserTypeB extends Laser {
+public class EnemyLaserTypeB extends EnemyLaser {
 
     int level = 1;
     EnemyLaserTypeB[] bullets;
@@ -34,8 +34,8 @@ public class EnemyLaserTypeB extends Laser {
     public EnemyLaserTypeB(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
         laserTexture = new Texture("bullet_enemy01.png");
-        laserWidth = 20f;
-        laserHeight = 20f;
+        laserWidth = 5f;
+        laserHeight = 5f;
         typeName = "RED";
     }
 
@@ -179,6 +179,11 @@ public class EnemyLaserTypeB extends Laser {
 
     public int getLevel() {
         return level;
+    }
+
+    @Override
+    public void increaseShootingDuration(float elapsedTime) {
+
     }
 
     public void setLevel(int level) {

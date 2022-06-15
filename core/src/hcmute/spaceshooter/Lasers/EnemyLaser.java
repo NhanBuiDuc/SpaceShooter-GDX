@@ -5,11 +5,10 @@ import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-public abstract class Laser implements ILaser {
+public abstract class EnemyLaser implements IEnemyLaser {
 
      // laser physical characteristics
      public String movementType;
@@ -66,8 +65,8 @@ public abstract class Laser implements ILaser {
      * @param laserMovementSpeed :The movement speed of the laser
      * @param laserTexture :The texture for rendering the laser
      **/
-    public Laser(float xCentre, float yBottom,
-                 float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
+    public EnemyLaser(float xCentre, float yBottom,
+                      float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
         this.laserBoundingBox = new Rectangle(xCentre - laserWidth/2, yBottom, laserWidth, laserHeight);
         this.laserWidth = laserWidth;
         this.laserHeight = laserHeight;
@@ -75,7 +74,7 @@ public abstract class Laser implements ILaser {
         this.laserTexture = laserTexture;
     }
 
-    public Laser() {
+    public EnemyLaser() {
 
     }
 
@@ -217,7 +216,7 @@ public abstract class Laser implements ILaser {
     }
 
      //region Getter and Setter
-    public abstract ILaser[] GetBullets();
+    public abstract IEnemyLaser[] GetBullets();
 
     @Override
 

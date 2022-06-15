@@ -77,7 +77,6 @@ public class LaserTypeA extends Laser {
          */
         laserTextureNum = laserRowTextureCount * laserColumnTextureCount;
         explosionTextureNum = explosionRowTextureCount * explosionColumnTextureCount;
-        // A timer increased with each update method call
         // Gdx's Animation object
         laserAnimation = GetLaserAnimation(laserTexture, laserTitleWidth, laserTitleHeight,
         laserTextureNum, laserRowTextureCount, laserColumnTextureCount);
@@ -357,6 +356,11 @@ public class LaserTypeA extends Laser {
 
     public int getLevel() {
         return level;
+    }
+
+    @Override
+    public void increaseShootingDuration(float elapsedTime) {
+
     }
 
     public void setLevel(int level) {

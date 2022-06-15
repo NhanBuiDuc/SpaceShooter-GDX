@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
 import hcmute.spaceshooter.Lasers.EnemyLaserTypeB;
+import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.SpaceShooterGame;
 
 public class EnemyShipTypeB extends EnemyShip{
@@ -26,5 +27,10 @@ public class EnemyShipTypeB extends EnemyShip{
         directionVector = new Vector2(0, -1);
         laserI = new EnemyLaserTypeB(boundingBox);
         laserI.setLevel(1);
+    }
+
+    @Override
+    public void setLaserI(ILaser laserI) {
+
     }
 }

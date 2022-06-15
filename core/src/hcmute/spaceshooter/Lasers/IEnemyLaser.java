@@ -3,13 +3,12 @@ package hcmute.spaceshooter.Lasers;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-public interface ILaser {
-
+public interface IEnemyLaser{
     void drawLaser(Batch batch);
 
     void setLevel(int i);
 
-    ILaser[] GetBullets();
+    IEnemyLaser [] GetBullets();
 
     String getTypeName();
 

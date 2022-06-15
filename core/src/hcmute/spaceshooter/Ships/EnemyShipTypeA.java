@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.BoundingBox;
 
 import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
+import hcmute.spaceshooter.Lasers.IEnemyLaser;
+import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.SpaceShooterGame;
 
 public class EnemyShipTypeA extends EnemyShip{
@@ -24,7 +26,12 @@ public class EnemyShipTypeA extends EnemyShip{
         ableToFire = false;
         HP = 5;
         directionVector = new Vector2(0, -1);
-        laserI = new EnemyLaserTypeA(boundingBox);
+        IEnemyLaser laserI = new EnemyLaserTypeA(boundingBox);
         laserI.setLevel(1);
+    }
+
+    @Override
+    public void setLaserI(ILaser laserI) {
+
     }
 }
