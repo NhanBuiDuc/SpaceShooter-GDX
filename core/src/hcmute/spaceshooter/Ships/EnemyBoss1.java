@@ -15,12 +15,14 @@ import hcmute.spaceshooter.Lasers.ILaser;
 
 public class EnemyBoss1 extends EnemyBossShip{
     boolean isDestroyed = false;
+
+
     public EnemyBoss1(){
         super();
         boundingBox = new Rectangle(WORLD_WIDTH / 5, WORLD_HEIGHT - 50, 50, 50);
         movementSpeed = 50;
         shield = 0;
-        timeBetweenShots = 5f;
+        timeBetweenShots = 0f;
         shipTextureRegion = textureAtlas.findRegion("boss01");
         shieldTextureRegion = textureAtlas.findRegion("shield1");
         ableToFire = true;
@@ -30,14 +32,6 @@ public class EnemyBoss1 extends EnemyBossShip{
         laserI.setLevel(1);
     }
 
-    @Override
-    public void setLaserI(ILaser laserI) {
-
-    }
-
-    public void setLaserI(IEnemyLaser laserI) {
-
-    }
 
     @Override
     public Stack<IEnemyLaser> GetLasers() {
@@ -51,11 +45,11 @@ public class EnemyBoss1 extends EnemyBossShip{
                 }
 
             }
-
         }
         timeSinceLastShot = 0;
         return laserStack;
     }
+
 
 
     public boolean isDestroyed() {
@@ -64,6 +58,14 @@ public class EnemyBoss1 extends EnemyBossShip{
 
     public void setDestroyed(boolean destroyed) {
         isDestroyed = destroyed;
+    }
+    @Override
+    public void setLaserI(ILaser laserI) {
+
+    }
+
+    public void setLaserI(IEnemyLaser laserI) {
+
     }
 
 }

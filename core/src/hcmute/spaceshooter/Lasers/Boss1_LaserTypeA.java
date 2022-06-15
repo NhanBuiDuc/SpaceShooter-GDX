@@ -5,14 +5,12 @@ import static hcmute.spaceshooter.GlobalVariables.boss1_LaserTypeA_Texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Boss1_LaserTypeA extends EnemyLaser{
 
     int level = 1;
     Rectangle shipBoundingBox;
-    float startShootingTimer;
     public Boss1_LaserTypeA(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
         laserTexture = boss1_LaserTypeA_Texture;
@@ -32,6 +30,7 @@ public class Boss1_LaserTypeA extends EnemyLaser{
         totalLaserAnimationTime = 1f;
         laserRowTextureCount = 1;
         laserColumnTextureCount = 16;
+        laserTimer = 0;
         /**
          *  The number of texture region after splitting the texture,
          *  equals to the number of images from the whole Texture
@@ -42,29 +41,19 @@ public class Boss1_LaserTypeA extends EnemyLaser{
                 laserTextureNum, laserRowTextureCount, laserColumnTextureCount);
     }
 
+    public boolean isFinished() {
+        return laserAnimation.isAnimationFinished(laserTimer);
+    }
 
     public void Upgrade(){
         this.level++;
     }
-    public boolean isHurtBoxFinished(){
-        if(startShootingTimer == totalLaserAnimationTime){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    public void increaseShootingDuration(long elapsedTime){
-        startShootingTimer += elapsedTime;
-    }
+
+
     public Boss1_LaserTypeA[] GetBullets(){
         Boss1_LaserTypeA[] lasers = new Boss1_LaserTypeA[20];
         if(level == 1)
         {
-//            lasers[0] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.18f, shipBoundingBox.y - laserHeight,
-//                    laserWidth, laserHeight, laserMovementSpeed, laserTextureRegion);
-//            lasers[1] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.82f, shipBoundingBox.y - laserHeight,
-//                    laserWidth, laserHeight, laserMovementSpeed, laserTextureRegion);
 
             lasers[0] = new Boss1_LaserTypeA(shipBoundingBox);
             lasers[0].setLaserWidth(laserWidth);
@@ -83,17 +72,20 @@ public class Boss1_LaserTypeA extends EnemyLaser{
                     lasers[1].getShipBoundingBox().getY() - 100f,
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
-
-            return lasers;
+                        return lasers;
         }
+
         return lasers;
     }
     /** draw the animation of the lasers
      * @param deltaTime The time in seconds since the last render.
      */
     public void drawLasersWithAnimation(float deltaTime, Batch batch){
-        update(deltaTime);
-        drawLaser(batch);
+        if(isFinished() == false){
+            update(deltaTime);
+            drawLaser(batch);
+        }
+
     }
     /** Update the animation's rendering time by @param delaTime
      *
@@ -109,15 +101,6 @@ public class Boss1_LaserTypeA extends EnemyLaser{
 
     }
 
-    /**
-     * make the coordinates of the object go down the height of the screen
-     *
-     * @param deltaTime The time in seconds since the last render.
-     */
-    @Override
-    public void makeDownward(float deltaTime) {
-
-    }
 
     /**
      * Draw the laser animation
@@ -140,10 +123,6 @@ public class Boss1_LaserTypeA extends EnemyLaser{
         return level;
     }
 
-    @Override
-    public void increaseShootingDuration(float elapsedTime) {
-
-    }
 
     public void setLevel(int level) {
         this.level = level;
@@ -169,6 +148,7 @@ public class Boss1_LaserTypeA extends EnemyLaser{
     public void setLaserTexture(Texture laserTexture) {
         this.laserTexture = laserTexture;
     }
+
 
     //endregion Getter and Setter
 }
