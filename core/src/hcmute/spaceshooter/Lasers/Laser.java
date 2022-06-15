@@ -40,9 +40,9 @@ public abstract class Laser implements ILaser {
      */
     int laserTitleWidth, laserTitleHeight;
     int explosionTitleWidth, explosionTitleHeight;
-     // Total time of the whole animation rendering.
-     float totalLaserAnimationTime;
-     float totalExplosionAnimationTime;
+    // Total time of the whole animation rendering.
+    float totalLaserAnimationTime;
+    float totalExplosionAnimationTime;
     int laserRowTextureCount;
     int laserColumnTextureCount;
     int explosionRowTextureCount;
@@ -53,9 +53,9 @@ public abstract class Laser implements ILaser {
      */
     int laserTextureNum;
     int explosionTextureNum;
-     // A timer increased with each update method call
-     float laserTimer = 0;
-     float explosionTimer = 0;
+    // A timer increased with each update method call
+    float laserTimer = 0;
+    float explosionTimer = 0;
 
     /**
      * Constructor of the Laser Type.

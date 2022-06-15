@@ -16,22 +16,22 @@ import hcmute.spaceshooter.Animation.UpgradeTypeE;
 import hcmute.spaceshooter.Ships.ExplosiveDrone;
 
 public class Episode{
-    UpgradeTypeC upgradeTypeA_1;
-    UpgradeTypeC upgradeTypeA_2;
-    UpgradeTypeC upgradeTypeA_3;
-    UpgradeTypeC upgradeTypeA_4;
-    UpgradeTypeC upgradeTypeA_5;
+    UpgradeTypeD upgradeTypeA_1;
+    UpgradeTypeD upgradeTypeA_2;
+    UpgradeTypeD upgradeTypeA_3;
+    UpgradeTypeD upgradeTypeA_4;
+    UpgradeTypeD upgradeTypeA_5;
 
     Meteor meteor;
     Stack<IDropDownAnimation> mainAnimationList;
     public Episode(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList) {
         this.mainAnimationList = mainAnimationList;
 
-        upgradeTypeA_1 = new UpgradeTypeC();
-        upgradeTypeA_2 = new UpgradeTypeC();
-        upgradeTypeA_3 = new UpgradeTypeC();
-        upgradeTypeA_4 = new UpgradeTypeC();
-        upgradeTypeA_5 = new UpgradeTypeC();
+        upgradeTypeA_1 = new UpgradeTypeD();
+        upgradeTypeA_2 = new UpgradeTypeD();
+        upgradeTypeA_3 = new UpgradeTypeD();
+        upgradeTypeA_4 = new UpgradeTypeD();
+        upgradeTypeA_5 = new UpgradeTypeD();
         meteor = new Meteor();
         // fireMeteor1 = new FireMeteor();
         upgradeTypeA_1.getDrawingRectangle().setX(WORLD_WIDTH / 2);

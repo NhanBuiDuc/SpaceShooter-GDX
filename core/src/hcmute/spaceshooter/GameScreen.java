@@ -74,6 +74,8 @@ public class GameScreen implements Screen {
     /* An Array of backgroundOffSet for each background texture
     A BackgroundOffSet determine how much downward a background go down at that specific deltaTime and multiply by the "backgroundMaxScrollingSpeed"*/
     private float backgroundOffSet = 0;
+    //backgrounds indexing
+    int index = 0;
 
     // Max Background Scrolling Speed, Specified at the start of the program
     private float backgroundMaxScrollingSpeed;
@@ -135,11 +137,6 @@ public class GameScreen implements Screen {
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //setting up the backgrounds
-//        backgrounds = new TextureRegion[4];
-//        backgrounds[0] = textureAtlas.findRegion("Starscape00");
-//        backgrounds[1] = textureAtlas.findRegion("Starscape01");
-//        backgrounds[2] = textureAtlas.findRegion("Starscape02");
-//        backgrounds[3] = textureAtlas.findRegion("Starscape03");
 
 
         //backgroundHeight = WORLD_HEIGHT * 2;
@@ -158,7 +155,7 @@ public class GameScreen implements Screen {
         enemyShieldTextureRegion.flip(false, true);
 
         // Explosion
-        explosionTexture = new Texture("explosion.png");
+        explosionTexture = new Texture("explosion_test.png");
 
         // set up game objects
         playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 4,

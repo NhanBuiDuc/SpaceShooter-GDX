@@ -58,15 +58,15 @@ public class LaserTypeE extends Laser {
          * starting from the top left corner going to the right
          * and ending at the bottom right corner.
          */
-        laserTitleWidth = 192;
-        laserTitleHeight = 192;
+        laserTitleWidth = 32;
+        laserTitleHeight = 32;
         explosionTitleWidth = 192;
         explosionTitleHeight = 192;
         // Total time of the whole animation rendering.
         totalLaserAnimationTime = 1f;
         totalExplosionAnimationTime = 0.5f;
-        laserRowTextureCount = 2;
-        laserColumnTextureCount = 5;
+        laserRowTextureCount = 1;
+        laserColumnTextureCount = 8;
         explosionRowTextureCount = 8;
         explosionColumnTextureCount = 5;
         /**
@@ -328,15 +328,15 @@ public class LaserTypeE extends Laser {
         // split texture
 
         TextureRegion[][] textureRegion2D = TextureRegion.split(texture, titleWidth, titleHeight);
-        textureNum -= 1;
+        //textureNum -= 1;
         // convert to 1D array
         TextureRegion[] textureRegion1D = new TextureRegion[textureNum];
         int index = 0;
-        for(int i = 2; i < 4; i++){
-            for(int j = 0; j < 5; j++){
-                if(i == 3 && j == 4){
-                    break;
-                }
+        for(int i = 0; i < rowTextureCount; i++){
+            for(int j = 0; j < columnTextureCount; j++){
+//                if(i == 3 && j == 4){
+//                    break;
+//                }
                 try{
                         textureRegion1D[index] = textureRegion2D[i][j];
                         index++;

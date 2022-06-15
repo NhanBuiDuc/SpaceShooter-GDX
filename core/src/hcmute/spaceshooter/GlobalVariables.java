@@ -23,7 +23,7 @@ public class GlobalVariables {
     public static final TextureAtlas textureAtlas = new TextureAtlas("images.atlas");
     /* Backgrounds Texture Array . Each item defines a rectangular area of a texture.
     The coordinate system used has its origin in the upper left corner with the x-axis pointing to the right and the y axis pointing downwards.*/
-    public static final Texture background = new Texture("Space Background.png");
+    public static final Texture background = new Texture("Space Background02.png");
     public static final Texture orangeLaserBulletTexture = new Texture("bullet_orange_laser.png");
     public static final Texture blueBulletTexture = new Texture("bullet_blue.png");
     public static final Texture yellowBulletTexture = new Texture("bullet_yellow.png");
