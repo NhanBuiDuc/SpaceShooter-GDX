@@ -31,7 +31,7 @@ public class PlayerShip extends Ship {
                 shipTextureRegion, shieldTextureRegion, ableToFire, HP);
 
         level = 1;
-        laserI = new LaserTypeB(boundingBox);
+        laserI = new LaserTypeE(boundingBox);
         laserI.setLevel(level);
         laserI.setTypename("RED");
     }
@@ -69,11 +69,11 @@ public class PlayerShip extends Ship {
                             laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
                         }
                         else if(laser.getMovementType() == "DIAGONAL_LEFT_30"){
-                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 10f  * deltaTime);
+                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 15f  * deltaTime);
                             laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
                         }
                         else if(laser.getMovementType() == "DIAGONAL_RIGHT_30"){
-                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() + 10f * deltaTime);
+                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() + 15f * deltaTime);
                             laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
                         }
                         else if(laser.getMovementType() == "DIAGONAL_LEFT_60"){
@@ -126,27 +126,32 @@ public class PlayerShip extends Ship {
             if( dropDownAnimation.getTypeName().equals("ORANGE") &&
             dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeA(this.boundingBox);
-                laserI.setLevel(level);
+                if(laserI.getLevel() > 1)
+                    laserI.setLevel(--level);
             }
             else if( dropDownAnimation.getTypeName().equals("BLUE") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeB(this.boundingBox);
-                laserI.setLevel(level);
+                if(laserI.getLevel() > 1)
+                    laserI.setLevel(--level);
             }
             else if( dropDownAnimation.getTypeName().equals("YELLOW") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeC(this.boundingBox);
-                laserI.setLevel(level);
+                if(laserI.getLevel() > 1)
+                    laserI.setLevel(--level);
             }
             else if( dropDownAnimation.getTypeName().equals("ARCH") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeD(this.boundingBox);
-                laserI.setLevel(level);
+                if(laserI.getLevel() > 1)
+                    laserI.setLevel(--level);
             }
             else if( dropDownAnimation.getTypeName().equals("GREEN") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeE(this.boundingBox);
-                laserI.setLevel(level);
+                if(laserI.getLevel() > 1)
+                    laserI.setLevel(--level);
             }
         }
     }
