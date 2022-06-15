@@ -181,10 +181,6 @@ public class EnemyLaserTypeB extends EnemyLaser {
         return level;
     }
 
-    @Override
-    public void increaseShootingDuration(float elapsedTime) {
-
-    }
 
     public void setLevel(int level) {
         this.level = level;

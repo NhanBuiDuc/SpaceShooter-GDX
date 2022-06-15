@@ -18,6 +18,8 @@ public abstract class EnemyBossShip extends EnemyShip{
     float directionChangeFrequency = 0.75f;
     EnemyBossShip clonedEnemyShip;
     IEnemyLaser laserI;
+    float startingShootingTimer = 0;
+    float shootingDuration;
     public EnemyBossShip(float xCentre, float yCentre,
                          float width, float height,
                          float movementSpeed, int shield, float timeBetweenShots,
@@ -39,7 +41,31 @@ public abstract class EnemyBossShip extends EnemyShip{
         laserI = new EnemyLaserTypeA(boundingBox);
         laserI.setLevel(1);
     }
+    public boolean isHurtBoxFinished(){
 
+        if(shootingDuration - startingShootingTimer >= 2){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public float getStartingShootingTimer() {
+        return startingShootingTimer;
+    }
+
+    public void setStartingShootingTimer(float startingShootingTimer) {
+        this.startingShootingTimer = startingShootingTimer;
+    }
+
+    public float getShootingDuration() {
+        return shootingDuration;
+    }
+
+    public void setShootingDuration(float shootingDuration) {
+        this.shootingDuration += shootingDuration;
+    }
     private void randomizeDirectionVector(){
         double bearing = SpaceShooterGame.random.nextDouble() * 6.283185; // 0 to 2 * pi
         directionVector.x = (float) Math.sin(bearing);

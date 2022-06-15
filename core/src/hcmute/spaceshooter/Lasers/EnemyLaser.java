@@ -143,46 +143,8 @@ public abstract class EnemyLaser implements IEnemyLaser {
                 explosionBoundingBox.x, explosionBoundingBox.y, explosionBoundingBox.width, explosionBoundingBox.height);
     }
 
-    /** make the coordinates of the object go down the height of the screen
-     * @param deltaTime The time in seconds since the last render.
-     */
 
-    @Override
-    public void pushLaserUpward(float deltaTime, Batch batch) {
-        //makeUpward(deltaTime);
-        laserUpdate(deltaTime);
-        drawLaser(batch);
-        if(laserBoundingBox.y < 0){
-            // texture.dispose();
-        }
-        else{
-            if(isLaserAnimationFinished()){
-                laserAnimation = GetLaserAnimation(laserTexture, laserTitleWidth, laserTitleHeight,
-                        laserTextureNum, laserRowTextureCount, laserColumnTextureCount);
-                // drawingRectangle.y = WORLD_HEIGHT;
-            }
-            if(laserBoundingBox.y > WORLD_HEIGHT){
-//            drawingRectangle.y = WORLD_HEIGHT;
-                laserTexture.dispose();
-            }
-        }
-    }
 
-    /** make the coordinates of the object go Up the height of the screen
-     * @param deltaTime The time in seconds since the last render.
-     */
-
-    public void makeUpward(float deltaTime){
-        laserBoundingBox.y += laserMovementSpeed * deltaTime;
-    }
-
-    /** make the coordinates of the object go down the height of the screen
-     * @param deltaTime The time in seconds since the last render.
-     */
-
-    public void makeDownward(float deltaTime){
-        laserBoundingBox.y -= laserMovementSpeed * deltaTime;
-    }
 
     /** Update the laser animation's rendering time by @param delaTime
      *

@@ -11,9 +11,7 @@ import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
 import hcmute.spaceshooter.Animation.UpgradeTypeC;
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
-import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
-import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Ships.EnemyBoss1;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
 
@@ -27,9 +25,10 @@ public class Episode{
     Meteor meteor;
     Stack<IDropDownAnimation> mainAnimationList;
     Stack<IEnemyLaser> enemyBossLaserList;
+
     // List of Enemy Ships
     private Stack<EnemyBossShip> enemyBossesList;
-
+    float boss1StartingShootingTimer = 0;
     public Episode(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList, Stack<EnemyBossShip> enemyBossesList) {
         this.mainAnimationList = mainAnimationList;
         this.enemyBossLaserList = enemyBossLaserList;
@@ -92,20 +91,27 @@ public class Episode{
             makeBoss1Lasers(deltaTime, elapsedTime);
         }
     }
-    private void makeBoss1Lasers(float deltaTime, float elapsedTime){
+    private void makeBoss1Lasers(float deltaTime, float elapsedTime) {
         ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
+
         while (enemyBossShipListIterator.hasNext()) {
             EnemyBossShip enemyBossShip = enemyBossShipListIterator.next();
             enemyBossShip.update(deltaTime);
-            if (enemyBossShip.canFireLaser() && enemyBossShip.isAbleToFire()){
-                for(IEnemyLaser laser: enemyBossShip.GetLasers()){
-                    enemyBossLaserList.push(laser);
-                    laser.increaseShootingDuration(elapsedTime);
+
+            if (enemyBossShip.canFireLaser()) {
+
+                if (elapsedTime % 5 == 0) {
+                    for (IEnemyLaser laser : enemyBossShip.GetLasers()) {
+                        enemyBossLaserList.push(laser);
+                    }
                 }
-               enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
-                for(IEnemyLaser laser: enemyBossShip.GetLasers()){
-                    enemyBossLaserList.push(laser);
-                }
+//               enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
+//                for(IEnemyLaser laser: enemyBossShip.GetLasers()){
+//                    if(laser.isHurtBoxFinished() != false){
+//                        enemyBossLaserList.push(laser);
+//                        laser.increaseShootingDuration(elapsedTime);
+//                    }
+//                }
             }
         }
     }

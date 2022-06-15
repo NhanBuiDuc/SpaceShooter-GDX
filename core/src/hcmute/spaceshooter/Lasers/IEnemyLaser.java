@@ -24,9 +24,4 @@ public interface IEnemyLaser{
 
     int getLevel();
 
-    void drawExplosion(Batch batch);
-
-    void pushLaserUpward(float deltaTime,Batch batch);
-
-    void increaseShootingDuration(float elapsedTime);
 }

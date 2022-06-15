@@ -188,6 +188,13 @@ public class Boss1_LaserTypeB extends EnemyLaser {
         }
         return lasers;
     }
+
+
+    public boolean isFinished() {
+        return animation.isAnimationFinished(timer);
+    }
+
+
     @Override
     public void setTypename(String red) {
 
@@ -221,10 +228,6 @@ public class Boss1_LaserTypeB extends EnemyLaser {
         return level;
     }
 
-    @Override
-    public void increaseShootingDuration(float elapsedTime) {
-
-    }
 
     public void setLevel(int level) {
         this.level = level;
