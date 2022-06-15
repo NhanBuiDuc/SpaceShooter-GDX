@@ -23,8 +23,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -36,8 +34,7 @@ import java.util.Stack;
 import hcmute.spaceshooter.Animation.Explosion;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
-import hcmute.spaceshooter.Animation.SoundEffect.ExplosionSoundEffect;
-import hcmute.spaceshooter.Animation.SoundEffect.LaserSoundEffect;
+import hcmute.spaceshooter.SoundEffect.ExplosionSoundEffect;
 import hcmute.spaceshooter.Episode.Episode;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
@@ -229,12 +226,13 @@ public class GameScreen implements Screen {
 
         //lasers
         renderLasers(deltaTime);
-
+        removeEnemyShipsAtBounds();
         // hud rendering
         updateAndRenderHUD(deltaTime);
 
         batch.end();
     }
+
 
     // Render HUD(score, life, shields) for the main screen
 
@@ -280,7 +278,8 @@ public class GameScreen implements Screen {
         float leftLimit, rightLimit, upLimit, downLimit;
         leftLimit = -enemyShip.getBoundingBox().x;
         rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
-        downLimit = (float) WORLD_HEIGHT / 2 -enemyShip.getBoundingBox().y;
+        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
+        downLimit = - WORLD_HEIGHT;
         upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
 
         float xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
@@ -288,17 +287,18 @@ public class GameScreen implements Screen {
 
         if(xMove > 0){
             xMove = Math.min(xMove, rightLimit);
-
+            enemyShip.translate(xMove, yMove);
         }
-        else xMove = Math.max(xMove, leftLimit);
+        else{
+            xMove = Math.max(xMove, leftLimit);
+            enemyShip.translate(xMove, yMove);
+        }
 
         if(yMove > 0){
             yMove = Math.min(yMove, upLimit);
-
+            enemyShip.translate(xMove, yMove);
         }
-        else yMove = Math.max(yMove, downLimit);
 
-        enemyShip.translate(xMove, yMove);
     }
     private void spawnEnemyShips(float deltaTime){
         enemySpawnTimer += deltaTime;
@@ -322,6 +322,9 @@ public class GameScreen implements Screen {
             moveEnemy(enemyShip, deltaTime);
             enemyShip.MoveRandomly(deltaTime);
             enemyShip.draw(batch);
+//            if(enemyShip.getBoundingBox().getY() < 0 ){
+//                enemyShipListIterator.remove();
+//            }
         }
     }
     private void detectInput(float deltaTime) {
@@ -542,7 +545,15 @@ public class GameScreen implements Screen {
             }
         }
     }
-
+    private void removeEnemyShipsAtBounds(){
+        ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
+        while (enemyShipListIterator.hasNext()){
+            EnemyShip enemyShip = enemyShipListIterator.next();
+            if(enemyShip.getBoundingBox().getY() <= 0){
+                enemyShipListIterator.remove();
+            }
+        }
+    }
     private void updateAndRenderExplosions(float deltaTime) {
         ListIterator<Explosion> explosionListIterator = explosionList.listIterator();
         while (explosionListIterator.hasNext()){

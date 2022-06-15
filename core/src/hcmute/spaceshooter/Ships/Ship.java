@@ -1,13 +1,10 @@
 package hcmute.spaceshooter.Ships;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.LinkedList;
-
-import hcmute.spaceshooter.Animation.SoundEffect.LaserSoundEffect;
+import hcmute.spaceshooter.SoundEffect.LaserSoundEffect;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Lasers.Laser;
 
