@@ -57,8 +57,8 @@ public class Boss1_LaserTypeB extends EnemyLaser {
     public Boss1_LaserTypeB(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
         laserTexture = boss1_LaserTypeB_Texture;
-        laserWidth = 15f;
-        laserHeight = 15f;
+        laserWidth = 10f;
+        laserHeight = 10f;
         movementSpeed = 30;
         totalAnimationTime = 0.5f;
         typeName = "Boss1_TypeB";
@@ -97,8 +97,8 @@ public class Boss1_LaserTypeB extends EnemyLaser {
             lasers[0].setLaserWidth(laserWidth);
             lasers[0].setLaserHeight(laserHeight);
             lasers[0].setLaserMovementSpeed(45);
-            lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() - lasers[0].getShipBoundingBox().getWidth() * 0.03f,
-                    lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().height * 0.3f,
+            lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.25f,
+                    lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().height * 0.1f,
                     lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
 
@@ -106,8 +106,8 @@ public class Boss1_LaserTypeB extends EnemyLaser {
             lasers[1].setLaserWidth(laserWidth);
             lasers[1].setLaserHeight(laserHeight);
             lasers[1].setLaserMovementSpeed(45);
-            lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.84f,
-                    lasers[1].getShipBoundingBox().getY() + lasers[1].getShipBoundingBox().height * 0.3f,
+            lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.6f,
+                    lasers[1].getShipBoundingBox().getY() + lasers[1].getShipBoundingBox().height * 0.1f,
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
             this.bullets = lasers;
         }

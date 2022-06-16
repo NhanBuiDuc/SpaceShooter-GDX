@@ -178,31 +178,31 @@ public class PlayerShip extends Ship {
             if( dropDownAnimation.getTypeName().equals("ORANGE") &&
             dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeA(this.boundingBox);
-                if(laserI.getLevel() > 1)
+                if(level > 1)
                     laserI.setLevel(--level);
             }
             else if( dropDownAnimation.getTypeName().equals("BLUE") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeB(this.boundingBox);
-                if(laserI.getLevel() > 1)
+                if(level > 1)
                     laserI.setLevel(--level);
             }
             else if( dropDownAnimation.getTypeName().equals("YELLOW") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeC(this.boundingBox);
-                if(laserI.getLevel() > 1)
+                if(level > 1)
                     laserI.setLevel(--level);
             }
             else if( dropDownAnimation.getTypeName().equals("ARCH") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeD(this.boundingBox);
-                if(laserI.getLevel() > 1)
+                if(level > 1)
                     laserI.setLevel(--level);
             }
             else if( dropDownAnimation.getTypeName().equals("GREEN") &&
                     dropDownAnimation.getTypeName() != this.laserI.getTypeName()){
                 laserI = (ILaser) new LaserTypeE(this.boundingBox);
-                if(laserI.getLevel() > 1)
+                if(level > 1)
                     laserI.setLevel(--level);
             }
         }

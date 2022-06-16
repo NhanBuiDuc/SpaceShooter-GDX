@@ -121,7 +121,7 @@ public class GameScreen implements Screen {
     // Get current time:
     long startTime = TimeUtils.millis();
     // Get time elapsed since startTime:
-    long elapsedTime = TimeUtils.timeSinceMillis(startTime);
+    long elapsedTime;
 
     //
     Episode episode;
@@ -276,75 +276,6 @@ public class GameScreen implements Screen {
         font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.getHP()), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
     }
 
-    private void moveEnemy(EnemyShip enemyShip, float deltaTime) {
-        // strategy: determine the max distance the ship can move
-        float leftLimit, rightLimit, upLimit, downLimit;
-        leftLimit = -enemyShip.getBoundingBox().x;
-        rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
-        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
-        downLimit = - WORLD_HEIGHT;
-        upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
-
-        float xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
-        float yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-
-        if(xMove > 0){
-            xMove = Math.min(xMove, rightLimit);
-            enemyShip.translate(xMove, yMove);
-        }
-        else{
-            xMove = Math.max(xMove, leftLimit);
-            enemyShip.translate(xMove, yMove);
-        }
-
-        if(yMove > 0){
-            yMove = Math.min(yMove, upLimit);
-            enemyShip.translate(xMove, yMove);
-        }
-
-    }
-    private void spawnEnemyShips(float deltaTime){
-        if(((System.currentTimeMillis() - startTime) / 1000) < 30){
-            enemySpawnTimer += deltaTime;
-            if(enemySpawnTimer > timeBetweenEnemySpawns){
-                for(int i = 0; i < 2; i++){
-
-                    enemyShipList.add(new EnemyShipTypeA());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeB());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeC());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeD());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeE());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
-                enemySpawnTimer = 0;
-            }
-            ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
-
-            while(enemyShipListIterator.hasNext()){
-                // enemy ships
-                EnemyShip enemyShip = enemyShipListIterator.next();
-                moveEnemy(enemyShip, deltaTime);
-                enemyShip.MoveRandomly(deltaTime);
-                enemyShip.drawShip(batch);
-
-            }
-        }
-        else{
-            enemyShipList.clear();
-        }
-    }
     private void detectInput(float deltaTime) {
 
         //keyboard input
@@ -647,6 +578,86 @@ public class GameScreen implements Screen {
             }
     }
 
+
+    private void moveEnemy(EnemyShip enemyShip, float deltaTime) {
+        // strategy: determine the max distance the ship can move
+        float leftLimit, rightLimit, upLimit, downLimit;
+        leftLimit = -enemyShip.getBoundingBox().x;
+        rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
+        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
+        downLimit = - WORLD_HEIGHT;
+        upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
+
+        float xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
+        float yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
+
+        if(xMove > 0){
+            xMove = Math.min(xMove, rightLimit);
+            enemyShip.translate(xMove, yMove);
+        }
+        else{
+            xMove = Math.max(xMove, leftLimit);
+            enemyShip.translate(xMove, yMove);
+        }
+
+        if(yMove > 0){
+            yMove = Math.min(yMove, upLimit);
+            enemyShip.translate(xMove, yMove);
+        }
+
+    }
+
+    public void spawnEnemyShips(float deltaTime){
+        elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
+        if(elapsedTime < 300){
+            enemySpawnTimer += deltaTime;
+            if(enemySpawnTimer > timeBetweenEnemySpawns){
+                if(elapsedTime > 1 && elapsedTime < 70){
+                    for(int i = 0; i < 3; i++){
+                        enemyShipList.add(new EnemyShipTypeA());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
+                }
+                if(elapsedTime > 1 && elapsedTime < 150){
+                    for(int j = 0; j < 1; j++){
+                        enemyShipList.add( new EnemyShipTypeB());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
+                }
+                if(elapsedTime > 70 && elapsedTime < 230){
+                    for(int j = 0; j < 1; j++){
+                        enemyShipList.add( new EnemyShipTypeC());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
+                }
+                if(elapsedTime > 150 && elapsedTime < 290){
+                    for(int j = 0; j < 1; j++){
+                        enemyShipList.add( new EnemyShipTypeD());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
+                }
+                if(elapsedTime > 150 && elapsedTime < 290){
+                    for(int j = 0; j < 1; j++){
+                        enemyShipList.add( new EnemyShipTypeE());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
+                }
+                enemySpawnTimer = 0;
+            }
+            ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
+
+            while(enemyShipListIterator.hasNext()){
+                // enemy ships
+                EnemyShip enemyShip = enemyShipListIterator.next();
+                moveEnemy(enemyShip, deltaTime);
+                enemyShip.MoveRandomly(deltaTime);
+                enemyShip.drawShip(batch);
+            }
+        }
+        else{
+            enemyShipList.clear();
+        }
+    }
 
     private void checkCrashing(){
         // Check the Meteors crash to the player's ship
