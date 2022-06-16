@@ -1,5 +1,6 @@
 package hcmute.spaceshooter.Episode;
 
+import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -20,6 +21,12 @@ import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBoss1;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
+import hcmute.spaceshooter.Ships.EnemyShip;
+import hcmute.spaceshooter.Ships.EnemyShipTypeA;
+import hcmute.spaceshooter.Ships.EnemyShipTypeB;
+import hcmute.spaceshooter.Ships.EnemyShipTypeC;
+import hcmute.spaceshooter.Ships.EnemyShipTypeD;
+import hcmute.spaceshooter.Ships.EnemyShipTypeE;
 
 public class Episode{
     //Upgrade boxes
@@ -62,7 +69,8 @@ public class Episode{
 
     EnemyBoss1 enemyBoss1;
 
-    Stack<IDropDownAnimation> mainAnimationList;
+//    Stack<IDropDownAnimation> mainAnimationList;
+//    Stack<Meteor> meteorList;
     Stack<IEnemyLaser> enemyBossLaserList;
     // List of Enemy Ships
     private Stack<EnemyBossShip> enemyBossesList;
@@ -70,7 +78,7 @@ public class Episode{
     float elapsedTime;
 
     public Episode(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList, Stack<EnemyBossShip> enemyBossesList) {
-        this.mainAnimationList = mainAnimationList;
+        //this.mainAnimationList = mainAnimationList;
         this.enemyBossLaserList = enemyBossLaserList;
         this.enemyBossesList = enemyBossesList;
 
@@ -104,34 +112,34 @@ public class Episode{
         upgradeTypeE_4 = new UpgradeTypeE();
         upgradeTypeE_5 = new UpgradeTypeE();
 
-        upgradeTypeA_1.getDrawingRectangle().setX(WORLD_WIDTH / 2 + 15);
-        upgradeTypeA_2.getDrawingRectangle().setX(WORLD_WIDTH / 2 - 15);
+        upgradeTypeA_1.getDrawingRectangle().setX(WORLD_WIDTH / 2);
+        upgradeTypeA_2.getDrawingRectangle().setX(WORLD_WIDTH / 4);
         upgradeTypeA_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
         upgradeTypeA_4.getDrawingRectangle().setX(WORLD_WIDTH / 7);
         upgradeTypeA_5.getDrawingRectangle().setX(WORLD_WIDTH / 2);
 
         upgradeTypeB_1.getDrawingRectangle().setX(WORLD_WIDTH / 3);
-        upgradeTypeB_2.getDrawingRectangle().setX(WORLD_WIDTH / 2 - 30);
-        upgradeTypeB_3.getDrawingRectangle().setX(WORLD_WIDTH / 5 + 15);
+        upgradeTypeB_2.getDrawingRectangle().setX(WORLD_WIDTH / 2);
+        upgradeTypeB_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
         upgradeTypeB_4.getDrawingRectangle().setX(WORLD_WIDTH / 7);
         upgradeTypeB_5.getDrawingRectangle().setX(WORLD_WIDTH / 2);
 
-        upgradeTypeC_1.getDrawingRectangle().setX(WORLD_WIDTH / 3 + 25);
+        upgradeTypeC_1.getDrawingRectangle().setX(WORLD_WIDTH / 3);
         upgradeTypeC_2.getDrawingRectangle().setX(WORLD_WIDTH / 5);
         upgradeTypeC_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
-        upgradeTypeC_4.getDrawingRectangle().setX(WORLD_WIDTH / 4 + 40);
+        upgradeTypeC_4.getDrawingRectangle().setX(WORLD_WIDTH / 4);
         upgradeTypeC_5.getDrawingRectangle().setX(WORLD_WIDTH / 2);
 
-        upgradeTypeD_1.getDrawingRectangle().setX(WORLD_WIDTH / 9 + 10);
-        upgradeTypeD_2.getDrawingRectangle().setX(WORLD_WIDTH / 7 + 15);
-        upgradeTypeD_3.getDrawingRectangle().setX(WORLD_WIDTH / 2 - 12);
-        upgradeTypeD_4.getDrawingRectangle().setX(WORLD_WIDTH / 2 + 35);
+        upgradeTypeD_1.getDrawingRectangle().setX(WORLD_WIDTH / 9);
+        upgradeTypeD_2.getDrawingRectangle().setX(WORLD_WIDTH / 7);
+        upgradeTypeD_3.getDrawingRectangle().setX(WORLD_WIDTH / 2);
+        upgradeTypeD_4.getDrawingRectangle().setX(WORLD_WIDTH / 2);
         upgradeTypeD_5.getDrawingRectangle().setX(WORLD_WIDTH / 2);
 
-        upgradeTypeE_1.getDrawingRectangle().setX(WORLD_WIDTH / 3 - 5);
-        upgradeTypeE_2.getDrawingRectangle().setX(WORLD_WIDTH / 2 - 15);
+        upgradeTypeE_1.getDrawingRectangle().setX(WORLD_WIDTH / 3);
+        upgradeTypeE_2.getDrawingRectangle().setX(WORLD_WIDTH / 2);
         upgradeTypeE_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
-        upgradeTypeE_4.getDrawingRectangle().setX(WORLD_WIDTH / 8 + 50);
+        upgradeTypeE_4.getDrawingRectangle().setX(WORLD_WIDTH / 4);
         upgradeTypeE_5.getDrawingRectangle().setX(WORLD_WIDTH / 2);
 
         mainAnimationList.push(upgradeTypeA_1);
@@ -166,11 +174,11 @@ public class Episode{
         meteor4 = new Meteor();
         meteor5 = new Meteor();
 
-        meteor1.getDrawingRectangle().setX(WORLD_WIDTH/3);
-        meteor2.getDrawingRectangle().setX(WORLD_WIDTH/2 +20);
-        meteor3.getDrawingRectangle().setX(WORLD_WIDTH/7);
-        meteor4.getDrawingRectangle().setX(WORLD_WIDTH/3 -15);
-        meteor5.getDrawingRectangle().setX(WORLD_WIDTH/5);
+        meteor1.getDrawingRectangle().setX(WORLD_WIDTH/2);
+        meteor2.getDrawingRectangle().setX(WORLD_WIDTH/2+20);
+        meteor3.getDrawingRectangle().setX(WORLD_WIDTH/2+30);
+        meteor4.getDrawingRectangle().setX(WORLD_WIDTH/2-10);
+        meteor5.getDrawingRectangle().setX(WORLD_WIDTH/2+10);
 
         meteorList.push(meteor1);
         meteorList.push(meteor2);
@@ -181,7 +189,12 @@ public class Episode{
         enemyBoss1 = new EnemyBoss1();
     }
 
-    public void DropUpgrade(float deltaTime, long startTime, SpriteBatch batch) {
+    public void Start(float deltaTime, long startTime, SpriteBatch batch){
+        DropObjects(deltaTime, startTime, batch);
+        SpawnBoss1(deltaTime, batch);
+    }
+
+    public void DropObjects(float deltaTime, long startTime, SpriteBatch batch) {
         elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
         System.out.println(elapsedTime);
 
@@ -198,7 +211,7 @@ public class Episode{
         if (elapsedTime >= 50 && meteor4.getTaken() == false && meteor4.getDestroyed() == false) {
             meteor4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 53 && meteor5.getTaken() == false && meteor5.getDestroyed() == false) {
+        if (elapsedTime >= 52 && meteor5.getTaken() == false && meteor5.getDestroyed() == false) {
             meteor5.dropDownward(deltaTime, batch);
         }
 
@@ -206,16 +219,16 @@ public class Episode{
         if (elapsedTime >= 10 && upgradeTypeA_1.getTaken() == false) {
             upgradeTypeA_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 20 && upgradeTypeA_2.getTaken() == false) {
+        if (elapsedTime >= 60 && upgradeTypeA_2.getTaken() == false) {
             upgradeTypeA_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 35 && upgradeTypeA_3.getTaken() == false) {
+        if (elapsedTime >= 75 && upgradeTypeA_3.getTaken() == false) {
             upgradeTypeA_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 110 && upgradeTypeA_4.getTaken() == false) {
+        if (elapsedTime >= 170 && upgradeTypeA_4.getTaken() == false) {
             upgradeTypeA_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 170 && upgradeTypeA_5.getTaken() == false) {
+        if (elapsedTime >= 180 && upgradeTypeA_5.getTaken() == false) {
             upgradeTypeA_5.dropDownward(deltaTime, batch);
         }
 
@@ -237,68 +250,70 @@ public class Episode{
         }
 
         //UpgradeTypeC
-        if (elapsedTime >= 20 && upgradeTypeA_1.getTaken() == false) {
-            upgradeTypeA_1.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 20 && upgradeTypeC_1.getTaken() == false) {
+            upgradeTypeC_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 40 && upgradeTypeA_2.getTaken() == false) {
-            upgradeTypeA_2.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 40 && upgradeTypeC_2.getTaken() == false) {
+            upgradeTypeC_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 75 && upgradeTypeA_3.getTaken() == false) {
-            upgradeTypeA_3.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 75 && upgradeTypeC_3.getTaken() == false) {
+            upgradeTypeC_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 200 && upgradeTypeA_4.getTaken() == false) {
-            upgradeTypeA_4.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 200 && upgradeTypeC_4.getTaken() == false) {
+            upgradeTypeC_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 220 && upgradeTypeA_5.getTaken() == false) {
-            upgradeTypeA_5.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 220 && upgradeTypeC_5.getTaken() == false) {
+            upgradeTypeC_5.dropDownward(deltaTime, batch);
         }
 
         //UpgradeTypeD
-        if (elapsedTime >= 25 && upgradeTypeA_1.getTaken() == false) {
-            upgradeTypeA_1.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 25 && upgradeTypeD_1.getTaken() == false) {
+            upgradeTypeD_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 35 && upgradeTypeA_2.getTaken() == false) {
-            upgradeTypeA_2.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 35 && upgradeTypeD_2.getTaken() == false) {
+            upgradeTypeD_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 100 && upgradeTypeA_3.getTaken() == false) {
-            upgradeTypeA_3.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 100 && upgradeTypeD_3.getTaken() == false) {
+            upgradeTypeD_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 150 && upgradeTypeA_4.getTaken() == false) {
-            upgradeTypeA_4.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 150 && upgradeTypeD_4.getTaken() == false) {
+            upgradeTypeD_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 160 && upgradeTypeA_5.getTaken() == false) {
-            upgradeTypeA_5.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 160 && upgradeTypeD_5.getTaken() == false) {
+            upgradeTypeD_5.dropDownward(deltaTime, batch);
         }
 
         //UpgradeTypeE
-        if (elapsedTime >= 200 && upgradeTypeA_1.getTaken() == false) {
-            upgradeTypeA_1.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 185 && upgradeTypeE_1.getTaken() == false) {
+            upgradeTypeE_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 220 && upgradeTypeA_2.getTaken() == false) {
-            upgradeTypeA_2.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 210 && upgradeTypeE_2.getTaken() == false) {
+            upgradeTypeE_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 255 && upgradeTypeA_3.getTaken() == false) {
-            upgradeTypeA_3.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 235 && upgradeTypeE_3.getTaken() == false) {
+            upgradeTypeE_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 270 && upgradeTypeA_4.getTaken() == false) {
-            upgradeTypeA_4.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 260 && upgradeTypeE_4.getTaken() == false) {
+            upgradeTypeE_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 290 && upgradeTypeA_5.getTaken() == false) {
-            upgradeTypeA_5.dropDownward(deltaTime, batch);
+        if (elapsedTime >= 275 && upgradeTypeE_5.getTaken() == false) {
+            upgradeTypeE_5.dropDownward(deltaTime, batch);
         }
     }
 
     public void SpawnBoss1(float deltaTime,  SpriteBatch batch){
+        if(elapsedTime == 300){
+            if(!enemyBossesList.contains(enemyBoss1)){
+                enemyBossesList.push(enemyBoss1);
+            }
+
+        }
         if(elapsedTime >= 300 && !enemyBoss1.IsDead()){
-            enemyBossesList.push(enemyBoss1);
             enemyBoss1.drawShip(batch);
             makeBoss1Lasers(deltaTime, batch, elapsedTime);
             enemyBoss1.update(deltaTime);
         }
-        else{
-            enemyBossesList.clear();
-            enemyBossLaserList.clear();
-        }
+
     }
 
     private void makeBoss1Lasers(float deltaTime, SpriteBatch batch, float elapsedTime) {
@@ -310,15 +325,17 @@ public class Episode{
 
             if (enemyBossShip.canFireLaser()) {
                 enemyBossShip.setLaserI(new Boss1_LaserTypeA(enemyBossShip.getBoundingBox()));
-                if (elapsedTime % 5 == 0) {
+                if (elapsedTime % 10 == 0) {
                     for (IEnemyLaser laser : enemyBossShip.GetLasers()) {
                         if(laser.isFinished() == false)
                             enemyBossLaserList.push(laser);
                     }
                 }
-                enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
-                for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
-                    enemyBossLaserList.push(laser);
+                if (elapsedTime % 2 == 0) {
+                    enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
+                    for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
+                        enemyBossLaserList.push(laser);
+                    }
                 }
             }
         }

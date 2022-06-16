@@ -12,7 +12,7 @@ public abstract class EnemyLaser implements IEnemyLaser {
 
      // laser physical characteristics
      public String movementType;
-     int level;
+     int level = 1;
      String typeName;
      // The movement speed of the laser
      float laserMovementSpeed; // world units per second

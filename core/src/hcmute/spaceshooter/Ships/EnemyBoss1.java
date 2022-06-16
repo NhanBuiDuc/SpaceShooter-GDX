@@ -18,10 +18,10 @@ public class EnemyBoss1 extends EnemyBossShip{
 
     public EnemyBoss1(){
         super();
-        boundingBox = new Rectangle(WORLD_WIDTH / 6, WORLD_HEIGHT - 60, 50, 50);
+        boundingBox = new Rectangle(WORLD_WIDTH / 40, WORLD_HEIGHT - 45, 70, 70);
         movementSpeed = 50;
         shield = 0;
-        timeBetweenShots = 100f;
+        timeBetweenShots = 10f;
         shipTextureRegion = textureAtlas.findRegion("boss01");
         shieldTextureRegion = textureAtlas.findRegion("shield1");
         ableToFire = true;
@@ -33,30 +33,13 @@ public class EnemyBoss1 extends EnemyBossShip{
 
     public Stack<IEnemyLaser> FireTypeB(float deltaTime) {
         Stack<IEnemyLaser> laserStack = new Stack<>();
-        if(canFireLaser()){
-            if(isPhase2() == false){
-                IEnemyLaser[] lasers = this.laserI.GetBullets();
-                for(int i = 0; i < lasers.length ; i++){
-                    if(lasers[i] != null){
-                        laserStack.push(lasers[i]);
-                    }
+        if(canFireLaser()) {
+            IEnemyLaser[] lasers = this.laserI.GetBullets();
+            for (int i = 0; i < lasers.length; i++) {
+                if (lasers[i] != null) {
+                    laserStack.push(lasers[i]);
                 }
             }
-            else{
-                laserI.setLevel(2);
-                IEnemyLaser[] lasers = this.laserI.GetBullets();
-                for(int i = 0; i < lasers.length ; i++){
-                    if(lasers[i] != null){
-                        laserStack.push(lasers[i]);
-                    }
-                }
-            }
-//            IEnemyLaser[] lasers = this.laserI.GetBullets();
-//            for(int i = 0; i < lasers.length ; i++){
-//                if(lasers[i] != null){
-//                    laserStack.push(lasers[i]);
-//                }
-//            }
         }
         timeSinceLastShot = 0;
         return laserStack;
@@ -73,7 +56,6 @@ public class EnemyBoss1 extends EnemyBossShip{
                 }
             }
         }
-        timeSinceLastShot = 0;
         return laserStack;
     }
 
