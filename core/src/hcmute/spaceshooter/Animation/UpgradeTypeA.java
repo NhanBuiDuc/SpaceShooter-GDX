@@ -75,6 +75,4 @@ public class UpgradeTypeA extends DropDownAnimation {
     public Boolean getTaken() {
         return taken;
     }
-
-
 }

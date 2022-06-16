@@ -77,7 +77,7 @@ public class GameScreen implements Screen {
     private float backgroundMaxScrollingSpeed;
 
     // The time to spawn new enemy ships
-    private float timeBetweenEnemySpawns = 5f;
+    private float timeBetweenEnemySpawns = 10f;
     private float enemySpawnTimer = 0;
 
     //
@@ -121,7 +121,7 @@ public class GameScreen implements Screen {
     // Get current time:
     long startTime = TimeUtils.millis();
     // Get time elapsed since startTime:
-    long elapsedTime = TimeUtils.timeSinceMillis(startTime);
+    long elapsedTime;
 
     //
     Episode episode;
@@ -304,29 +304,39 @@ public class GameScreen implements Screen {
 
     }
     private void spawnEnemyShips(float deltaTime){
-        if(((System.currentTimeMillis() - startTime) / 1000) < 30){
+        elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
+        if(elapsedTime < 300){
             enemySpawnTimer += deltaTime;
             if(enemySpawnTimer > timeBetweenEnemySpawns){
-                for(int i = 0; i < 2; i++){
-
-                    enemyShipList.add(new EnemyShipTypeA());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
+                if(elapsedTime > 1 && elapsedTime < 70){
+                    for(int i = 0; i < 3; i++){
+                        enemyShipList.add(new EnemyShipTypeA());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
                 }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeB());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
+                if(elapsedTime > 1 && elapsedTime < 150){
+                    for(int j = 0; j < 1; j++){
+                        enemyShipList.add( new EnemyShipTypeB());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
                 }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeC());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
+                if(elapsedTime > 70 && elapsedTime < 230){
+                    for(int j = 0; j < 1; j++){
+                        enemyShipList.add( new EnemyShipTypeC());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
                 }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeD());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
+                if(elapsedTime > 150 && elapsedTime < 290){
+                    for(int j = 0; j < 1; j++){
+                        enemyShipList.add( new EnemyShipTypeD());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
                 }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeE());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
+                if(elapsedTime > 150 && elapsedTime < 290){
+                    for(int j = 0; j < 1; j++){
+                        enemyShipList.add( new EnemyShipTypeE());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
                 }
                 enemySpawnTimer = 0;
             }
