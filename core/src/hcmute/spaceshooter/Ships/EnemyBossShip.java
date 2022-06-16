@@ -6,9 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.Stack;
 
+import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
 import hcmute.spaceshooter.Lasers.EnemyLaserTypeA;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
-import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.SpaceShooterGame;
 
 public abstract class EnemyBossShip extends EnemyShip{
@@ -41,13 +41,13 @@ public abstract class EnemyBossShip extends EnemyShip{
         laserI = new EnemyLaserTypeA(boundingBox);
         laserI.setLevel(1);
     }
-    public boolean isHurtBoxFinished(){
+    public boolean isPhase2(){
 
         if(shootingDuration - startingShootingTimer >= 2){
-            return false;
+            return true;
         }
         else {
-            return true;
+            return false;
         }
     }
 
@@ -56,7 +56,10 @@ public abstract class EnemyBossShip extends EnemyShip{
     }
 
     public void setStartingShootingTimer(float startingShootingTimer) {
-        this.startingShootingTimer = startingShootingTimer;
+        if(this.startingShootingTimer == 0){
+            this.startingShootingTimer = startingShootingTimer;
+        }
+
     }
 
     public float getShootingDuration() {
@@ -160,6 +163,8 @@ public abstract class EnemyBossShip extends EnemyShip{
     public void setLaserI(IEnemyLaser laserI) {
 
     }
+
+    public abstract Stack<Boss1_LaserTypeB> fireTypeB(float deltaTime);
 
     //endregion Getter and Setter
 }

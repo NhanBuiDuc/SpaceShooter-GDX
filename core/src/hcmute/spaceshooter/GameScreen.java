@@ -35,6 +35,7 @@ import hcmute.spaceshooter.Animation.Explosion;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeA;
+import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeC;
@@ -686,9 +687,13 @@ public class GameScreen implements Screen {
         if(!enemyBossLaserList.isEmpty()){
             ListIterator<IEnemyLaser> iterator = enemyBossLaserList.listIterator();
             while (iterator.hasNext()) {
-                Boss1_LaserTypeA laser = (Boss1_LaserTypeA) iterator.next();
+                IEnemyLaser laser = (IEnemyLaser) iterator.next();
                 if(laser != null){
                    laser.drawLasersWithAnimation(deltaTime, batch);
+                   if(laser instanceof Boss1_LaserTypeA){
+                       if(laser.isFinished() == true)
+                           iterator.remove();
+                   }
                 }
             }
         }
@@ -706,6 +711,7 @@ public class GameScreen implements Screen {
                         laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
 
                         laser.drawLaser(batch);
+
                     }
                 }
             }
