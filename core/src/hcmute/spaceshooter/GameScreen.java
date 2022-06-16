@@ -153,7 +153,7 @@ public class GameScreen implements Screen {
         enemyShieldTextureRegion.flip(false, true);
 
         // Explosion
-        explosionTexture = new Texture("explosion_test.png");
+        explosionTexture = new Texture("explosion.png");
 
         // set up game objects
         playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 4,
