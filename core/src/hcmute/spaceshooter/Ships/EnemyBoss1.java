@@ -33,30 +33,13 @@ public class EnemyBoss1 extends EnemyBossShip{
 
     public Stack<IEnemyLaser> FireTypeB(float deltaTime) {
         Stack<IEnemyLaser> laserStack = new Stack<>();
-        if(canFireLaser()){
-            if(isPhase2() == false){
-                IEnemyLaser[] lasers = this.laserI.GetBullets();
-                for(int i = 0; i < lasers.length ; i++){
-                    if(lasers[i] != null){
-                        laserStack.push(lasers[i]);
-                    }
+        if(canFireLaser()) {
+            IEnemyLaser[] lasers = this.laserI.GetBullets();
+            for (int i = 0; i < lasers.length; i++) {
+                if (lasers[i] != null) {
+                    laserStack.push(lasers[i]);
                 }
             }
-            else{
-                laserI.setLevel(2);
-                IEnemyLaser[] lasers = this.laserI.GetBullets();
-                for(int i = 0; i < lasers.length ; i++){
-                    if(lasers[i] != null){
-                        laserStack.push(lasers[i]);
-                    }
-                }
-            }
-//            IEnemyLaser[] lasers = this.laserI.GetBullets();
-//            for(int i = 0; i < lasers.length ; i++){
-//                if(lasers[i] != null){
-//                    laserStack.push(lasers[i]);
-//                }
-//            }
         }
         timeSinceLastShot = 0;
         return laserStack;
