@@ -423,7 +423,7 @@ public class GameScreen implements Screen {
     private void detectBossCollisions(float deltaTime){
         ListIterator<ILaser> laserListIterator;
 
-        //For each player's laser, check whether it intersects an enemy ship
+        //For each player's laser, check whether it intersects an enemy boss ship
         laserListIterator = playerShip.getLaserList().listIterator();
         while (laserListIterator.hasNext()) {
             ILaser laser = laserListIterator.next();
@@ -437,21 +437,21 @@ public class GameScreen implements Screen {
                             ExplosionSoundEffect.bigSoundEffect();
 
                             enemyShipListIterator.remove();
-                            Explosion explosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 1f);
+                            Explosion explosion = new Explosion(explosionTexture, new Rectangle(boss.getBoundingBox()), 1f);
                             explosion.getBoundingBox().setWidth(explosion.getBoundingBox().getWidth() + 5);
                             explosion.getBoundingBox().setHeight(explosion.getBoundingBox().getHeight() +5);
                             explosionList.add(explosion);
-                            score += 100;
+                            score += 1000;
 
                         }
                         else {
                             ExplosionSoundEffect.smallSoundEffect();
 
                             Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 0.2f);
-                            smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth() - 10);
-                            smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight() - 10);
-                            smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() + 10);
-                            smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() + 10);
+                            smallExplosion.getBoundingBox().setWidth(10);
+                            smallExplosion.getBoundingBox().setHeight(10);
+                            smallExplosion.getBoundingBox().setX(laser.getLaserBoundingBox().getX() - 5);
+                            smallExplosion.getBoundingBox().setY(laser.getLaserBoundingBox().getY() + 10);
                             explosionList.add(smallExplosion);
                         }
                         laserListIterator.remove();
@@ -513,8 +513,8 @@ public class GameScreen implements Screen {
 
                             enemyShipListIterator.remove();
                             Explosion explosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 1f);
-                            explosion.getBoundingBox().setWidth(explosion.getBoundingBox().getWidth() + 5);
-                            explosion.getBoundingBox().setHeight(explosion.getBoundingBox().getHeight() +5);
+                            explosion.getBoundingBox().setWidth(10);
+                            explosion.getBoundingBox().setHeight(10);
                             explosionList.add(explosion);
                             score += 100;
 
@@ -523,9 +523,9 @@ public class GameScreen implements Screen {
                             ExplosionSoundEffect.smallSoundEffect();
 
                             Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 0.2f);
-                            smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth() - 10);
-                            smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight() - 10);
-                            smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() + 10);
+                            smallExplosion.getBoundingBox().setWidth(10);
+                            smallExplosion.getBoundingBox().setHeight(10);
+                            smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5 );
                             smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() + 10);
                             explosionList.add(smallExplosion);
                         }
