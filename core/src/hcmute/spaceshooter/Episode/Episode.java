@@ -114,8 +114,6 @@ public class Episode{
                     }
                 }
                 enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
-                enemyBossShip.setStartingShootingTimer(0);
-                enemyBossShip.setShootingDuration(deltaTime);
                 for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
                     enemyBossLaserList.push(laser);
                 }
@@ -143,11 +141,11 @@ public class Episode{
                         else{
                             laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
                             laser.drawLaser(batch);
-                            continue;
                         }
                     }
                 }
             }
         }
     }
+
 }

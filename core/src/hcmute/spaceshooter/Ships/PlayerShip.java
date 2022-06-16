@@ -21,6 +21,12 @@ public class PlayerShip extends Ship {
     int maxLevel = 5;
     // List of player fired Lasers
     LinkedList<ILaser> laserList = new LinkedList<>();
+
+    float invincibleTime = 2f;
+    float invincibleTimer = 0;
+    boolean startCounterInvincibleTime = false;
+    boolean isInvincible = false;
+
     public PlayerShip(float xCentre, float yCentre,
                       float width, float height,
                       float movementSpeed, int shield, float timeBetweenShots,
@@ -36,6 +42,47 @@ public class PlayerShip extends Ship {
         laserI.setTypename("RED");
     }
 
+
+    public float getInvincibleTime() {
+        return invincibleTime;
+    }
+
+    public void setInvincibleTime(float invincibleTime) {
+        this.invincibleTime = invincibleTime;
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
+
+    public boolean isStartCounterInvincibleTime() {
+        return startCounterInvincibleTime;
+    }
+
+    public void setStartCounterInvincibleTime(boolean startCounterInvincibleTime) {
+        this.startCounterInvincibleTime = startCounterInvincibleTime;
+    }
+
+    public boolean isFinishInvincible() {
+        if(invincibleTimer - invincibleTime >= 0){
+
+            return true;
+        }
+        else {
+
+            return false;
+        }
+    }
+
+    public void setInvincible(boolean invincible) {
+        isInvincible = invincible;
+    }
+    public void countInvincibleTime(float deltaTime){
+        if(startCounterInvincibleTime == true){
+            this.invincibleTimer += deltaTime;
+        }
+
+    }
     public void GetLasers() {
         if(canFireLaser()){
             ILaser[] lasers = this.laserI.GetBullets();
@@ -96,8 +143,8 @@ public class PlayerShip extends Ship {
         }
     }
 
-    @Override
     public boolean hitAndCheckDestroyed() {
+
         if(shield > 0){
             shield --;
             return false;
@@ -179,6 +226,20 @@ public class PlayerShip extends Ship {
         this.laserList = laserList;
     }
 
+    public int getMaxLevel() {
+        return maxLevel;
+    }
 
+    public void setMaxLevel(int maxLevel) {
+        this.maxLevel = maxLevel;
+    }
+
+    public float getInvincibleTimer() {
+        return invincibleTimer;
+    }
+
+    public void setInvincibleTimer(float invincibleTimer) {
+        this.invincibleTimer = invincibleTimer;
+    }
     //endregion Getter and Setter
 }
