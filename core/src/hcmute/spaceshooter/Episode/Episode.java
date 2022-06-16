@@ -10,6 +10,7 @@ import java.util.Stack;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
 import hcmute.spaceshooter.Animation.UpgradeTypeC;
+import hcmute.spaceshooter.Lasers.Boss1_LaserTypeA;
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBoss1;
@@ -99,19 +100,19 @@ public class Episode{
             enemyBossShip.update(deltaTime);
 
             if (enemyBossShip.canFireLaser()) {
-
+                enemyBossShip.setLaserI(new Boss1_LaserTypeA(enemyBossShip.getBoundingBox()));
                 if (elapsedTime % 5 == 0) {
                     for (IEnemyLaser laser : enemyBossShip.GetLasers()) {
-                        enemyBossLaserList.push(laser);
+                        if(laser.isFinished() == false)
+                            enemyBossLaserList.push(laser);
                     }
                 }
-//               enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
-//                for(IEnemyLaser laser: enemyBossShip.GetLasers()){
-//                    if(laser.isHurtBoxFinished() != false){
-//                        enemyBossLaserList.push(laser);
-//                        laser.increaseShootingDuration(elapsedTime);
-//                    }
-//                }
+                enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
+                enemyBossShip.setStartingShootingTimer(0);
+                enemyBossShip.setShootingDuration(deltaTime);
+                for(IEnemyLaser laser: enemyBossShip.fireTypeB(deltaTime)){
+                        enemyBossLaserList.push(laser);
+                }
             }
         }
     }

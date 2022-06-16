@@ -24,4 +24,7 @@ public interface IEnemyLaser{
 
     int getLevel();
 
+    boolean isFinished();
+
+    void drawLasersWithAnimation(float deltaTime, Batch batch);
 }
