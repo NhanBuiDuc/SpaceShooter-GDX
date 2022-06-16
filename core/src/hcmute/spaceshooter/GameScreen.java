@@ -57,23 +57,19 @@ public class GameScreen implements Screen {
     private Viewport viewport;
 
     //graphics
-
     // Draws batched quads using indices.
     private SpriteBatch batch;
-
     // explosion graphic Texture
     private Texture explosionTexture;
-
-//    // height of background in World units
+    // height of background in World units
 //    private float backgroundHeight;
-
     /* TextTure region For:
     Player Ship, Player Shield, Player Laser, Enemy Ship, Enemy Shield, Enemy Laser */
     private TextureRegion playerShipTextureRegion, playerShieldTextureRegion,
             enemyShip_drone1_TextureRegion, enemyShip_battleShip1_TextureRegion,
             enemyShieldTextureRegion;
-    //timing
 
+    //timing
     /* An Array of backgroundOffSet for each background texture
     A BackgroundOffSet determine how much downward a background go down at that specific deltaTime and multiply by the "backgroundMaxScrollingSpeed"*/
     private float backgroundOffSet = 0;
@@ -231,9 +227,11 @@ public class GameScreen implements Screen {
         // spawnEnemyShips
         spawnEnemyShips(deltaTime);
 
+        // spawn Boss
+        episode.SpawnBoss1(deltaTime, batch);
+
         //lasers
         renderLasers(deltaTime);
-        DrawAndRemoveBossBullets(deltaTime, batch);
         removeEnemyShipsAtBounds();
         // hud rendering
         updateAndRenderHUD(deltaTime);
@@ -312,11 +310,11 @@ public class GameScreen implements Screen {
         if(((System.currentTimeMillis() - startTime) / 1000) < 30){
             enemySpawnTimer += deltaTime;
             if(enemySpawnTimer > timeBetweenEnemySpawns){
-                for(int i = 0; i < 5; i++){
-
-                    enemyShipList.add(new EnemyShipTypeA());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
+//                for(int i = 0; i < 2; i++){
+//
+//                    enemyShipList.add(new EnemyShipTypeA());
+//                    enemySpawnTimer -= timeBetweenEnemySpawns;
+//                }
 //                for(int j = 0; j < 1; j++){
 //                    enemyShipList.add( new EnemyShipTypeB());
 //                    enemySpawnTimer -= timeBetweenEnemySpawns;
@@ -668,7 +666,7 @@ public class GameScreen implements Screen {
         // Update the status of the ship every deltaTime
         playerShip.update(deltaTime);
 
-
+        //enemy lasers
         ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
         while (enemyShipListIterator.hasNext()) {
             EnemyShip enemyShip = enemyShipListIterator.next();
@@ -677,27 +675,11 @@ public class GameScreen implements Screen {
                 for(IEnemyLaser laser: enemyShip.GetLasers()){
                     enemyLaserList.push(laser);
                 }
-
             }
-
         }
         DrawAndRemoveEnemyBulletsIfAtBound(deltaTime);
     }
-    public void DrawAndRemoveBossBullets(float deltaTime, Batch batch){
-        if(!enemyBossLaserList.isEmpty()){
-            ListIterator<IEnemyLaser> iterator = enemyBossLaserList.listIterator();
-            while (iterator.hasNext()) {
-                IEnemyLaser laser = (IEnemyLaser) iterator.next();
-                if(laser != null){
-                   laser.drawLasersWithAnimation(deltaTime, batch);
-                   if(laser instanceof Boss1_LaserTypeA){
-                       if(laser.isFinished() == true)
-                           iterator.remove();
-                   }
-                }
-            }
-        }
-    }
+
     public void DrawAndRemoveEnemyBulletsIfAtBound(float deltaTime){
         if(!enemyLaserList.isEmpty()){
             ListIterator<IEnemyLaser> iterator = enemyLaserList.listIterator();
@@ -709,9 +691,7 @@ public class GameScreen implements Screen {
                     }
                     else{
                         laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
-
                         laser.drawLaser(batch);
-
                     }
                 }
             }
@@ -785,5 +765,4 @@ public class GameScreen implements Screen {
     public void dispose() {
 
     }
-
 }

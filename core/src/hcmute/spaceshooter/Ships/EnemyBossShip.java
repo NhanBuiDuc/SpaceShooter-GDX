@@ -41,6 +41,7 @@ public abstract class EnemyBossShip extends EnemyShip{
         laserI = new EnemyLaserTypeA(boundingBox);
         laserI.setLevel(1);
     }
+
     public boolean isPhase2(){
 
         if(shootingDuration - startingShootingTimer >= 2){
@@ -49,6 +50,10 @@ public abstract class EnemyBossShip extends EnemyShip{
         else {
             return false;
         }
+    }
+
+    public boolean IsDead(){
+        return HP < 1;
     }
 
     public float getStartingShootingTimer() {
@@ -164,7 +169,7 @@ public abstract class EnemyBossShip extends EnemyShip{
 
     }
 
-    public abstract Stack<Boss1_LaserTypeB> fireTypeB(float deltaTime);
+    public abstract Stack<IEnemyLaser> FireTypeB(float deltaTime);
 
     //endregion Getter and Setter
 }

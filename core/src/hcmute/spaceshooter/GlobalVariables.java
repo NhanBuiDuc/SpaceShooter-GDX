@@ -25,7 +25,6 @@ public class GlobalVariables {
     The coordinate system used has its origin in the upper left corner with the x-axis pointing to the right and the y axis pointing downwards.*/
     public static final Texture background = new Texture("Space Background02.png");
     public static final Texture orangeLaserBulletTexture = new Texture("bullet_orange_laser.png");
-    public static final Texture orangeRoundLaserBulletTexture = new Texture("bullet_enemy01.png");
     public static final Texture blueBulletTexture = new Texture("bullet_blue.png");
     public static final Texture yellowBulletTexture = new Texture("bullet_yellow.png");
     public static final Texture archBulletTexture = new Texture("bullet_arch.png");
@@ -39,6 +38,7 @@ public class GlobalVariables {
     public static final Texture greenPowerUpTexture = new Texture("powerupGreen_bolt.png");
     public static final Texture explosiveDrone = new Texture("explosive_drone_sprite.png");
     public static final Texture boss1_LaserTypeA_Texture = new Texture("boss03_bullet03_sprite-removebg-preview.png");
+    public static final Texture boss1_LaserTypeB_Texture = new Texture("boss01_bullet02.png");
     public static final TextureRegion finalDroneExplosionTextureRegion = GetFinalExplosionAnimation(explosiveDrone);
     public static TextureRegion GetFinalExplosionAnimation(Texture texture) {
         TextureRegion textureRegion = new TextureRegion();

@@ -103,6 +103,16 @@ public class EnemyLaserTypeC extends EnemyLaser {
         return level;
     }
 
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public void drawLasersWithAnimation(float deltaTime, Batch batch) {
+
+    }
+
     public void setLevel(int level) {
         this.level = level;
     }

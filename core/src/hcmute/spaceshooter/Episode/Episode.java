@@ -2,6 +2,7 @@ package hcmute.spaceshooter.Episode;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ListIterator;
@@ -27,10 +28,11 @@ public class Episode{
     Meteor meteor;
     Stack<IDropDownAnimation> mainAnimationList;
     Stack<IEnemyLaser> enemyBossLaserList;
-
     // List of Enemy Ships
     private Stack<EnemyBossShip> enemyBossesList;
     float boss1StartingShootingTimer = 0;
+    float elapsedTime;
+
     public Episode(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList, Stack<EnemyBossShip> enemyBossesList) {
         this.mainAnimationList = mainAnimationList;
         this.enemyBossLaserList = enemyBossLaserList;
@@ -60,8 +62,9 @@ public class Episode{
     }
 
     public void DropUpgrade(float deltaTime, long startTime, SpriteBatch batch) {
-        System.out.println("Time elapsed in seconds = " + ((System.currentTimeMillis() - startTime) / 1000));
-        float elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
+        elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
+        System.out.println("Time elapsed in seconds = " + elapsedTime);
+
         if (elapsedTime >= 1 && meteor.getTaken() == false && meteor.getDestroyed() == false) {
             meteor.dropDownward(deltaTime, batch);
         }
@@ -80,19 +83,24 @@ public class Episode{
         if (elapsedTime >= 1 && upgradeTypeA_5.getTaken() == false) {
             upgradeTypeA_5.dropDownward(deltaTime, batch);
         }
-        if(elapsedTime >= 5){
-            SpawnBoss1(deltaTime, startTime, batch);
+    }
+
+    public void SpawnBoss1(float deltaTime,  SpriteBatch batch){
+        if(elapsedTime >= 5 && !enemyBoss1.IsDead()){
+            //Chỗ này còn hơi ngu lol, xem lại giùm bro 8====D
+            if(enemyBossesList.empty()) {
+                enemyBossesList.push(enemyBoss1);
+            }
+            enemyBoss1.drawShip(batch);
+            makeBoss1Lasers(deltaTime, batch, elapsedTime);
+        }
+        else{
+            enemyBossesList.clear();
+            enemyBossLaserList.clear();
         }
     }
 
-    public void SpawnBoss1(float deltaTime, long startTime,  SpriteBatch batch){
-        System.out.println("Time elapsed in seconds = " + ((System.currentTimeMillis() - startTime) / 1000));
-        float elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
-        enemyBossesList.push(enemyBoss1);
-        enemyBoss1.drawShip(batch);
-        makeBoss1Lasers(deltaTime, elapsedTime);
-    }
-    private void makeBoss1Lasers(float deltaTime, float elapsedTime) {
+    private void makeBoss1Lasers(float deltaTime, SpriteBatch batch, float elapsedTime) {
         ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
 
         while (enemyBossShipListIterator.hasNext()) {
@@ -110,8 +118,35 @@ public class Episode{
                 enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
                 enemyBossShip.setStartingShootingTimer(0);
                 enemyBossShip.setShootingDuration(deltaTime);
-                for(IEnemyLaser laser: enemyBossShip.fireTypeB(deltaTime)){
+                for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
                         enemyBossLaserList.push(laser);
+                }
+            }
+        }
+        DrawAndRemoveBossBullets(deltaTime, batch);
+    }
+
+    public void DrawAndRemoveBossBullets(float deltaTime, Batch batch){
+        if(!enemyBossLaserList.isEmpty()){
+            ListIterator<IEnemyLaser> iterator = enemyBossLaserList.listIterator();
+            while (iterator.hasNext()) {
+                IEnemyLaser laser = iterator.next();
+                if(laser != null){
+                    if(laser instanceof Boss1_LaserTypeA){
+                        laser.drawLasersWithAnimation(deltaTime, batch);
+                        if(laser.isFinished() == true)
+                            iterator.remove();
+                    }
+                    else{
+                        if (laser.getLaserBoundingBox().getY() + laser.getLaserBoundingBox().getHeight() < (-50)) {
+                            iterator.remove();
+                        }
+                        else{
+                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
+                            laser.drawLaser(batch);
+                            continue;
+                        }
+                    }
                 }
             }
         }

@@ -29,7 +29,7 @@ public class Boss1_LaserTypeA extends EnemyLaser{
         // Total time of the whole animation rendering.
         totalLaserAnimationTime = 1f;
         laserRowTextureCount = 1;
-        laserColumnTextureCount = 16;
+        laserColumnTextureCount = 8;
         laserTimer = 0;
         /**
          *  The number of texture region after splitting the texture,
@@ -52,31 +52,27 @@ public class Boss1_LaserTypeA extends EnemyLaser{
 
     public Boss1_LaserTypeA[] GetBullets(){
         Boss1_LaserTypeA[] lasers = new Boss1_LaserTypeA[20];
-        if(level == 1)
-        {
 
-            lasers[0] = new Boss1_LaserTypeA(shipBoundingBox);
-            lasers[0].setLaserWidth(laserWidth);
-            lasers[0].setLaserHeight(laserHeight);
-            lasers[0].setLaserMovementSpeed(45);
-            lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() - 5f,
-                    lasers[0].getShipBoundingBox().getY() - 100f,
-                    lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
+        lasers[0] = new Boss1_LaserTypeA(shipBoundingBox);
+        lasers[0].setLaserWidth(laserWidth);
+        lasers[0].setLaserHeight(laserHeight);
+        lasers[0].setLaserMovementSpeed(45);
+        lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().width * 0.3f,
+                lasers[0].getShipBoundingBox().getY() - lasers[0].getShipBoundingBox().height * 2.5f,
+                lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
 
-            lasers[1] = new Boss1_LaserTypeA(shipBoundingBox);
-            lasers[1].setLaserWidth(laserWidth);
-            lasers[1].setLaserHeight(laserHeight);
-            lasers[1].setLaserMovementSpeed(45);
-            lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + 40f,
-                    lasers[1].getShipBoundingBox().getY() - 100f,
-                    lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
-
-                        return lasers;
-        }
+//        lasers[1] = new Boss1_LaserTypeA(shipBoundingBox);
+//        lasers[1].setLaserWidth(laserWidth);
+//        lasers[1].setLaserHeight(laserHeight);
+//        lasers[1].setLaserMovementSpeed(45);
+//        lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + 40f,
+//                lasers[1].getShipBoundingBox().getY() - 100f,
+//                lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
         return lasers;
     }
+
     /** draw the animation of the lasers
      * @param deltaTime The time in seconds since the last render.
      */
@@ -85,7 +81,6 @@ public class Boss1_LaserTypeA extends EnemyLaser{
             update(deltaTime);
             drawLaser(batch);
         }
-
     }
     /** Update the animation's rendering time by @param delaTime
      *

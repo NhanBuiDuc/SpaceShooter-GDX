@@ -40,8 +40,8 @@ public abstract class EnemyLaser implements IEnemyLaser {
     int laserTitleWidth, laserTitleHeight;
     int explosionTitleWidth, explosionTitleHeight;
      // Total time of the whole animation rendering.
-     float totalLaserAnimationTime;
-     float totalExplosionAnimationTime;
+    float totalLaserAnimationTime;
+    float totalExplosionAnimationTime;
     int laserRowTextureCount;
     int laserColumnTextureCount;
     int explosionRowTextureCount;
@@ -128,6 +128,10 @@ public abstract class EnemyLaser implements IEnemyLaser {
          batch.draw(laserAnimation.getKeyFrame(laserTimer),
                  laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
      }
+
+    public void drawLasersWithAnimation(float deltaTime, Batch batch){
+
+    }
 
     /**
      * Draw the explosion animation
