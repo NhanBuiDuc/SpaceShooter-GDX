@@ -44,7 +44,7 @@ public abstract class EnemyBossShip extends EnemyShip{
 
     public boolean isPhase2(){
 
-        if(shootingDuration - startingShootingTimer >= 2){
+        if(shootingDuration - startingShootingTimer >= 20){
             return true;
         }
         else {

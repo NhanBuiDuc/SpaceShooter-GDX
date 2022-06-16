@@ -11,12 +11,12 @@ import com.badlogic.gdx.math.Rectangle;
 
 public abstract class Laser implements ILaser {
 
-     // laser physical characteristics
-     public String movementType;
-     int level;
-     String typeName;
-     // The movement speed of the laser
-     float laserMovementSpeed; // world units per second
+    // laser physical characteristics
+    public String movementType;
+    int level;
+    String typeName;
+    // The movement speed of the laser
+    float laserMovementSpeed; // world units per second
     //laser information
     // Lasers' width and height
     float laserWidth, laserHeight;

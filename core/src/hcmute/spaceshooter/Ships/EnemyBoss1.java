@@ -21,7 +21,7 @@ public class EnemyBoss1 extends EnemyBossShip{
         boundingBox = new Rectangle(WORLD_WIDTH / 6, WORLD_HEIGHT - 60, 50, 50);
         movementSpeed = 50;
         shield = 0;
-        timeBetweenShots = 3f;
+        timeBetweenShots = 100f;
         shipTextureRegion = textureAtlas.findRegion("boss01");
         shieldTextureRegion = textureAtlas.findRegion("shield1");
         ableToFire = true;

@@ -87,12 +87,10 @@ public class Episode{
 
     public void SpawnBoss1(float deltaTime,  SpriteBatch batch){
         if(elapsedTime >= 5 && !enemyBoss1.IsDead()){
-            //Chỗ này còn hơi ngu lol, xem lại giùm bro 8====D
-            if(enemyBossesList.empty()) {
-                enemyBossesList.push(enemyBoss1);
-            }
+            enemyBossesList.push(enemyBoss1);
             enemyBoss1.drawShip(batch);
             makeBoss1Lasers(deltaTime, batch, elapsedTime);
+            enemyBoss1.update(deltaTime);
         }
         else{
             enemyBossesList.clear();
@@ -119,10 +117,11 @@ public class Episode{
                 enemyBossShip.setStartingShootingTimer(0);
                 enemyBossShip.setShootingDuration(deltaTime);
                 for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
-                        enemyBossLaserList.push(laser);
+                    enemyBossLaserList.push(laser);
                 }
             }
         }
+
         DrawAndRemoveBossBullets(deltaTime, batch);
     }
 
