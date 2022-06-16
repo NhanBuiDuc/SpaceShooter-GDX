@@ -142,7 +142,6 @@ public class Episode{
                         else{
                             laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
                             laser.drawLaser(batch);
-                            continue;
                         }
                     }
                 }
