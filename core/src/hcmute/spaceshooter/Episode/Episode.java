@@ -69,13 +69,8 @@ public class Episode{ //Upgrade boxes
     Stack<IEnemyLaser> enemyBossLaserList;
     // List of Enemy Ships
     private Stack<EnemyBossShip> enemyBossesList;
-    float boss1StartingShootingTimer = 0;
     float elapsedTime;
-
-    float Boss1_TypeC_StartingShootingTime = 0;
-    float Boss1_TypeC_ShootingTimer = 0;
     boolean isBoss1_TypeC_Shooting = false;
-    Meteor meteor;
     Stack<IDropDownAnimation> mainAnimationList;
 
     public Episode(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList, Stack<EnemyBossShip> enemyBossesList) {
@@ -195,9 +190,6 @@ public class Episode{ //Upgrade boxes
         System.out.println("Time elapsed in seconds = " + elapsedTime);
 
         DropObjects(deltaTime, batch);
-        if(isBoss1_TypeC_Shooting == true){
-            UpdateTypeCTimer(deltaTime);
-        }
         SpawnBoss1(deltaTime, batch);
 
     }
@@ -309,14 +301,14 @@ public class Episode{ //Upgrade boxes
 
     public void SpawnBoss1(float deltaTime,  SpriteBatch batch){
 
-        if(elapsedTime == 300){
+        if(elapsedTime == 1){
             if(!enemyBossesList.contains(enemyBoss1)){
                 enemyBossesList.push(enemyBoss1);
             }
 
         }
 
-        if(elapsedTime >= 300 && !enemyBoss1.IsDead()){
+        if(elapsedTime >= 1 && !enemyBoss1.IsDead()){
             enemyBoss1.drawShip(batch);
             makeBoss1Lasers(deltaTime, batch, elapsedTime);
             enemyBoss1.update(deltaTime);
@@ -339,12 +331,12 @@ public class Episode{ //Upgrade boxes
                             enemyBossLaserList.push(laser);
                     }
                 }
-//                if (elapsedTime % 3 == 0) {
-//                    enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
-//                    for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
-//                        enemyBossLaserList.push(laser);
-//                    }
-//                }
+                if (elapsedTime % 3 == 0) {
+                    enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
+                    for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
+                        enemyBossLaserList.push(laser);
+                    }
+                }
                 if (elapsedTime % 4 == 0) {
                     float randomX = SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH);
                     enemyBossShip.setLaserI(new Boss1_LaserTypeC(enemyBossShip.getBoundingBox()));
@@ -386,27 +378,13 @@ public class Episode{ //Upgrade boxes
                             }
                         } else {
                             if (laser instanceof Boss1_LaserTypeC) {
-                                int count = 0;
-                                for(IEnemyLaser laserTypeC: enemyBossLaserList){
-                                    if(laserTypeC instanceof Boss1_LaserTypeC){
-                                        count += 1;
-                                    }
-                                }
-                                if(count == 0 && enemyBossLaserList.empty() == false){
-                                    Boss1_TypeC_StartingShootingTime = 0;
-                                }
+
                                 if (laser.getLaserBoundingBox().getY() + laser.getLaserBoundingBox().getHeight() < (0)) {
 
                                     iterator.remove();
                                 }
                                 else {
-                                    if (Boss1_TypeC_StartingShootingTime == 0) {
-                                        Boss1_TypeC_StartingShootingTime = elapsedTime;
-                                    }
-//                                    if (Boss1_TypeC_ShootingTimer - Boss1_TypeC_StartingShootingTime < 0.5) {
-//                                        laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
-//                                        laser.drawLaser(batch);
-//                                    }
+
                                     if (((Boss1_LaserTypeC) laser).getLaserBoundingBox().getY() > WORLD_HEIGHT / 3 && (((Boss1_LaserTypeC) laser).isSpreading() == false)) {
                                         laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
                                         laser.drawLaser(batch);
@@ -440,8 +418,5 @@ public class Episode{ //Upgrade boxes
                 }
             }
         }
-    }
-    public void UpdateTypeCTimer(float deltaTime){
-        Boss1_TypeC_ShootingTimer = elapsedTime;
     }
 }

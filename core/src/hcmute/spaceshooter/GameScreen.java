@@ -421,8 +421,16 @@ public class GameScreen implements Screen {
                             playerShip.setStartCounterInvincibleTime(false);
                             playerShip.setInvincibleTimer(0);
                             playerShip.setInvincible(false);
-                        }
 
+                        }
+                        ExplosionSoundEffect.smallSoundEffect();
+                        Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
+                        Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
+                        smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
+                        smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight());
+                        smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
+                        smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
+                        explosionList.add(smallExplosion);
                     }
                     enemyLaserListIterator.remove();
                 }
@@ -447,8 +455,16 @@ public class GameScreen implements Screen {
                             playerShip.setStartCounterInvincibleTime(false);
                             playerShip.setInvincibleTimer(0);
                             playerShip.setInvincible(false);
-                        }
 
+                        }
+                        ExplosionSoundEffect.smallSoundEffect();
+                        Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
+                        Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
+                        smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
+                        smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight());
+                        smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
+                        smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
+                        explosionList.add(smallExplosion);
                     }
                 }
 
