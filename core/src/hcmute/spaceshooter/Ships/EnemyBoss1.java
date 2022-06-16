@@ -56,6 +56,7 @@ public class EnemyBoss1 extends EnemyBossShip{
                 }
             }
         }
+
         return laserStack;
     }
 

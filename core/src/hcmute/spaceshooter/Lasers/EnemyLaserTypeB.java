@@ -113,6 +113,11 @@ public class EnemyLaserTypeB extends EnemyLaser {
                 laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
     }
 
+    @Override
+    public boolean isSpreading() {
+        return false;
+    }
+
 
     public void setLevel(int level) {
         this.level = level;
