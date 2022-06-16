@@ -203,7 +203,7 @@ public class GameScreen implements Screen {
          */
         renderBackground(deltaTime);
         //
-        episode.DropUpgrade(deltaTime, startTime, batch);
+        episode.Start(deltaTime, startTime, batch);
         //
         checkGetUpgrades();
         checkCrashing();

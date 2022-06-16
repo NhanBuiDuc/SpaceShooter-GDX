@@ -59,43 +59,53 @@ public class Episode{
         mainAnimationList.push(upgradeTypeA_4);
         mainAnimationList.push(upgradeTypeA_5);
         meteorList.push(meteor);
+
+
     }
 
-    public void DropUpgrade(float deltaTime, long startTime, SpriteBatch batch) {
+    public void Start(float deltaTime, long startTime, SpriteBatch batch){
+        DropObjects(deltaTime, startTime, batch);
+        SpawnBoss1(deltaTime, batch);
+    }
+
+    public void DropObjects(float deltaTime, long startTime, SpriteBatch batch) {
         elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
         System.out.println("Time elapsed in seconds = " + elapsedTime);
 
         if (elapsedTime >= 1 && meteor.getTaken() == false && meteor.getDestroyed() == false) {
             meteor.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 1 && upgradeTypeA_1.getTaken() == false) {
+        if (elapsedTime >= 2 && upgradeTypeA_1.getTaken() == false) {
             upgradeTypeA_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 1 && upgradeTypeA_2.getTaken() == false) {
+        if (elapsedTime >= 3 && upgradeTypeA_2.getTaken() == false) {
             upgradeTypeA_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 1 && upgradeTypeA_3.getTaken() == false) {
+        if (elapsedTime >= 4 && upgradeTypeA_3.getTaken() == false) {
             upgradeTypeA_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 4 && upgradeTypeA_4.getTaken() == false) {
+        if (elapsedTime >= 5 && upgradeTypeA_4.getTaken() == false) {
             upgradeTypeA_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 1 && upgradeTypeA_5.getTaken() == false) {
+        if (elapsedTime >= 6 && upgradeTypeA_5.getTaken() == false) {
             upgradeTypeA_5.dropDownward(deltaTime, batch);
         }
     }
 
     public void SpawnBoss1(float deltaTime,  SpriteBatch batch){
+
+        if(elapsedTime == 5){
+            if(!enemyBossesList.contains(enemyBoss1)){
+                enemyBossesList.push(enemyBoss1);
+            }
+
+        }
         if(elapsedTime >= 5 && !enemyBoss1.IsDead()){
-            enemyBossesList.push(enemyBoss1);
             enemyBoss1.drawShip(batch);
             makeBoss1Lasers(deltaTime, batch, elapsedTime);
             enemyBoss1.update(deltaTime);
         }
-        else{
-            enemyBossesList.clear();
-            enemyBossLaserList.clear();
-        }
+
     }
 
     private void makeBoss1Lasers(float deltaTime, SpriteBatch batch, float elapsedTime) {
@@ -107,15 +117,17 @@ public class Episode{
 
             if (enemyBossShip.canFireLaser()) {
                 enemyBossShip.setLaserI(new Boss1_LaserTypeA(enemyBossShip.getBoundingBox()));
-                if (elapsedTime % 5 == 0) {
+                if (elapsedTime % 10 == 0) {
                     for (IEnemyLaser laser : enemyBossShip.GetLasers()) {
                         if(laser.isFinished() == false)
                             enemyBossLaserList.push(laser);
                     }
                 }
-                enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
-                for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
-                    enemyBossLaserList.push(laser);
+                if (elapsedTime % 3 == 0) {
+                    enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
+                    for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
+                        enemyBossLaserList.push(laser);
+                    }
                 }
             }
         }
