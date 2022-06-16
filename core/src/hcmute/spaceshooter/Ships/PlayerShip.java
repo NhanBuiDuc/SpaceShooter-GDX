@@ -42,10 +42,6 @@ public class PlayerShip extends Ship {
         laserI.setTypename("RED");
     }
 
-    @Override
-    public boolean hitAndCheckDestroyed() {
-        return false;
-    }
 
     public float getInvincibleTime() {
         return invincibleTime;
@@ -147,7 +143,7 @@ public class PlayerShip extends Ship {
         }
     }
 
-    public boolean hitAndCheckDestroyed(float deltaTime) {
+    public boolean hitAndCheckDestroyed() {
 
         if(shield > 0){
             shield --;
