@@ -79,7 +79,7 @@ public class Episode{
         if (elapsedTime >= 1 && upgradeTypeA_5.getTaken() == false) {
             upgradeTypeA_5.dropDownward(deltaTime, batch);
         }
-        if(elapsedTime >= 30){
+        if(elapsedTime >= 5){
             SpawnBoss1(deltaTime, startTime, batch);
         }
     }

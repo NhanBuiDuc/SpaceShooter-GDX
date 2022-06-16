@@ -36,6 +36,7 @@ public class EnemyLaserTypeD extends EnemyLaser  {
         laserTexture = new Texture("bullet_enemy04.png");
         laserWidth = 6f;
         laserHeight = 8f;
+        laserMovementSpeed = 60;
         typeName = "RED";
     }
 
@@ -46,111 +47,31 @@ public class EnemyLaserTypeD extends EnemyLaser  {
 
     public EnemyLaserTypeD[] GetBullets(){
         EnemyLaserTypeD[] lasers = new EnemyLaserTypeD[20];
-        if(level == 1)
-        {
+
 //            lasers[0] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.18f, shipBoundingBox.y - laserHeight,
 //                    laserWidth, laserHeight, laserMovementSpeed, laserTextureRegion);
 //            lasers[1] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.82f, shipBoundingBox.y - laserHeight,
 //                    laserWidth, laserHeight, laserMovementSpeed, laserTextureRegion);
 
-            lasers[0] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[0].setLaserWidth(laserWidth);
-            lasers[0].setLaserHeight(laserHeight);
-            lasers[0].setLaserMovementSpeed(45);
-            lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.07f,
-                    lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
-                    lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
+        lasers[0] = new EnemyLaserTypeD(shipBoundingBox);
+        lasers[0].setLaserWidth(laserWidth);
+        lasers[0].setLaserHeight(laserHeight);
+        lasers[0].setLaserMovementSpeed(laserMovementSpeed);
+        lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.3f,
+                lasers[0].getShipBoundingBox().getY() - lasers[0].getShipBoundingBox().getHeight() * 0.4f,
+                lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
 
-            lasers[1] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[1].setLaserWidth(laserWidth);
-            lasers[1].setLaserHeight(laserHeight);
-            lasers[1].setLaserMovementSpeed(45);
-            lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.93f,
-                    lasers[1].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
-                    lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
+//        lasers[1] = new EnemyLaserTypeD(shipBoundingBox);
+//        lasers[1].setLaserWidth(laserWidth);
+//        lasers[1].setLaserHeight(laserHeight);
+//        lasers[1].setLaserMovementSpeed(laserMovementSpeed);
+//        lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.93f,
+//                lasers[1].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
+//                lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
 
-            this.bullets = lasers;
-            return lasers;
-        }
-        if(level == 2){
-            lasers[0] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[0].setLaserWidth(laserWidth);
-            lasers[0].setLaserHeight(laserHeight);
-            lasers[0].setLaserMovementSpeed(45);
-            lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.07f,
-                    lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
-                    lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
-
-
-            lasers[1] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[1].setLaserWidth(laserWidth);
-            lasers[1].setLaserHeight(laserHeight);
-            lasers[1].setLaserMovementSpeed(45);
-            lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.50f,
-                    lasers[1].getShipBoundingBox().getY() + lasers[1].getShipBoundingBox().getHeight() * 1,
-                    lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
-
-
-            lasers[2] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[2].setLaserWidth(laserWidth);
-            lasers[2].setLaserHeight(laserHeight);
-            lasers[2].setLaserMovementSpeed(45);
-            lasers[2].setLaserBoundingBox(new Rectangle(lasers[2].getShipBoundingBox().getX() + lasers[2].getShipBoundingBox().getWidth() * 0.93f,
-                    lasers[2].getShipBoundingBox().getY() + lasers[2].getShipBoundingBox().getHeight() * 0.55f,
-                    lasers[2].getLaserWidth(), lasers[2].getLaserHeight()));
-
-            this.bullets = lasers;
-            return lasers;
-        }
-        if(level == 3){
-            lasers[0] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[0].setLaserWidth(laserWidth);
-            lasers[0].setLaserHeight(laserHeight);
-            lasers[0].setLaserMovementSpeed(50);
-            lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.07f,
-                    lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
-                    lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
-
-
-            lasers[1] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[1].setLaserWidth(laserWidth);
-            lasers[1].setLaserHeight(laserHeight);
-            lasers[1].setLaserMovementSpeed(50);
-            lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.50f,
-                    lasers[1].getShipBoundingBox().getY() + lasers[1].getShipBoundingBox().getHeight() * 1,
-                    lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
-
-
-            lasers[2] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[2].setLaserWidth(laserWidth);
-            lasers[2].setLaserHeight(laserHeight);
-            lasers[2].setLaserMovementSpeed(50);
-            lasers[2].setLaserBoundingBox(new Rectangle(lasers[2].getShipBoundingBox().getX() + lasers[2].getShipBoundingBox().getWidth() * 0.93f,
-                    lasers[2].getShipBoundingBox().getY() + lasers[2].getShipBoundingBox().getHeight() * 0.55f,
-                    lasers[2].getLaserWidth(), lasers[2].getLaserHeight()));
-
-            lasers[3] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[3].setLaserWidth(laserWidth);
-            lasers[3].setLaserHeight(laserHeight);
-            lasers[3].setLaserMovementSpeed(50);
-            lasers[3].setLaserBoundingBox(new Rectangle(lasers[3].getShipBoundingBox().getX() + lasers[3].getShipBoundingBox().getWidth() * 0.22f,
-                    lasers[3].getShipBoundingBox().getY() + lasers[3].getShipBoundingBox().getHeight() * 0.7f,
-                    lasers[3].getLaserWidth(), lasers[1].getLaserHeight()));
-
-
-            lasers[4] = new EnemyLaserTypeD(shipBoundingBox);
-            lasers[4].setLaserWidth(laserWidth);
-            lasers[4].setLaserHeight(laserHeight);
-            lasers[4].setLaserMovementSpeed(50);
-            lasers[4].setLaserBoundingBox(new Rectangle(lasers[4].getShipBoundingBox().getX() + lasers[4].getShipBoundingBox().getWidth() * 0.77f,
-                    lasers[4].getShipBoundingBox().getY() + lasers[4].getShipBoundingBox().getHeight() * 0.7f,
-                    lasers[4].getLaserWidth(), lasers[4].getLaserHeight()));
-
-            this.bullets = lasers;
-            return lasers;
-        }
+        this.bullets = lasers;
         return lasers;
     }
 
@@ -179,11 +100,6 @@ public class EnemyLaserTypeD extends EnemyLaser  {
 
     public int getLevel() {
         return level;
-    }
-
-    @Override
-    public void increaseShootingDuration(float elapsedTime) {
-
     }
 
     public void setLevel(int level) {

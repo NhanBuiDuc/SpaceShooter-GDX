@@ -26,7 +26,7 @@ public class EnemyBoss1 extends EnemyBossShip{
         shipTextureRegion = textureAtlas.findRegion("boss01");
         shieldTextureRegion = textureAtlas.findRegion("shield1");
         ableToFire = true;
-        HP = 10;
+        HP = 50;
         directionVector = new Vector2(0, -1);
         laserI = new Boss1_LaserTypeA(boundingBox);
         laserI.setLevel(1);

@@ -65,10 +65,9 @@ public class Boss1_LaserTypeB extends EnemyLaser {
         laserTexture = textureAtlas.findRegion("bullet_enemy01").getTexture();
         laserWidth = 10f;
         laserHeight = WORLD_HEIGHT;
-        typeName = "Boss_Laser_1_Type_A";
         movementSpeed = 30;
         totalAnimationTime = 0.5f;
-        typeName = "FIRE_METEOR";
+        typeName = "Boss1_TypeB";
         titleWidth = 32;
         titleHeight = 138;
 

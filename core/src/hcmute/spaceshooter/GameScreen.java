@@ -311,27 +311,27 @@ public class GameScreen implements Screen {
         if(((System.currentTimeMillis() - startTime) / 1000) < 30){
             enemySpawnTimer += deltaTime;
             if(enemySpawnTimer > timeBetweenEnemySpawns){
-                for(int i = 0; i < 2; i++){
+                for(int i = 0; i < 5; i++){
 
                     enemyShipList.add(new EnemyShipTypeA());
                     enemySpawnTimer -= timeBetweenEnemySpawns;
                 }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeB());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeC());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeD());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
-                for(int j = 0; j < 1; j++){
-                    enemyShipList.add( new EnemyShipTypeE());
-                    enemySpawnTimer -= timeBetweenEnemySpawns;
-                }
+//                for(int j = 0; j < 1; j++){
+//                    enemyShipList.add( new EnemyShipTypeB());
+//                    enemySpawnTimer -= timeBetweenEnemySpawns;
+//                }
+//                for(int j = 0; j < 1; j++){
+//                    enemyShipList.add( new EnemyShipTypeC());
+//                    enemySpawnTimer -= timeBetweenEnemySpawns;
+//                }
+//                for(int j = 0; j < 1; j++){
+//                    enemyShipList.add( new EnemyShipTypeD());
+//                    enemySpawnTimer -= timeBetweenEnemySpawns;
+//                }
+//                for(int j = 0; j < 1; j++){
+//                    enemyShipList.add( new EnemyShipTypeE());
+//                    enemySpawnTimer -= timeBetweenEnemySpawns;
+//                }
                 enemySpawnTimer = 0;
             }
             ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
@@ -468,7 +468,7 @@ public class GameScreen implements Screen {
         }
 
         ListIterator<IEnemyLaser> enemyLaserListIterator;
-        // For each enemies' laser, check whether it intersects an enemy ship
+        // For each enemies' laser, check whether it intersects an player ship
         enemyLaserListIterator = enemyBossLaserList.listIterator();
 
         while (enemyLaserListIterator.hasNext()) {

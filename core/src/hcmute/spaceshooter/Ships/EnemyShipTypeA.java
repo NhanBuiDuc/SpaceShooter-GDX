@@ -17,7 +17,7 @@ import hcmute.spaceshooter.SpaceShooterGame;
 public class EnemyShipTypeA extends EnemyShip{
 
     public EnemyShipTypeA(){
-        boundingBox = new Rectangle(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10), WORLD_HEIGHT - 5, 7, 7);
+        boundingBox = new Rectangle(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10), WORLD_HEIGHT - 5, 10, 10);
         movementSpeed = 70;
         shield = 0;
         timeBetweenShots = 10.f;
