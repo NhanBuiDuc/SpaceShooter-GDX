@@ -57,18 +57,18 @@ public class EnemyLaserTypeB extends EnemyLaser {
         lasers[0].setLaserWidth(laserWidth);
         lasers[0].setLaserHeight(laserHeight);
         lasers[0].setLaserMovementSpeed(laserMovementSpeed);
-        lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.1f,
+        lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().getWidth() * 0.5f,
                 lasers[0].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.1f,
                 lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
 
-        lasers[1] = new EnemyLaserTypeB(shipBoundingBox);
-        lasers[1].setLaserWidth(laserWidth);
-        lasers[1].setLaserHeight(laserHeight);
-        lasers[1].setLaserMovementSpeed(laserMovementSpeed);
-        lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.53f,
-                lasers[1].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.1f,
-                lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
+//        lasers[1] = new EnemyLaserTypeB(shipBoundingBox);
+//        lasers[1].setLaserWidth(laserWidth);
+//        lasers[1].setLaserHeight(laserHeight);
+//        lasers[1].setLaserMovementSpeed(laserMovementSpeed);
+//        lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.9f,
+//                lasers[1].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.1f,
+//                lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
 
         this.bullets = lasers;

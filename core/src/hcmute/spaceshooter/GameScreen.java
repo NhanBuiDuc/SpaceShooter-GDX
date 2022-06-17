@@ -85,7 +85,7 @@ public class GameScreen implements Screen {
 
     //
     private final float TOUCH_MOVEMENT_THRESHOLD = 5f;
-
+    private final float ENEMY_MOVEMENT_THRESHOLD = 5f;
     // game objects
 
     // Player Ship
@@ -630,15 +630,23 @@ public class GameScreen implements Screen {
 
     private void moveEnemy(EnemyShip enemyShip, float deltaTime) {
         // strategy: determine the max distance the ship can move
-        float leftLimit, rightLimit, upLimit, downLimit;
+        float leftLimit, rightLimit, upLimit;
         leftLimit = -enemyShip.getBoundingBox().x;
         rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
-        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
-        downLimit = - WORLD_HEIGHT;
+//        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
+//        downLimit = - WORLD_HEIGHT;
         upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
-
-        float xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
+        float xMove = 0;
+        xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
         float yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
+//        boolean isStutter = true;
+//        while (isStutter){
+//            enemyShip.randomizeDirectionVector();
+//
+//            yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
+//            if( Math.abs(xMove + enemyShip.getLastXDirection()) != 0)
+//                isStutter = false;
+//        }
 
         if(xMove > 0){
             xMove = Math.min(xMove, rightLimit);
@@ -698,6 +706,15 @@ public class GameScreen implements Screen {
             while(enemyShipListIterator.hasNext()){
                 // enemy ships
                 EnemyShip enemyShip = enemyShipListIterator.next();
+                moveEnemy(enemyShip, deltaTime);
+                enemyShip.MoveRandomly(deltaTime);
+                enemyShip.drawShip(batch);
+            }
+            ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
+
+            while(enemyBossShipListIterator.hasNext()){
+                // enemy ships
+                EnemyShip enemyShip = enemyBossShipListIterator.next();
                 moveEnemy(enemyShip, deltaTime);
                 enemyShip.MoveRandomly(deltaTime);
                 enemyShip.drawShip(batch);
