@@ -49,9 +49,6 @@ public class GlobalVariables {
         textureRegion = textureRegion2D[4][2];
         return textureRegion;
     }
-    public static final Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Sprites_bg_music.ogg"));
-    public static final Music bossMusic = Gdx.audio.newMusic(Gdx.files.internal("Sprites_boss_music.ogg"));
-    public static final Music explosionEffect = Gdx.audio.newMusic(Gdx.files.internal("Sprites_explosion.wav"));
-    public static final Music laserEffect = Gdx.audio.newMusic(Gdx.files.internal("laser_effect1.mp3"));
+
 
 }

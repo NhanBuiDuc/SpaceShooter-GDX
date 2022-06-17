@@ -43,13 +43,13 @@ import hcmute.spaceshooter.Ships.EnemyShipTypeB;
 import hcmute.spaceshooter.Ships.EnemyShipTypeC;
 import hcmute.spaceshooter.Ships.EnemyShipTypeD;
 import hcmute.spaceshooter.Ships.EnemyShipTypeE;
-import hcmute.spaceshooter.SoundEffect.ExplosionSoundEffect;
 import hcmute.spaceshooter.Episode.Episode;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.PlayerShip;
 
 public class GameScreen implements Screen {
+    public ResourceManager rm;
 
     //screen Base class for OrthographicCamera and PerspectiveCamera.
     private Camera camera;
@@ -131,6 +131,9 @@ public class GameScreen implements Screen {
 
     // Main Constructor.
     public GameScreen() {
+        rm=new ResourceManager();
+        rm.setMusicVolume(rm.musicVolume);
+        rm.setSfxVolume(rm.sfxVolume);
         // Set Up Screen
         camera = new OrthographicCamera();
 
@@ -368,8 +371,9 @@ public class GameScreen implements Screen {
                 if(boss != null){
                     if(boss.intersects(laser.getLaserBoundingBox())){
                         // contact with enemy ship
-                        if(boss.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.bigSoundEffect();
+                        if(boss.hitAndCheckDestroyed())
+                        {
+                            rm.explosionSoundEffect.play();
 
                             enemyShipListIterator.remove();
                             Explosion explosion = new Explosion(explosionTexture, new Rectangle(boss.getBoundingBox()), 1f);
@@ -380,8 +384,7 @@ public class GameScreen implements Screen {
 
                         }
                         else {
-                            ExplosionSoundEffect.smallSoundEffect();
-
+                            rm.explosionSoundEffect.play();
                             Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 0.2f);
                             smallExplosion.getBoundingBox().setWidth(10);
                             smallExplosion.getBoundingBox().setHeight(10);
@@ -408,7 +411,7 @@ public class GameScreen implements Screen {
                         playerShip.setStartCounterInvincibleTime(true);
                         playerShip.setInvincible(true);
                         if(playerShip.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.smallSoundEffect();
+                            rm.explosionSoundEffect.play();
                             Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                             Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                             smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -426,7 +429,7 @@ public class GameScreen implements Screen {
                             playerShip.setInvincible(false);
 
                         }
-                        ExplosionSoundEffect.smallSoundEffect();
+                        rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                         smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -442,7 +445,7 @@ public class GameScreen implements Screen {
                         playerShip.setStartCounterInvincibleTime(true);
                         playerShip.setInvincible(true);
                         if(playerShip.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.smallSoundEffect();
+                            rm.explosionSoundEffect.play();
                             Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                             Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                             smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -460,7 +463,7 @@ public class GameScreen implements Screen {
                             playerShip.setInvincible(false);
 
                         }
-                        ExplosionSoundEffect.smallSoundEffect();
+                        rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                         smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -489,7 +492,7 @@ public class GameScreen implements Screen {
                     if(enemyShip.intersects(laser.getLaserBoundingBox())){
                         // contact with enemy ship
                         if(enemyShip.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.bigSoundEffect();
+                            rm.explosionSoundEffect.play();
 
                             enemyShipListIterator.remove();
                             Explosion explosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 1f);
@@ -500,7 +503,7 @@ public class GameScreen implements Screen {
 
                         }
                         else {
-                            ExplosionSoundEffect.smallSoundEffect();
+                            rm.explosionSoundEffect.play();
 
                             Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 0.2f);
                             smallExplosion.getBoundingBox().setWidth(10);
@@ -530,7 +533,7 @@ public class GameScreen implements Screen {
                         Rectangle meteorRectangle = new Rectangle(meteor.getDrawingRectangle());
                         // contact with enemy ship
                         if(meteor.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.bigSoundEffect();
+                            rm.explosionSoundEffect.play();
 
                             meteor.setDestroyed(true);
                             meteorListIterator.remove();
@@ -544,7 +547,7 @@ public class GameScreen implements Screen {
 
                         }
                         else {
-                            ExplosionSoundEffect.smallSoundEffect();
+                            rm.explosionSoundEffect.play();
 
                             Explosion smallExplosion = new Explosion(explosionTexture, meteorRectangle, 0.5f);
                             smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -576,7 +579,7 @@ public class GameScreen implements Screen {
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
                     if(playerShip.hitAndCheckDestroyed()){
-                        ExplosionSoundEffect.smallSoundEffect();
+                        rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(laser.getLaserBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                         smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -598,7 +601,7 @@ public class GameScreen implements Screen {
                         playerShip.setInvincibleTimer(0);
                         playerShip.setInvincible(false);
                     }
-                        ExplosionSoundEffect.smallSoundEffect();
+                    rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(laser.getLaserBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                         smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -734,7 +737,7 @@ public class GameScreen implements Screen {
                 item.setTaken(true);
                 Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(playerShip.getBoundingBox()), 0.5f);
                 explosionList.add(smallExplosion);
-                ExplosionSoundEffect.bigSoundEffect();
+                rm.explosionSoundEffect.play();
                 itemsIterator.remove();
                 if(playerShip.isFinishInvincible() == false){
                     playerShip.setStartCounterInvincibleTime(true);
@@ -757,7 +760,7 @@ public class GameScreen implements Screen {
             if(playerShip.intersects(ship.getBoundingBox())){
                 Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(playerShip.getBoundingBox()), 0.5f);
                 explosionList.add(smallExplosion);
-                ExplosionSoundEffect.bigSoundEffect();
+                rm.explosionSoundEffect.play();
                 enemyShipListIterator.remove();
                 if(playerShip.isInvincible() == false){
                     playerShip.setStartCounterInvincibleTime(true);
@@ -782,7 +785,7 @@ public class GameScreen implements Screen {
                 if(playerShip.isInvincible() == false){
                     Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(playerShip.getBoundingBox()), 0.5f);
                     explosionList.add(smallExplosion);
-                    ExplosionSoundEffect.bigSoundEffect();
+                    rm.explosionSoundEffect.play();
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
                     playerShip.hitAndCheckDestroyed();

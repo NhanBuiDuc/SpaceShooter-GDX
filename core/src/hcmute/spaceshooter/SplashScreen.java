@@ -30,6 +30,7 @@ public class SplashScreen implements Screen {
         //set stage for actors
         stage=new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
+
     }
     @Override
     public void show() {
