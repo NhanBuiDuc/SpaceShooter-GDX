@@ -17,37 +17,28 @@ public abstract class EnemyShip extends Ship{
     Vector2 directionVector;
     float timeSinceLastDirectionChange = 0;
     float directionChangeFrequency = 0.75f;
-    EnemyShip clonedEnemyShip;
     IEnemyLaser laserI;
-    public EnemyShip(float xCentre, float yCentre,
-                     float width, float height,
-                     float movementSpeed, int shield, float timeBetweenShots,
-                     TextureRegion shipTextureRegion, TextureRegion shieldTextureRegion, Boolean ableToFire, int HP) {
-        super   (xCentre, yCentre,
-                width, height,
-                movementSpeed, shield, timeBetweenShots,
-                shipTextureRegion, shieldTextureRegion, ableToFire, HP);
-
-        directionVector = new Vector2(0, -1);
-        laserI = new EnemyLaserTypeA(boundingBox);
-        laserI.setLevel(1);
-
-        // Clone
-
-    }
+    float lastXDirection = 1;
     public EnemyShip(){
 
     }
 
-    private void randomizeDirectionVector(){
+    public void randomizeDirectionVector(){
         double bearing = SpaceShooterGame.random.nextDouble() * 6.283185; // 0 to 2 * pi
         directionVector.x = (float) Math.sin(bearing);
         directionVector.y = (float) Math.cos(bearing);
+
     }
 
     public void update(float deltaTime) {
         timeSinceLastShot = timeSinceLastShot + deltaTime;
 
+    }
+
+    @Override
+    public void translate(float xChange, float yChange) {
+        boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);
+        lastXDirection = boundingBox.x;
     }
 
     public void MoveRandomly(float deltaTime){
@@ -98,36 +89,14 @@ public abstract class EnemyShip extends Ship{
     }
 
     //region Getter and Setter
-    public void setDirectionVector(Vector2 directionVector) {
-        this.directionVector = directionVector;
+
+    public float getLastXDirection() {
+        return lastXDirection;
     }
 
-    public float getTimeSinceLastDirectionChange() {
-        return timeSinceLastDirectionChange;
-    }
-
-    public void setTimeSinceLastDirectionChange(float timeSinceLastDirectionChange) {
-        this.timeSinceLastDirectionChange = timeSinceLastDirectionChange;
-    }
-
-    public float getDirectionChangeFrequency() {
-        return directionChangeFrequency;
-    }
-
-    public void setDirectionChangeFrequency(float directionChangeFrequency) {
-        this.directionChangeFrequency = directionChangeFrequency;
-    }
 
     public Vector2 getDirectionVector() {
         return directionVector;
-    }
-
-    public EnemyShip getClonedEnemyShip() {
-        return clonedEnemyShip;
-    }
-
-    public void setClonedEnemyShip(EnemyShip clonedEnemyShip) {
-        this.clonedEnemyShip = clonedEnemyShip;
     }
 
 

@@ -16,65 +16,19 @@ public abstract class EnemyBossShip extends EnemyShip{
     Vector2 directionVector;
     float timeSinceLastDirectionChange = 0;
     float directionChangeFrequency = 0.75f;
-    EnemyBossShip clonedEnemyShip;
     IEnemyLaser laserI;
-    float startingShootingTimer = 0;
-    float shootingDuration;
-    public EnemyBossShip(float xCentre, float yCentre,
-                         float width, float height,
-                         float movementSpeed, int shield, float timeBetweenShots,
-                         TextureRegion shipTextureRegion, TextureRegion shieldTextureRegion, Boolean ableToFire, int HP) {
-        super   (xCentre, yCentre,
-                width, height,
-                movementSpeed, shield, timeBetweenShots,
-                shipTextureRegion, shieldTextureRegion, ableToFire, HP);
 
-        directionVector = new Vector2(0, -1);
-        laserI = new EnemyLaserTypeA(boundingBox);
-        laserI.setLevel(1);
-
-        // Clone
-
-    }
     public EnemyBossShip(){
         directionVector = new Vector2(0, -1);
         laserI = new EnemyLaserTypeA(boundingBox);
         laserI.setLevel(1);
     }
 
-    public boolean isPhase2(){
-
-        if(shootingDuration - startingShootingTimer >= 20){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     public boolean IsDead(){
         return HP < 1;
     }
 
-    public float getStartingShootingTimer() {
-        return startingShootingTimer;
-    }
-
-    public void setStartingShootingTimer(float startingShootingTimer) {
-        if(this.startingShootingTimer == 0){
-            this.startingShootingTimer = startingShootingTimer;
-        }
-
-    }
-
-    public float getShootingDuration() {
-        return shootingDuration;
-    }
-
-    public void setShootingDuration(float shootingDuration) {
-        this.shootingDuration += shootingDuration;
-    }
-    private void randomizeDirectionVector(){
+    public void randomizeDirectionVector(){
         double bearing = SpaceShooterGame.random.nextDouble() * 6.283185; // 0 to 2 * pi
         directionVector.x = (float) Math.sin(bearing);
         directionVector.y = (float) Math.cos(bearing);
@@ -83,6 +37,12 @@ public abstract class EnemyBossShip extends EnemyShip{
     public void update(float deltaTime) {
         timeSinceLastShot = timeSinceLastShot + deltaTime;
 
+    }
+
+    @Override
+    public void translate(float xChange, float yChange) {
+        boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y);
+        lastXDirection = xChange;
     }
 
     public void MoveRandomly(float deltaTime){
@@ -136,36 +96,9 @@ public abstract class EnemyBossShip extends EnemyShip{
     }
 
     //region Getter and Setter
-    public void setDirectionVector(Vector2 directionVector) {
-        this.directionVector = directionVector;
-    }
-
-    public float getTimeSinceLastDirectionChange() {
-        return timeSinceLastDirectionChange;
-    }
-
-    public void setTimeSinceLastDirectionChange(float timeSinceLastDirectionChange) {
-        this.timeSinceLastDirectionChange = timeSinceLastDirectionChange;
-    }
-
-    public float getDirectionChangeFrequency() {
-        return directionChangeFrequency;
-    }
-
-    public void setDirectionChangeFrequency(float directionChangeFrequency) {
-        this.directionChangeFrequency = directionChangeFrequency;
-    }
 
     public Vector2 getDirectionVector() {
         return directionVector;
-    }
-
-    public EnemyBossShip getClonedEnemyShip() {
-        return clonedEnemyShip;
-    }
-
-    public void setClonedEnemyShip(EnemyBossShip clonedEnemyShip) {
-        this.clonedEnemyShip = clonedEnemyShip;
     }
 
     public void setLaserI(IEnemyLaser laserI) {
