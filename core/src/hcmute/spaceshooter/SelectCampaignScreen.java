@@ -21,6 +21,10 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import hcmute.spaceshooter.Episode.Episode1;
+import hcmute.spaceshooter.Episode.Episode2;
+import hcmute.spaceshooter.Episode.Episode3;
+
 public class SelectCampaignScreen implements Screen {
     private Stage stage;
     private Viewport viewport;
@@ -132,9 +136,25 @@ public class SelectCampaignScreen implements Screen {
             @Override
             public void clicked(InputEvent event,float x,float y)
             {
+
                 switch (campaignIndex){
                     case 0:
-                        ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen1());
+                        GameScreen gameScreen1 = new GameScreen();
+                        gameScreen1.episode = new Episode1(gameScreen1.upgradeDroppingItemList, gameScreen1.meteorList,
+                                gameScreen1.enemyBossLaserList, gameScreen1.enemyBossesList, gameScreen1.enemyShipList);
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(gameScreen1);
+                        break;
+                    case 1:
+                        GameScreen gameScreen2 = new GameScreen();
+                        gameScreen2.episode = new Episode2(gameScreen2.upgradeDroppingItemList, gameScreen2.meteorList,
+                                gameScreen2.enemyBossLaserList, gameScreen2.enemyBossesList, gameScreen2.enemyShipList);
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(gameScreen2);
+                        break;
+                    case 2:
+                        GameScreen gameScreen3 = new GameScreen();
+                        gameScreen3.episode = new Episode3(gameScreen3.upgradeDroppingItemList, gameScreen3.meteorList,
+                                gameScreen3.enemyBossLaserList, gameScreen3.enemyBossesList, gameScreen3.enemyShipList);
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(gameScreen3);
                         break;
                     default:
                         Gdx.app.exit();

@@ -15,11 +15,11 @@ public class ResourceManager {
     public Skin skin;
     public Texture background,splash,menu;
     public SpriteBatch batch;
-    public Music menuTheme;
-    public Music loadingTheme;
-    public Music battleTheme;
-    public Music bossTheme;
-    public Music backgroundTheme;
+    public static Music menuTheme;
+    public static Music loadingTheme;
+    public static Music battleTheme;
+    public static Music bossTheme;
+    public static Music backgroundTheme;
 
     public static Music explosionSoundEffect;
     public static Music laserSoundEffect;

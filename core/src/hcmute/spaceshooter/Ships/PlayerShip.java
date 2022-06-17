@@ -39,7 +39,7 @@ public class PlayerShip extends Ship {
         level = 1;
         laserI = new LaserTypeA(boundingBox);
         laserI.setLevel(level);
-        laserI.setTypename("RED");
+        laserI.setTypename("ORANGE");
     }
 
 

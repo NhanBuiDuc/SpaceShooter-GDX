@@ -25,9 +25,12 @@ import hcmute.spaceshooter.Ships.EnemyBossShip;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeA;
 import hcmute.spaceshooter.Ships.EnemyShipTypeB;
+import hcmute.spaceshooter.Ships.EnemyShipTypeC;
+import hcmute.spaceshooter.Ships.EnemyShipTypeD;
+import hcmute.spaceshooter.Ships.EnemyShipTypeE;
 import hcmute.spaceshooter.SpaceShooterGame;
 
-public class Episode1 { //Upgrade boxes
+public class Episode1 implements IEpisode{ //Upgrade boxes
     //UpgradeTypeA
     UpgradeTypeA upgradeTypeA_1;
     UpgradeTypeA upgradeTypeA_2;
@@ -66,26 +69,152 @@ public class Episode1 { //Upgrade boxes
     Meteor meteor5;
 
     EnemyBoss1 enemyBoss1;
-
-    //    Stack<IDropDownAnimation> mainAnimationList;
-//    Stack<Meteor> meteorList;
+    // List of mainAnimationList
+    Stack<IDropDownAnimation> mainAnimationList;
+    // List of Enemy Lasers
     Stack<IEnemyLaser> enemyBossLaserList;
     // List of Enemy Ships
     private Stack<EnemyBossShip> enemyBossesList;
     // List of Enemy Ships
     private Stack<EnemyShip> enemyShipList;
+    // List of Meteors
+    Stack<Meteor> meteorList;
+
+    // real time counter
     float elapsedTime;
+
+    // For Type C only
     boolean isBoss1_TypeC_Shooting = false;
 
-    Stack<IDropDownAnimation> mainAnimationList;
-
+    // boolean for horde spawning
     boolean isSpawnHordeTypeA_1 = false;
-    int countHordeTypeA_1_ableToFire= 2;
-    float xHorde = 21, yHorde = WORLD_HEIGHT - 30;
+    boolean isSpawnHordeTypeA_2 = false;
+    boolean isSpawnHordeTypeB_1 = false;
+    boolean isSpawnHordeTypeB_2 = false;
+    boolean isSpawnHordeTypeC_1 = false;
+    boolean isSpawnHordeTypeC_2 = false;
+    boolean isSpawnHordeTypeD_1 = false;
+    boolean isSpawnHordeTypeD_2 = false;
+    boolean isSpawnHordeTypeE_1 = false;
+    boolean isSpawnHordeTypeE_2 = false;
 
+    int countHordeTypeA_ableToFire = 2;
+    float xHorde = 0, yHorde = WORLD_HEIGHT;
+    int countAtBound = 0;
+    boolean isMoveRight = true;
+    boolean isMoveToMiddle = false;
+
+    public Episode1(){
+        upgradeTypeA_1 = new UpgradeTypeA();
+        upgradeTypeA_2 = new UpgradeTypeA();
+        upgradeTypeA_3 = new UpgradeTypeA();
+        upgradeTypeA_4 = new UpgradeTypeA();
+        upgradeTypeA_5 = new UpgradeTypeA();
+
+        upgradeTypeB_1 = new UpgradeTypeB();
+        upgradeTypeB_2 = new UpgradeTypeB();
+        upgradeTypeB_3 = new UpgradeTypeB();
+        upgradeTypeB_4 = new UpgradeTypeB();
+        upgradeTypeB_5 = new UpgradeTypeB();
+
+        upgradeTypeC_1 = new UpgradeTypeC();
+        upgradeTypeC_2 = new UpgradeTypeC();
+        upgradeTypeC_3 = new UpgradeTypeC();
+        upgradeTypeC_4 = new UpgradeTypeC();
+        upgradeTypeC_5 = new UpgradeTypeC();
+
+        upgradeTypeD_1 = new UpgradeTypeD();
+        upgradeTypeD_2 = new UpgradeTypeD();
+        upgradeTypeD_3 = new UpgradeTypeD();
+        upgradeTypeD_4 = new UpgradeTypeD();
+        upgradeTypeD_5 = new UpgradeTypeD();
+
+        upgradeTypeE_1 = new UpgradeTypeE();
+        upgradeTypeE_2 = new UpgradeTypeE();
+        upgradeTypeE_3 = new UpgradeTypeE();
+        upgradeTypeE_4 = new UpgradeTypeE();
+        upgradeTypeE_5 = new UpgradeTypeE();
+
+        upgradeTypeA_1.getDrawingRectangle().setX(WORLD_WIDTH / 2);
+        upgradeTypeA_2.getDrawingRectangle().setX(WORLD_WIDTH / 4);
+        upgradeTypeA_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
+        upgradeTypeA_4.getDrawingRectangle().setX(WORLD_WIDTH / 7);
+        upgradeTypeA_5.getDrawingRectangle().setX(WORLD_WIDTH / 2);
+
+        upgradeTypeB_1.getDrawingRectangle().setX(WORLD_WIDTH / 3);
+        upgradeTypeB_2.getDrawingRectangle().setX(WORLD_WIDTH / 2);
+        upgradeTypeB_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
+        upgradeTypeB_4.getDrawingRectangle().setX(WORLD_WIDTH / 7);
+        upgradeTypeB_5.getDrawingRectangle().setX(WORLD_WIDTH / 2);
+
+        upgradeTypeC_1.getDrawingRectangle().setX(WORLD_WIDTH / 3);
+        upgradeTypeC_2.getDrawingRectangle().setX(WORLD_WIDTH / 5);
+        upgradeTypeC_3.getDrawingRectangle().setX(WORLD_WIDTH / 5+10);
+        upgradeTypeC_4.getDrawingRectangle().setX(WORLD_WIDTH / 4);
+        upgradeTypeC_5.getDrawingRectangle().setX(WORLD_WIDTH / 2+10);
+
+        upgradeTypeD_1.getDrawingRectangle().setX(WORLD_WIDTH / 9);
+        upgradeTypeD_2.getDrawingRectangle().setX(WORLD_WIDTH / 2);
+        upgradeTypeD_3.getDrawingRectangle().setX(WORLD_WIDTH / 2+15);
+        upgradeTypeD_4.getDrawingRectangle().setX(WORLD_WIDTH / 3);
+        upgradeTypeD_5.getDrawingRectangle().setX(WORLD_WIDTH / 2+5);
+
+        upgradeTypeE_1.getDrawingRectangle().setX(WORLD_WIDTH / 3);
+        upgradeTypeE_2.getDrawingRectangle().setX(WORLD_WIDTH / 2);
+        upgradeTypeE_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
+        upgradeTypeE_4.getDrawingRectangle().setX(WORLD_WIDTH / 4);
+        upgradeTypeE_5.getDrawingRectangle().setX(WORLD_WIDTH / 2+10);
+
+        mainAnimationList.push(upgradeTypeA_1);
+        mainAnimationList.push(upgradeTypeA_2);
+        mainAnimationList.push(upgradeTypeA_3);
+        mainAnimationList.push(upgradeTypeA_4);
+        mainAnimationList.push(upgradeTypeA_5);
+        mainAnimationList.push(upgradeTypeB_1);
+        mainAnimationList.push(upgradeTypeB_2);
+        mainAnimationList.push(upgradeTypeB_3);
+        mainAnimationList.push(upgradeTypeB_4);
+        mainAnimationList.push(upgradeTypeB_5);
+        mainAnimationList.push(upgradeTypeC_1);
+        mainAnimationList.push(upgradeTypeC_2);
+        mainAnimationList.push(upgradeTypeC_3);
+        mainAnimationList.push(upgradeTypeC_4);
+        mainAnimationList.push(upgradeTypeC_5);
+        mainAnimationList.push(upgradeTypeD_1);
+        mainAnimationList.push(upgradeTypeD_2);
+        mainAnimationList.push(upgradeTypeD_3);
+        mainAnimationList.push(upgradeTypeD_4);
+        mainAnimationList.push(upgradeTypeD_5);
+        mainAnimationList.push(upgradeTypeE_1);
+        mainAnimationList.push(upgradeTypeE_2);
+        mainAnimationList.push(upgradeTypeE_3);
+        mainAnimationList.push(upgradeTypeE_4);
+        mainAnimationList.push(upgradeTypeE_5);
+
+        meteor1 = new Meteor();
+        meteor2 = new Meteor();
+        meteor3 = new Meteor();
+        meteor4 = new Meteor();
+        meteor5 = new Meteor();
+
+        meteor1.getDrawingRectangle().setX(WORLD_WIDTH/2);
+        meteor2.getDrawingRectangle().setX(WORLD_WIDTH/2+20);
+        meteor3.getDrawingRectangle().setX(WORLD_WIDTH/2+30);
+        meteor4.getDrawingRectangle().setX(WORLD_WIDTH/2-10);
+        meteor5.getDrawingRectangle().setX(WORLD_WIDTH/2+10);
+
+        meteorList.push(meteor1);
+        meteorList.push(meteor2);
+        meteorList.push(meteor3);
+        meteorList.push(meteor4);
+        meteorList.push(meteor5);
+
+        enemyBoss1 = new EnemyBoss1();
+    }
     public Episode1(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList,
                     Stack<EnemyBossShip> enemyBossesList, Stack<EnemyShip> enemyShipList) {
         this.mainAnimationList = mainAnimationList;
+        this.meteorList = meteorList;
         this.enemyBossLaserList = enemyBossLaserList;
         this.enemyBossesList = enemyBossesList;
         this.enemyShipList = enemyShipList;
@@ -203,14 +332,88 @@ public class Episode1 { //Upgrade boxes
 
         DropObjects(deltaTime, batch);
         SpawnEnemy(startTime, batch);
-        SpawnBoss1(deltaTime, batch);
+        SpawnBoss(deltaTime, batch);
 
     }
 
     private void SpawnEnemy(long startTime, SpriteBatch batch) {
         if (elapsedTime == 1 && isSpawnHordeTypeA_1 == false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
             spawnHordeTypeA(3, 3);
             isSpawnHordeTypeA_1 = true;
+            isMoveToMiddle = false;
+        }
+        if (elapsedTime == 50 && isSpawnHordeTypeB_1 == false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
+            spawnHordeTypeB(3, 3);
+            isSpawnHordeTypeB_1 = true;
+            isMoveToMiddle = false;
+        }
+        if (elapsedTime == 100 && isSpawnHordeTypeC_1 == false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
+            spawnHordeTypeC(3, 3);
+            isSpawnHordeTypeC_1 = true;
+            isMoveToMiddle = false;
+        }
+        if (elapsedTime == 150 && isSpawnHordeTypeD_1 == false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
+            spawnHordeTypeD(3, 3);
+            isSpawnHordeTypeD_1 = true;
+        }
+        if (elapsedTime == 200 && isSpawnHordeTypeE_1 == false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
+            spawnHordeTypeE(3, 3);
+            isSpawnHordeTypeE_1 = true;
+            isMoveToMiddle = false;
+        }
+        if (elapsedTime == 250 && isSpawnHordeTypeA_2 == false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
+            spawnHordeTypeA(3, 3);
+            isSpawnHordeTypeA_2 = true;
+            isMoveToMiddle = false;
+        }
+        if (elapsedTime == 300 && isSpawnHordeTypeB_2 == false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
+            spawnHordeTypeB(3, 3);
+            isSpawnHordeTypeB_2 = true;
+            isMoveToMiddle = false;
+        }
+        if (elapsedTime == 350 && isSpawnHordeTypeC_2 == false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
+            spawnHordeTypeC(3, 3);
+            isSpawnHordeTypeC_2 = true;
+        }
+        if (elapsedTime == 400 && isSpawnHordeTypeD_2 == false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
+            spawnHordeTypeD(3, 3);
+            isSpawnHordeTypeD_2 = true;
+            isMoveToMiddle = false;
+        }
+        if (elapsedTime == 450 && isSpawnHordeTypeE_2== false) {
+            countAtBound = 0;
+            xHorde = 0;
+            yHorde = WORLD_HEIGHT;
+            spawnHordeTypeE(3, 3);
+            isSpawnHordeTypeE_2 = true;
+            isMoveToMiddle = false;
         }
     }
 
@@ -251,19 +454,19 @@ public class Episode1 { //Upgrade boxes
         }
 
         //UpgradeTypeB
-        if (elapsedTime >= 20 && upgradeTypeB_1.getTaken() == false) {
+        if (elapsedTime >= 1 && upgradeTypeB_1.getTaken() == false) {
             upgradeTypeB_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 40 && upgradeTypeB_2.getTaken() == false) {
+        if (elapsedTime >= 2 && upgradeTypeB_2.getTaken() == false) {
             upgradeTypeB_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 60 && upgradeTypeB_3.getTaken() == false) {
+        if (elapsedTime >= 3 && upgradeTypeB_3.getTaken() == false) {
             upgradeTypeB_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 80 && upgradeTypeB_4.getTaken() == false) {
+        if (elapsedTime >= 4 && upgradeTypeB_4.getTaken() == false) {
             upgradeTypeB_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 100 && upgradeTypeB_5.getTaken() == false) {
+        if (elapsedTime >= 5 && upgradeTypeB_5.getTaken() == false) {
             upgradeTypeB_5.dropDownward(deltaTime, batch);
         }
 
@@ -319,13 +522,13 @@ public class Episode1 { //Upgrade boxes
         }
     }
 
-    public void SpawnBoss1(float deltaTime,  SpriteBatch batch){
+    public void SpawnBoss(float deltaTime, SpriteBatch batch){
 
         if(elapsedTime == 280){
             if(!enemyBossesList.contains(enemyBoss1)){
                 enemyBossesList.push(enemyBoss1);
-            }
 
+            }
         }
 
         if(elapsedTime >= 280 && !enemyBoss1.IsDead()){
@@ -439,7 +642,67 @@ public class Episode1 { //Upgrade boxes
             }
         }
     }
+
     public void spawnHordeTypeA(int row, int col){
+        float random =  SpaceShooterGame.random.nextFloat() * (row * col);
+
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++){
+                EnemyShip enemyShip = new EnemyShipTypeA();
+                enemyShip.setInHorde(true);
+                enemyShip.setMovementSpeed(1);
+                enemyShip.getBoundingBox().setX(xHorde);
+                enemyShip.getBoundingBox().setY(yHorde);
+                enemyShip.setAbleToFire(false);
+                if(countHordeTypeA_ableToFire > 0){
+                    if(i * j == random){
+                        enemyShip.setAbleToFire(true);
+                        countHordeTypeA_ableToFire -= 1;
+                    }
+                }
+
+                xHorde += enemyShip.getBoundingBox().getWidth();
+                enemyShipList.add(enemyShip);
+                if(j == col - 1){
+                    xHorde = 0;
+                    yHorde -= enemyShip.getBoundingBox().getHeight();
+                }
+
+            }
+        }
+
+        random =  SpaceShooterGame.random.nextFloat() * (row * col);
+
+        xHorde = 7 * row + 10;
+        yHorde = WORLD_HEIGHT;
+        countHordeTypeA_ableToFire = 2;
+
+        for(int a = 0; a < row; a++) {
+            for(int b = 0; b < col; b++){
+                EnemyShip enemyShip = new EnemyShipTypeA();
+                enemyShip.setInHorde(true);
+                enemyShip.setMovementSpeed(1);
+                enemyShip.getBoundingBox().setX(xHorde);
+                enemyShip.getBoundingBox().setY(yHorde);
+                enemyShip.setAbleToFire(false);
+                if(countHordeTypeA_ableToFire > 0){
+                    if(a * b == random){
+                        enemyShip.setAbleToFire(true);
+                        countHordeTypeA_ableToFire -= 1;
+                    }
+                }
+
+                xHorde += enemyShip.getBoundingBox().getWidth();
+                enemyShipList.add(enemyShip);
+                if(b == col - 1){
+                    xHorde = 7 * row + 10;
+                    yHorde -= enemyShip.getBoundingBox().getHeight();
+                }
+
+            }
+        }
+    }
+    public void spawnHordeTypeB(int row, int col){
         float random =  SpaceShooterGame.random.nextFloat() * (row * col);
 
         for(int i = 0; i < row; i++) {
@@ -450,10 +713,10 @@ public class Episode1 { //Upgrade boxes
                 enemyShip.getBoundingBox().setX(xHorde);
                 enemyShip.getBoundingBox().setY(yHorde);
                 enemyShip.setAbleToFire(false);
-                if(countHordeTypeA_1_ableToFire > 0){
+                if(countHordeTypeA_ableToFire > 0){
                     if(i * j == random){
                         enemyShip.setAbleToFire(true);
-                        countHordeTypeA_1_ableToFire -= 1;
+                        countHordeTypeA_ableToFire -= 1;
                     }
                 }
 
@@ -468,4 +731,207 @@ public class Episode1 { //Upgrade boxes
         }
 
     }
+    public void spawnHordeTypeC(int row, int col){
+        float random =  SpaceShooterGame.random.nextFloat() * (row * col);
+
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++){
+                EnemyShip enemyShip = new EnemyShipTypeC();
+                enemyShip.setInHorde(true);
+                enemyShip.setMovementSpeed(3);
+                enemyShip.getBoundingBox().setX(xHorde);
+                enemyShip.getBoundingBox().setY(yHorde);
+                enemyShip.setAbleToFire(false);
+                if(countHordeTypeA_ableToFire > 0){
+                    if(i * j == random){
+                        enemyShip.setAbleToFire(true);
+                        countHordeTypeA_ableToFire -= 1;
+                    }
+                }
+
+                xHorde += enemyShip.getBoundingBox().getWidth();
+                enemyShipList.add(enemyShip);
+                if(j == col - 1){
+                    xHorde = 0;
+                    yHorde -= enemyShip.getBoundingBox().getHeight();
+                }
+
+            }
+        }
+
+    }
+    public void spawnHordeTypeD(int row, int col){
+        float random =  SpaceShooterGame.random.nextFloat() * (row * col);
+
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++){
+                EnemyShip enemyShip = new EnemyShipTypeD();
+                enemyShip.setInHorde(true);
+                enemyShip.setMovementSpeed(3);
+                enemyShip.getBoundingBox().setX(xHorde);
+                enemyShip.getBoundingBox().setY(yHorde);
+                enemyShip.setAbleToFire(false);
+                if(countHordeTypeA_ableToFire > 0){
+                    if(i * j == random){
+                        enemyShip.setAbleToFire(true);
+                        countHordeTypeA_ableToFire -= 1;
+                    }
+                }
+
+                xHorde += enemyShip.getBoundingBox().getWidth();
+                enemyShipList.add(enemyShip);
+                if(j == col - 1){
+                    xHorde = 0;
+                    yHorde -= enemyShip.getBoundingBox().getHeight();
+                }
+
+            }
+        }
+
+    }
+    public void spawnHordeTypeE(int row, int col){
+        float random =  SpaceShooterGame.random.nextFloat() * (row * col);
+
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++){
+                EnemyShip enemyShip = new EnemyShipTypeE();
+                enemyShip.setInHorde(true);
+                enemyShip.setMovementSpeed(3);
+                enemyShip.getBoundingBox().setX(xHorde);
+                enemyShip.getBoundingBox().setY(yHorde);
+                enemyShip.setAbleToFire(false);
+                if(countHordeTypeA_ableToFire > 0){
+                    if(i * j == random){
+                        enemyShip.setAbleToFire(true);
+                        countHordeTypeA_ableToFire -= 1;
+                    }
+                }
+
+                xHorde += enemyShip.getBoundingBox().getWidth();
+                enemyShipList.add(enemyShip);
+                if(j == col - 1){
+                    xHorde = 0;
+                    yHorde -= enemyShip.getBoundingBox().getHeight();
+                }
+
+            }
+        }
+
+    }
+    public void moveHorde(float deltaTime){
+
+        Stack<EnemyShip> enemyShipStack = new Stack<>();
+        ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
+
+        while(enemyShipListIterator.hasNext()){
+            EnemyShip enemyShip = enemyShipListIterator.next();
+            if(enemyShip.isInHorde() == true){
+                enemyShipStack.push(enemyShip);
+            }
+        }
+
+        enemyShipListIterator = enemyShipStack.listIterator();
+
+        while(enemyShipListIterator.hasNext()){
+
+            EnemyShip enemyShip = enemyShipListIterator.next();
+            if(enemyShip.getBoundingBox().getX() <= 0){
+                countAtBound += 1;
+                isMoveRight = true;
+            }
+            if(enemyShip.getBoundingBox().getX() + enemyShip.getBoundingBox().getWidth() >= WORLD_WIDTH){
+                countAtBound += 1;
+                isMoveRight = false;
+            }
+            else{
+                // countAtBound = false;
+            }
+        }
+
+        if(countAtBound / 2 == 0){
+            isMoveRight = true;
+        }
+        else{
+            if(countAtBound / 2 == 1){
+                isMoveRight = false;
+            }
+        }
+
+        enemyShipListIterator = enemyShipStack.listIterator();
+        while(enemyShipListIterator.hasNext()){
+            EnemyShip enemyShip = enemyShipListIterator.next();
+            if(enemyShip.getBoundingBox().getY() <= WORLD_HEIGHT / 2){
+                isMoveToMiddle = true;
+                break;
+            }
+        }
+
+        if(isMoveToMiddle == false){
+            enemyShipListIterator = enemyShipStack.listIterator();
+            while(enemyShipListIterator.hasNext()) {
+                EnemyShip enemyShip = enemyShipListIterator.next();
+                enemyShip.getBoundingBox().setY(enemyShip.getBoundingBox().getY() - enemyShip.getMovementSpeed() * deltaTime);
+            }
+        }
+        else {
+            enemyShipListIterator = enemyShipStack.listIterator();
+
+            if(isMoveRight == true){
+                while(enemyShipListIterator.hasNext()){
+                    EnemyShip enemyShip = enemyShipListIterator.next();
+                    enemyShip.getBoundingBox().setX(enemyShip.getBoundingBox().getX() + enemyShip.getMovementSpeed() * deltaTime);
+                }
+            }
+            else {
+                while(enemyShipListIterator.hasNext()){
+                    EnemyShip enemyShip = enemyShipListIterator.next();
+                    enemyShip.getBoundingBox().setX(enemyShip.getBoundingBox().getX() - enemyShip.getMovementSpeed() * deltaTime);
+                }
+            }
+        }
+
+    }
+
+    /* Getter Setter */
+    public Stack<IEnemyLaser> getEnemyBossLaserList() {
+        return enemyBossLaserList;
+    }
+
+    public void setEnemyBossLaserList(Stack<IEnemyLaser> enemyBossLaserList) {
+        this.enemyBossLaserList = enemyBossLaserList;
+    }
+
+    public Stack<EnemyBossShip> getEnemyBossesList() {
+        return enemyBossesList;
+    }
+
+    public void setEnemyBossesList(Stack<EnemyBossShip> enemyBossesList) {
+        this.enemyBossesList = enemyBossesList;
+    }
+
+    public Stack<EnemyShip> getEnemyShipList() {
+        return enemyShipList;
+    }
+
+    public void setEnemyShipList(Stack<EnemyShip> enemyShipList) {
+        this.enemyShipList = enemyShipList;
+    }
+
+    public Stack<IDropDownAnimation> getMainAnimationList() {
+        return mainAnimationList;
+    }
+
+    public void setMainAnimationList(Stack<IDropDownAnimation> mainAnimationList) {
+        this.mainAnimationList = mainAnimationList;
+    }
+
+    public Stack<Meteor> getMeteorList() {
+        return meteorList;
+    }
+
+    public void setMeteorList(Stack<Meteor> meteorList) {
+        this.meteorList = meteorList;
+    }
+
+
 }

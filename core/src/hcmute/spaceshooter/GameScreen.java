@@ -3,14 +3,13 @@ package hcmute.spaceshooter;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 import static hcmute.spaceshooter.GlobalVariables.background1;
-import static hcmute.spaceshooter.GlobalVariables.background2;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -35,20 +34,18 @@ import hcmute.spaceshooter.Animation.Explosion;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
 import hcmute.spaceshooter.Episode.Episode1;
-import hcmute.spaceshooter.Episode.Episode2;
+import hcmute.spaceshooter.Episode.IEpisode;
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeC;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
-import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
-import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeA;
 import hcmute.spaceshooter.Ships.EnemyShipTypeB;
 import hcmute.spaceshooter.Ships.EnemyShipTypeC;
-import hcmute.spaceshooter.Ships.EnemyShipTypeD;
-import hcmute.spaceshooter.Ships.EnemyShipTypeE;
+import hcmute.spaceshooter.Lasers.ILaser;
+import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.PlayerShip;
 
-public class GameScreen2 implements Screen {
+public class GameScreen implements Screen {
     public ResourceManager rm;
 
     //screen Base class for OrthographicCamera and PerspectiveCamera.
@@ -92,16 +89,18 @@ public class GameScreen2 implements Screen {
     private PlayerShip playerShip;
 
     // List of Enemy Ships
-    private Stack<EnemyShip> enemyShipList;
+    public Stack<EnemyShip> enemyShipList;
     // List of Enemy Bosses
-    private Stack<EnemyBossShip> enemyBossesList;
+    public Stack<EnemyBossShip> enemyBossesList;
     // List of enemy fired Lasers
-    private Stack<IEnemyLaser> enemyLaserList;
+    public Stack<IEnemyLaser> enemyLaserList;
     // List of enemy bosses' fired Lasers
-    private Stack<IEnemyLaser> enemyBossLaserList;
+    public Stack<IEnemyLaser> enemyBossLaserList;
     // List of Explosion
-    private LinkedList<Explosion> explosionList;
-
+    public LinkedList<Explosion> explosionList;
+    // Upgrade Dropping List:
+    public Stack<IDropDownAnimation> upgradeDroppingItemList = new Stack<>();
+    public Stack<Meteor> meteorList = new Stack<>();
     // Player's score
     private int score = 0;
 
@@ -118,19 +117,18 @@ public class GameScreen2 implements Screen {
      */
     float timeSpan;
 
-    // Upgrade Dropping List:
-    Stack<IDropDownAnimation> upgradeDroppingItemList = new Stack<>();
-    private Stack<Meteor> meteorList = new Stack<>();
+
     // Get current time:
     long startTime = TimeUtils.millis();
     // Get time elapsed since startTime:
     long elapsedTime;
 
     //
-    Episode2 episode2;
+    public IEpisode episode;
+
 
     // Main Constructor.
-    public GameScreen2() {
+    public GameScreen() {
         rm=new ResourceManager();
         rm.setMusicVolume(rm.musicVolume);
         rm.setSfxVolume(rm.sfxVolume);
@@ -182,8 +180,6 @@ public class GameScreen2 implements Screen {
 
         // Render HUD(score, life, shields)
         prepareHud();
-
-        episode2 = new Episode2(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList);
     }
 
     /**
@@ -209,7 +205,7 @@ public class GameScreen2 implements Screen {
          */
         renderBackground(deltaTime);
         //
-        episode2.Start(deltaTime, startTime, batch);
+        episode.Start(deltaTime, startTime, batch);
         //
         checkGetUpgrades();
         checkCrashing();
@@ -231,7 +227,7 @@ public class GameScreen2 implements Screen {
         spawnEnemyShips(deltaTime);
 
         // spawn Boss
-        episode2.SpawnBoss2(deltaTime, batch);
+        episode.SpawnBoss(deltaTime, batch);
 
         //lasers
         renderLasers(deltaTime);
@@ -605,14 +601,14 @@ public class GameScreen2 implements Screen {
                         playerShip.setInvincible(false);
                     }
                     rm.explosionSoundEffect.play();
-                    Rectangle rectangle = new Rectangle(laser.getLaserBoundingBox());
-                    Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
-                    smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
-                    smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight());
-                    smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
-                    smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
-                    explosionList.add(smallExplosion);
-                    enemyLaserListIterator.remove();
+                        Rectangle rectangle = new Rectangle(laser.getLaserBoundingBox());
+                        Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
+                        smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
+                        smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight());
+                        smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
+                        smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
+                        explosionList.add(smallExplosion);
+                        enemyLaserListIterator.remove();
                 }
             }
 
@@ -626,11 +622,11 @@ public class GameScreen2 implements Screen {
         while (itemsIterator.hasNext()) {
             IDropDownAnimation item = itemsIterator.next();
             if(playerShip.intersects(item.getDrawingRectangle())){
-                item.setTaken(true);
-                playerShip.upgrade(item);
-                itemsIterator.remove();
+                    item.setTaken(true);
+                    playerShip.upgrade(item);
+                    itemsIterator.remove();
+                }
             }
-        }
     }
 
 
@@ -639,20 +635,10 @@ public class GameScreen2 implements Screen {
         float leftLimit, rightLimit, upLimit;
         leftLimit = -enemyShip.getBoundingBox().x;
         rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
-//        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
-//        downLimit = - WORLD_HEIGHT;
         upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
-        float xMove = 0;
-        xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
+        float xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
         float yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//        boolean isStutter = true;
-//        while (isStutter){
-//            enemyShip.randomizeDirectionVector();
-//
-//            yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//            if( Math.abs(xMove + enemyShip.getLastXDirection()) != 0)
-//                isStutter = false;
-//        }
+
 
         if(xMove > 0){
             xMove = Math.min(xMove, rightLimit);
@@ -727,9 +713,15 @@ public class GameScreen2 implements Screen {
             while(enemyShipListIterator.hasNext()){
                 // enemy ships
                 EnemyShip enemyShip = enemyShipListIterator.next();
-                moveEnemy(enemyShip, deltaTime);
-                enemyShip.MoveRandomly(deltaTime);
-                enemyShip.drawShip(batch);
+                if(enemyShip.isInHorde() == false){
+                    moveEnemy(enemyShip, deltaTime);
+                    enemyShip.MoveRandomly(deltaTime);
+                    enemyShip.drawShip(batch);
+                }
+                else {
+                    episode.moveHorde(deltaTime);
+                    enemyShip.drawShip(batch);
+                }
             }
             ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
 
@@ -745,6 +737,8 @@ public class GameScreen2 implements Screen {
             enemyShipList.clear();
         }
     }
+
+
 
     private void checkCrashing(){
         // Check the Meteors crash to the player's ship

@@ -21,7 +21,7 @@ import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeC;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBoss1;
-import hcmute.spaceshooter.Ships.EnemyBoss2;
+import hcmute.spaceshooter.Ships.EnemyBoss3;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeA;
@@ -31,7 +31,7 @@ import hcmute.spaceshooter.Ships.EnemyShipTypeD;
 import hcmute.spaceshooter.Ships.EnemyShipTypeE;
 import hcmute.spaceshooter.SpaceShooterGame;
 
-public class Episode2 implements IEpisode{ //Upgrade boxes
+public class Episode3 implements IEpisode{ //Upgrade boxes
     //UpgradeTypeA
     UpgradeTypeA upgradeTypeA_1;
     UpgradeTypeA upgradeTypeA_2;
@@ -69,7 +69,7 @@ public class Episode2 implements IEpisode{ //Upgrade boxes
     Meteor meteor4;
     Meteor meteor5;
 
-    EnemyBoss2 enemyBoss2;
+    EnemyBoss3 enemyBoss3;
     // List of mainAnimationList
     Stack<IDropDownAnimation> mainAnimationList;
     // List of Enemy Lasers
@@ -104,7 +104,8 @@ public class Episode2 implements IEpisode{ //Upgrade boxes
     int countAtBound = 0;
     boolean isMoveRight = true;
     boolean isMoveToMiddle = false;
-    public Episode2(){
+
+    public Episode3(){
         upgradeTypeA_1 = new UpgradeTypeA();
         upgradeTypeA_2 = new UpgradeTypeA();
         upgradeTypeA_3 = new UpgradeTypeA();
@@ -209,9 +210,9 @@ public class Episode2 implements IEpisode{ //Upgrade boxes
         meteorList.push(meteor4);
         meteorList.push(meteor5);
 
-        enemyBoss2 = new EnemyBoss2();
+        enemyBoss3 = new EnemyBoss3();
     }
-    public Episode2(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList,
+    public Episode3(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList,
                     Stack<EnemyBossShip> enemyBossesList, Stack<EnemyShip> enemyShipList) {
         this.mainAnimationList = mainAnimationList;
         this.meteorList = meteorList;
@@ -323,7 +324,7 @@ public class Episode2 implements IEpisode{ //Upgrade boxes
         meteorList.push(meteor4);
         meteorList.push(meteor5);
 
-        enemyBoss2 = new EnemyBoss2();
+        enemyBoss3 = new EnemyBoss3();
     }
 
     public void Start(float deltaTime, long startTime, SpriteBatch batch){
@@ -524,17 +525,17 @@ public class Episode2 implements IEpisode{ //Upgrade boxes
 
     public void SpawnBoss(float deltaTime, SpriteBatch batch){
 
-        if(elapsedTime == 280){
-            if(!enemyBossesList.contains(enemyBoss2)){
-                enemyBossesList.push(enemyBoss2);
+        if(elapsedTime == 1){
+            if(!enemyBossesList.contains(enemyBoss3)){
+                enemyBossesList.push(enemyBoss3);
 
             }
         }
 
-        if(elapsedTime >= 280 && !enemyBoss2.IsDead()){
-            enemyBoss2.drawShip(batch);
+        if(elapsedTime >= 1 && !enemyBoss3.IsDead()){
+            enemyBoss3.drawShip(batch);
             makeBoss1Lasers(deltaTime, batch, elapsedTime);
-            enemyBoss2.update(deltaTime);
+            enemyBoss3.update(deltaTime);
         }
 
     }
