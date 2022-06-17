@@ -20,6 +20,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -262,6 +264,11 @@ public class GameScreen implements Screen {
         hudRow1Y = WORLD_HEIGHT - hudVerticalMargin;
         hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
         hudSectionWidth = WORLD_WIDTH / 3;
+
+        BitmapFont font=new BitmapFont(Gdx.files.internal("font-export.fnt"));
+        TextButton.TextButtonStyle textButtonStyle=new TextButton.TextButtonStyle();
+        textButtonStyle.font=font;
+        TextButton textButton=new TextButton("pause",textButtonStyle);
     }
 
     //

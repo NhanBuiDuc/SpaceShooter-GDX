@@ -2,6 +2,7 @@ package hcmute.spaceshooter;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -10,29 +11,22 @@ import java.util.Random;
 
 public class SpaceShooterGame extends Game {
 
-	GameScreen gameScreen;
 	public static Random random = new Random();
 	public SpaceShooterGame() {
 	}
 
 	@Override
 	public void create () {
-		backgroundMusic.setVolume(1f);
-		backgroundMusic.setLooping(true);
-		backgroundMusic.play();
-		gameScreen = new GameScreen();
-		setScreen(gameScreen);
+		setScreen(new SplashScreen());
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		gameScreen.resize(width, height);
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
-		gameScreen.dispose();
 	}
 
 	@Override

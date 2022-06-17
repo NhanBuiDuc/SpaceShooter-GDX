@@ -68,7 +68,7 @@ public class MenuScreen implements Screen{
         table.padTop(60f);
         //create title
         Label.LabelStyle labelStyle=rm.skin.get("title", Label.LabelStyle.class);
-        Label title=new Label("Space Shooter",labelStyle);
+        Label title=new Label("Space Invader",labelStyle);
         title.setFontScale(0.38f);
         title.setAlignment(Align.center);
         title.setWrap(true);

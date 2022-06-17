@@ -52,32 +52,38 @@ public class SettingsScreen implements Screen {
     public void show() {
         //set label style for title
         Label.LabelStyle titleStyle=rm.skin.get("title", Label.LabelStyle.class);
+        //create title label
         Label title= new Label("Settings",titleStyle);
         title.setFontScale(0.35f);
         title.setSize(200,100);
-        title.setPosition(105,280,Align.center);
+        title.setPosition(115,280,Align.center);
         stage.addActor(title);
         //create container for setting options
         Window.WindowStyle windowStyle=rm.skin.get("special",Window.WindowStyle.class);
         Window settingsWindow=new Window("",windowStyle);
-        settingsWindow.setOrigin(0,120);
+        settingsWindow.setOrigin(20,120);
         settingsWindow.setSize(360,400);
         settingsWindow.setScale(0.5f);
         //set label style
         Label.LabelStyle labelStyle=rm.skin.get("default", Label.LabelStyle.class);
+        //create label for music volume slider
         Label musicLabel=new Label("Music",labelStyle);
         musicLabel.setTouchable(Touchable.disabled);
         musicLabel.setFontScale(1.2f);
+        //create slider to adjust music volume
         final Slider musicSlider=new Slider(0.f,1.f,0.02f,false,rm.skin);
-        musicSlider.setValue(rm.musicVolume);
+        //create label for sfx volume slider
         Label sfxLabel=new Label("Sfx",labelStyle);
         sfxLabel.setTouchable(Touchable.disabled);
-        final Slider sfxSlider=new Slider(0.f,1.f,0.02f,false,rm.skin);
-        sfxSlider.setValue(rm.sfxVolume);
         sfxLabel.setFontScale(1.2f);
+        //create slider to adjust sfx volume
+        final Slider sfxSlider=new Slider(0.f,1.f,0.02f,false,rm.skin);
+        //create misc label
         Label miscLabel=new Label("Misc",labelStyle);
         miscLabel.setAlignment(Align.center);
+        miscLabel.setFontScale(1.2f);
         CheckBox.CheckBoxStyle checkBoxStyle=rm.skin.get("default", CheckBox.CheckBoxStyle.class);
+        //create checkboxes for muting music and sfx
         final CheckBox muteMusic=new CheckBox("Mute music",checkBoxStyle);
         final CheckBox muteSfx=new CheckBox("Mute Sfx",checkBoxStyle);
         //handle event for music slider
@@ -85,17 +91,18 @@ public class SettingsScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 rm.musicVolume=musicSlider.getValue();
-                if(rm.musicMute)
+                if(musicSlider.isDragging())
                 {
-                    rm.setMusicVolume(0f);
-                }
-                if(musicSlider.isDragging() && musicSlider.getValue()!=0f)
-                {
-                    muteMusic.setChecked(false);
-                }
-                if(musicSlider.isDragging() && musicSlider.getValue()==0f)
-                {
-                    muteMusic.setChecked(true);
+                    if(musicSlider.getValue()==0f)
+                    {
+                        muteMusic.setChecked(true);
+                        rm.setMusicVolume(0f);
+                    }
+                    else
+                    {
+                        muteMusic.setChecked(false);
+                        rm.setMusicVolume(musicSlider.getValue());
+                    }
                 }
             }
         });
@@ -104,13 +111,18 @@ public class SettingsScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 rm.sfxVolume=sfxSlider.getValue();
-                if(!sfxSlider.isDragging() && sfxSlider.getValue()!=0f)
+                if(sfxSlider.isDragging())
                 {
-                    muteSfx.setChecked(false);
-                }
-                if(!sfxSlider.isDragging() && sfxSlider.getValue()==0f)
-                {
-                    muteSfx.setChecked(true);
+                    if(sfxSlider.getValue()==0f)
+                    {
+                        muteSfx.setChecked(true);
+                        rm.sfxVolume=0f;
+                    }
+                    else
+                    {
+                        muteMusic.setChecked(false);
+                        rm.sfxVolume=sfxSlider.getValue();
+                    }
                 }
             }
         });
@@ -131,7 +143,7 @@ public class SettingsScreen implements Screen {
                     rm.setMusicVolume(0f);
                 else
                 {
-                    rm.setMusicVolume(rm.musicVolume);
+                    rm.setMusicVolume(musicSlider.getValue());
                 }
             }
         });
@@ -141,21 +153,19 @@ public class SettingsScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 rm.sfxMute=muteSfx.isChecked();
                 if(muteMusic.isChecked()) {
-                    rm.sfxMute = true;
                     rm.sfxVolume = 0f;
                 }
                 else
                 {
-                    rm.sfxMute=false;
+                    rm.sfxVolume=sfxSlider.getValue();
                 }
             }
         });
-
         //create a button to confirm campaign selection
         TextButton saveButton=new TextButton("Save",rm.skin);
         saveButton.getLabel().setFontScale(0.6f);
         saveButton.setSize(150,55);
-        saveButton.setPosition(90,40,Align.center);
+        saveButton.setPosition(100,40,Align.center);
         saveButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y)
@@ -163,6 +173,11 @@ public class SettingsScreen implements Screen {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
             }
         });
+        //set saved settings
+        musicSlider.setValue(rm.musicVolume);
+        sfxSlider.setValue(rm.sfxVolume);
+        muteMusic.setChecked(rm.musicMute);
+        muteSfx.setChecked(rm.sfxMute);
         stage.addActor(saveButton);
         stage.addActor(settingsWindow);
     }
