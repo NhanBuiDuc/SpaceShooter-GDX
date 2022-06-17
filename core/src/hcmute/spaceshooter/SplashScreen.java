@@ -20,7 +20,6 @@ public class SplashScreen implements Screen {
     private Viewport viewport;
     private SpriteBatch batch;
     public ResourceManager rm;
-    public int backgroundOffset=0;
     public SplashScreen()
     {
         rm=new ResourceManager();
@@ -35,13 +34,13 @@ public class SplashScreen implements Screen {
     @Override
     public void show() {
         Label.LabelStyle titleStyle=rm.skin.get("title", Label.LabelStyle.class);
-        Label title=new Label("Space Invaders",titleStyle);
-        title.setFontScale(0.35f);
+        Label title=new Label("Space Shooter",titleStyle);
+        title.setFontScale(0.4f);
         title.setWrap(true);
         title.setSize(220,300);
-        title.setPosition(-10,100);
+        title.setPosition(-10,50);
         title.setAlignment(Align.center);
-        SequenceAction actions=new SequenceAction(Actions.sequence(Actions.fadeIn(1f),Actions.delay(2.5f),Actions.fadeOut(2.5f),Actions.run(new Runnable() {
+        SequenceAction actions=new SequenceAction(Actions.sequence(Actions.fadeIn(1f),Actions.delay(1f),Actions.fadeOut(2f),Actions.run(new Runnable() {
             @Override
             public void run() {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
@@ -57,15 +56,8 @@ public class SplashScreen implements Screen {
         Gdx.gl.glClearColor(0f,0f,0f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        backgroundOffset++;
-        //scrolling background
-        batch.draw(rm.splash,-backgroundOffset,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        batch.draw(rm.splash,-backgroundOffset+Gdx.graphics.getWidth(),0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(rm.splash,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         batch.end();
-        if(backgroundOffset%Gdx.graphics.getHeight()==0)
-        {
-            backgroundOffset=0;
-        }
         stage.act();
         stage.draw();
     }

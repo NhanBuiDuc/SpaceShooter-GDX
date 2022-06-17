@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Array;
 public class ResourceManager {
     public TextureAtlas textureAtlas;
     public Skin skin;
-    public Texture background,splash;
+    public Texture background,splash,menu;
     public SpriteBatch batch;
     public static Music menuTheme;
     public static Music loadingTheme;
@@ -42,6 +42,7 @@ public class ResourceManager {
 
         assetManager.load("screen/background.png",Texture.class);
         assetManager.load("screen/splash.jpg",Texture.class);
+        assetManager.load("screen/menu.jpg",Texture.class);
 
         assetManager.finishLoading();
         //load atlas
@@ -56,6 +57,7 @@ public class ResourceManager {
         //load sfx
         battleStart=assetManager.get("sfx/start-level.wav",Sound.class);
         //load background
+        menu=assetManager.get("screen/menu.jpg",Texture.class);
         background=assetManager.get("screen/background.png",Texture.class);
         splash=assetManager.get("screen/splash.jpg",Texture.class);
         //set campaigns

@@ -265,10 +265,6 @@ public class GameScreen implements Screen {
         hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
         hudSectionWidth = WORLD_WIDTH / 3;
 
-        BitmapFont font=new BitmapFont(Gdx.files.internal("font-export.fnt"));
-        TextButton.TextButtonStyle textButtonStyle=new TextButton.TextButtonStyle();
-        textButtonStyle.font=font;
-        TextButton textButton=new TextButton("pause",textButtonStyle);
     }
 
     //
