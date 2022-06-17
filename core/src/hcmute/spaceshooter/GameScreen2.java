@@ -4,7 +4,6 @@ import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 import static hcmute.spaceshooter.GlobalVariables.background2;
 import static hcmute.spaceshooter.GlobalVariables.backgroundMusic;
-import static hcmute.spaceshooter.GlobalVariables.pauseButton;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -133,12 +132,6 @@ public class GameScreen2 implements Screen {
 
         //  Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
-
-        // set pause button coordinate and size
-        pauseButton.setX(WORLD_WIDTH - 15);
-        pauseButton.setX(WORLD_HEIGHT - 16);
-        pauseButton.setWidth(17);
-        pauseButton.setHeight(20);
 
         //sound
         backgroundMusic.setVolume(1f);

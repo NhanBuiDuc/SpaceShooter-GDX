@@ -4,7 +4,6 @@ import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 import static hcmute.spaceshooter.GlobalVariables.background1;
 import static hcmute.spaceshooter.GlobalVariables.backgroundMusic;
-import static hcmute.spaceshooter.GlobalVariables.pauseButton;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -22,6 +21,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -134,14 +136,8 @@ public class GameScreen1 implements Screen {
         // Set Up Screen
         camera = new OrthographicCamera();
 
-        //  Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
+        // Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
-
-        // set pause button coordinate and size
-        pauseButton.setX(WORLD_WIDTH - 15);
-        pauseButton.setX(WORLD_HEIGHT - 16);
-        pauseButton.setWidth(17);
-        pauseButton.setHeight(20);
 
         //sound
         backgroundMusic.setVolume(1f);

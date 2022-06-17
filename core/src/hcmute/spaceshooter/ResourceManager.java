@@ -7,31 +7,29 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
 
 public class ResourceManager {
     public TextureAtlas textureAtlas;
     public Skin skin;
-    public Texture background;
+    public Texture background,splash;
     public SpriteBatch batch;
     public static Music menuTheme;
     public static Music loadingTheme;
     public static Music battleTheme;
     public static Sound battleStart;
-    public static float musicVolume=0f;
-    public static float sfxVolume=0f;
+    public static float musicVolume=.0f;
+    public static float sfxVolume=.0f;
     public static boolean musicMute=true;
     public static boolean sfxMute=true;
-    public static int backgroundOffset;
     public AssetManager assetManager;
     public Array<String> campaigns=new Array<String>();
     public Array<String> bosses=new Array<String>();
     public ResourceManager()
     {
-        backgroundOffset=0;
         assetManager =new AssetManager();
-        background=new Texture("background.png");
         assetManager=new AssetManager();
         assetManager.load("star-soldier-ui.atlas",TextureAtlas.class);
         assetManager.load("star-soldier-ui.json",Skin.class);
@@ -41,6 +39,10 @@ public class ResourceManager {
         assetManager.load("music/battle.wav",Music.class);
 
         assetManager.load("sfx/start-level.wav", Sound.class);
+
+        assetManager.load("screen/background.png",Texture.class);
+        assetManager.load("screen/splash.jpg",Texture.class);
+
         assetManager.finishLoading();
         //load atlas
         textureAtlas=assetManager.get("star-soldier-ui.atlas", TextureAtlas.class);
@@ -53,7 +55,9 @@ public class ResourceManager {
         battleTheme=assetManager.get("music/battle.wav",Music.class);
         //load sfx
         battleStart=assetManager.get("sfx/start-level.wav",Sound.class);
-
+        //load background
+        background=assetManager.get("screen/background.png",Texture.class);
+        splash=assetManager.get("screen/splash.jpg",Texture.class);
         //set campaigns
         campaigns.add("Earth");
         campaigns.add("Mars");

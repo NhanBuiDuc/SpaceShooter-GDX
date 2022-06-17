@@ -65,14 +65,4 @@ public class GlobalVariables {
     public static final Music explosionEffect = Gdx.audio.newMusic(Gdx.files.internal("./assets/sfx/Sprites_explosion.wav"));
     public static final Music laserEffect = Gdx.audio.newMusic(Gdx.files.internal("./assets/sfx/laser_effect1.mp3"));
     public static FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("./assets/font/upheavtt.ttf"));
-    FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-    ResourceManager rm = new ResourceManager();
-    TextButton.TextButtonStyle textButtonStyle = rm.skin.get("toggle", TextButton.TextButtonStyle.class);
-    TextButton playButton=new TextButton("Play",textButtonStyle);
-
-
-    public GlobalVariables() {
-        playButton.getLabel().setFontScale(0.4f);
-    }
 }
