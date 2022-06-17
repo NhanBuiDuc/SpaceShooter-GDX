@@ -2,7 +2,7 @@ package hcmute.spaceshooter;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
-import static hcmute.spaceshooter.GlobalVariables.background;
+import static hcmute.spaceshooter.GlobalVariables.background1;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
@@ -43,14 +44,13 @@ import hcmute.spaceshooter.Ships.EnemyShipTypeB;
 import hcmute.spaceshooter.Ships.EnemyShipTypeC;
 import hcmute.spaceshooter.Ships.EnemyShipTypeD;
 import hcmute.spaceshooter.Ships.EnemyShipTypeE;
-import hcmute.spaceshooter.Ships.IShip;
-import hcmute.spaceshooter.SoundEffect.ExplosionSoundEffect;
-import hcmute.spaceshooter.Episode.Episode;
+import hcmute.spaceshooter.Episode.Episode1;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.PlayerShip;
 
-public class GameScreen implements Screen {
+public class GameScreen1 implements Screen {
+    public ResourceManager rm;
 
     //screen Base class for OrthographicCamera and PerspectiveCamera.
     private Camera camera;
@@ -81,7 +81,7 @@ public class GameScreen implements Screen {
     private float backgroundMaxScrollingSpeed;
 
     // The time to spawn new enemy ships
-    private float timeBetweenEnemySpawns = 5f;
+    private float timeBetweenEnemySpawns = 8f;
     private float enemySpawnTimer = 0;
 
     //
@@ -112,7 +112,7 @@ public class GameScreen implements Screen {
     BitmapFont font;
 
     // The margin, coordinate of the HUDs. A table-like type of display.
-    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
+    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudRow3Y, hudRow4Y, hudRow5Y, hudRow6Y, hudSectionWidth;
 
     /**
      *  The real time span from the beginning of the program
@@ -128,14 +128,17 @@ public class GameScreen implements Screen {
     long elapsedTime;
 
     //
-    Episode episode;
+    Episode1 episode1;
 
     // Main Constructor.
-    public GameScreen() {
+    public GameScreen1() {
+        rm=new ResourceManager();
+        rm.setMusicVolume(rm.musicVolume);
+        rm.setSfxVolume(rm.sfxVolume);
         // Set Up Screen
         camera = new OrthographicCamera();
 
-        //  Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
+        // Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //setting up the backgrounds
@@ -181,7 +184,7 @@ public class GameScreen implements Screen {
         // Render HUD(score, life, shields)
         prepareHud();
 
-        episode = new Episode(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList);
+        episode1 = new Episode1(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList);
     }
 
     /**
@@ -207,7 +210,7 @@ public class GameScreen implements Screen {
          */
         renderBackground(deltaTime);
         //
-        episode.Start(deltaTime, startTime, batch);
+        episode1.Start(deltaTime, startTime, batch);
         //
         checkGetUpgrades();
         checkCrashing();
@@ -226,11 +229,10 @@ public class GameScreen implements Screen {
         updateAndRenderExplosions(deltaTime);
 
         // spawnEnemyShips
-        episode.spawnEnemyHorde(startTime, 5, 5, enemyShipList);
         spawnEnemyShips(deltaTime);
 
         // spawn Boss
-        episode.SpawnBoss1(deltaTime, batch);
+        episode1.SpawnBoss1(deltaTime, batch);
 
         //lasers
         renderLasers(deltaTime);
@@ -246,11 +248,11 @@ public class GameScreen implements Screen {
 
     private void prepareHud() {
         //Create a BitmapFont from out font File
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("EdgeOfTheGalaxyRegular-OVEa6.otf"));
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("./assets/font/upheavtt.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        fontParameter.size = 72;
-        fontParameter.borderWidth = 3.6f;
+        fontParameter.size = 60;
+        fontParameter.borderWidth = 1.6f;
         fontParameter.color = new Color(1, 1, 1, 0.3f);
         fontParameter.borderColor = new Color(0, 0, 0, 0.3f);
 
@@ -265,25 +267,24 @@ public class GameScreen implements Screen {
         hudCentreX = WORLD_WIDTH / 3;
         hudRow1Y = WORLD_HEIGHT - hudVerticalMargin;
         hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
+        hudRow3Y = hudRow2Y - hudVerticalMargin - font.getCapHeight();
+        hudRow4Y = hudRow3Y - 1 - font.getCapHeight();
+        hudRow5Y = hudRow4Y - hudVerticalMargin - font.getCapHeight();
+        hudRow6Y = hudRow5Y - 1 - font.getCapHeight();
         hudSectionWidth = WORLD_WIDTH / 3;
-
-        BitmapFont font=new BitmapFont(Gdx.files.internal("font-export.fnt"));
-        TextButton.TextButtonStyle textButtonStyle=new TextButton.TextButtonStyle();
-        textButtonStyle.font=font;
-        TextButton textButton = new TextButton("pause",textButtonStyle);
     }
 
     //
     private void updateAndRenderHUD(float deltaTime) {
         // render Top row labels
         font.draw(batch, "Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
-        font.draw(batch, "Shield", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
-        font.draw(batch, "Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
+        font.draw(batch, "Shield", hudLeftX, hudRow3Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, "Lives", hudLeftX, hudRow5Y, hudSectionWidth, Align.left, false);
 
         // render second row values
-        font.draw(batch, String.format(Locale.getDefault(), "%06d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
-        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.shield), hudCentreX, hudRow2Y, hudSectionWidth, Align.center, false);
-        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.getHP()), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%05d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.shield), hudLeftX, hudRow4Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.getHP()), hudLeftX, hudRow6Y, hudSectionWidth, Align.left, false);
     }
 
     private void detectInput(float deltaTime) {
@@ -374,8 +375,9 @@ public class GameScreen implements Screen {
                 if(boss != null){
                     if(boss.intersects(laser.getLaserBoundingBox())){
                         // contact with enemy ship
-                        if(boss.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.bigSoundEffect();
+                        if(boss.hitAndCheckDestroyed())
+                        {
+                            rm.explosionSoundEffect.play();
 
                             enemyShipListIterator.remove();
                             Explosion explosion = new Explosion(explosionTexture, new Rectangle(boss.getBoundingBox()), 1f);
@@ -386,8 +388,7 @@ public class GameScreen implements Screen {
 
                         }
                         else {
-                            ExplosionSoundEffect.smallSoundEffect();
-
+                            rm.explosionSoundEffect.play();
                             Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 0.2f);
                             smallExplosion.getBoundingBox().setWidth(10);
                             smallExplosion.getBoundingBox().setHeight(10);
@@ -414,7 +415,7 @@ public class GameScreen implements Screen {
                         playerShip.setStartCounterInvincibleTime(true);
                         playerShip.setInvincible(true);
                         if(playerShip.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.smallSoundEffect();
+                            rm.explosionSoundEffect.play();
                             Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                             Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                             smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -432,7 +433,7 @@ public class GameScreen implements Screen {
                             playerShip.setInvincible(false);
 
                         }
-                        ExplosionSoundEffect.smallSoundEffect();
+                        rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                         smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -448,7 +449,7 @@ public class GameScreen implements Screen {
                         playerShip.setStartCounterInvincibleTime(true);
                         playerShip.setInvincible(true);
                         if(playerShip.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.smallSoundEffect();
+                            rm.explosionSoundEffect.play();
                             Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                             Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                             smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -466,7 +467,7 @@ public class GameScreen implements Screen {
                             playerShip.setInvincible(false);
 
                         }
-                        ExplosionSoundEffect.smallSoundEffect();
+                        rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                         smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -495,7 +496,7 @@ public class GameScreen implements Screen {
                     if(enemyShip.intersects(laser.getLaserBoundingBox())){
                         // contact with enemy ship
                         if(enemyShip.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.bigSoundEffect();
+                            rm.explosionSoundEffect.play();
 
                             enemyShipListIterator.remove();
                             Explosion explosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 1f);
@@ -506,7 +507,7 @@ public class GameScreen implements Screen {
 
                         }
                         else {
-                            ExplosionSoundEffect.smallSoundEffect();
+                            rm.explosionSoundEffect.play();
 
                             Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(laser.getLaserBoundingBox()), 0.2f);
                             smallExplosion.getBoundingBox().setWidth(10);
@@ -536,7 +537,7 @@ public class GameScreen implements Screen {
                         Rectangle meteorRectangle = new Rectangle(meteor.getDrawingRectangle());
                         // contact with enemy ship
                         if(meteor.hitAndCheckDestroyed()){
-                            ExplosionSoundEffect.bigSoundEffect();
+                            rm.explosionSoundEffect.play();
 
                             meteor.setDestroyed(true);
                             meteorListIterator.remove();
@@ -550,7 +551,7 @@ public class GameScreen implements Screen {
 
                         }
                         else {
-                            ExplosionSoundEffect.smallSoundEffect();
+                            rm.explosionSoundEffect.play();
 
                             Explosion smallExplosion = new Explosion(explosionTexture, meteorRectangle, 0.5f);
                             smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -582,7 +583,7 @@ public class GameScreen implements Screen {
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
                     if(playerShip.hitAndCheckDestroyed()){
-                        ExplosionSoundEffect.smallSoundEffect();
+                        rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(laser.getLaserBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                         smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -604,7 +605,7 @@ public class GameScreen implements Screen {
                         playerShip.setInvincibleTimer(0);
                         playerShip.setInvincible(false);
                     }
-                        ExplosionSoundEffect.smallSoundEffect();
+                    rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(laser.getLaserBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
                         smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
@@ -639,10 +640,21 @@ public class GameScreen implements Screen {
         float leftLimit, rightLimit, upLimit;
         leftLimit = -enemyShip.getBoundingBox().x;
         rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
+//        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
+//        downLimit = - WORLD_HEIGHT;
         upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
         float xMove = 0;
         xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
         float yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
+//        boolean isStutter = true;
+//        while (isStutter){
+//            enemyShip.randomizeDirectionVector();
+//
+//            yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
+//            if( Math.abs(xMove + enemyShip.getLastXDirection()) != 0)
+//                isStutter = false;
+//        }
+
         if(xMove > 0){
             xMove = Math.min(xMove, rightLimit);
             enemyShip.translate(xMove, yMove);
@@ -664,36 +676,51 @@ public class GameScreen implements Screen {
         if(elapsedTime < 300){
             enemySpawnTimer += deltaTime;
             if(enemySpawnTimer > timeBetweenEnemySpawns){
-                if(elapsedTime > 1 && elapsedTime < 70){
-                    for(int i = 0; i < 3; i++){
+                //spawn enemy type A
+                if(elapsedTime > 50 && elapsedTime < 200){
+                    for(int i = 0; i < 4; i++){
                         enemyShipList.add(new EnemyShipTypeA());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 1 && elapsedTime < 150){
-                    for(int j = 0; j < 1; j++){
+                if(elapsedTime > 250 && elapsedTime < 300){
+                    for(int i = 0; i < 2; i++){
+                        enemyShipList.add(new EnemyShipTypeA());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
+                }
+                //spawn enemy type B
+                if(elapsedTime > 1 && elapsedTime < 300){
+                    for(int j = 0; j < 2; j++){
                         enemyShipList.add( new EnemyShipTypeB());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 70 && elapsedTime < 230){
+                //spawn enemy type C
+                if(elapsedTime > 100 && elapsedTime < 200){
                     for(int j = 0; j < 1; j++){
                         enemyShipList.add( new EnemyShipTypeC());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 150 && elapsedTime < 290){
-                    for(int j = 0; j < 1; j++){
-                        enemyShipList.add( new EnemyShipTypeD());
+                if(elapsedTime > 200 && elapsedTime < 300){
+                    for(int j = 0; j < 2; j++){
+                        enemyShipList.add( new EnemyShipTypeC());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 150 && elapsedTime < 290){
-                    for(int j = 0; j < 1; j++){
-                        enemyShipList.add( new EnemyShipTypeE());
-                        enemySpawnTimer -= timeBetweenEnemySpawns;
-                    }
-                }
+//                if(elapsedTime > 150 && elapsedTime < 300){
+//                    for(int j = 0; j < 2; j++){
+//                        enemyShipList.add( new EnemyShipTypeD());
+//                        enemySpawnTimer -= timeBetweenEnemySpawns;
+//                    }
+//                }
+//                if(elapsedTime > 150 && elapsedTime < 300){
+//                    for(int j = 0; j < 1; j++){
+//                        enemyShipList.add( new EnemyShipTypeE());
+//                        enemySpawnTimer -= timeBetweenEnemySpawns;
+//                    }
+//                }
                 enemySpawnTimer = 0;
             }
             ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
@@ -729,7 +756,7 @@ public class GameScreen implements Screen {
                 item.setTaken(true);
                 Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(playerShip.getBoundingBox()), 0.5f);
                 explosionList.add(smallExplosion);
-                ExplosionSoundEffect.bigSoundEffect();
+                rm.explosionSoundEffect.play();
                 itemsIterator.remove();
                 if(playerShip.isFinishInvincible() == false){
                     playerShip.setStartCounterInvincibleTime(true);
@@ -752,7 +779,7 @@ public class GameScreen implements Screen {
             if(playerShip.intersects(ship.getBoundingBox())){
                 Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(playerShip.getBoundingBox()), 0.5f);
                 explosionList.add(smallExplosion);
-                ExplosionSoundEffect.bigSoundEffect();
+                rm.explosionSoundEffect.play();
                 enemyShipListIterator.remove();
                 if(playerShip.isInvincible() == false){
                     playerShip.setStartCounterInvincibleTime(true);
@@ -777,7 +804,7 @@ public class GameScreen implements Screen {
                 if(playerShip.isInvincible() == false){
                     Explosion smallExplosion = new Explosion(explosionTexture, new Rectangle(playerShip.getBoundingBox()), 0.5f);
                     explosionList.add(smallExplosion);
-                    ExplosionSoundEffect.bigSoundEffect();
+                    rm.explosionSoundEffect.play();
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
                     playerShip.hitAndCheckDestroyed();
@@ -875,8 +902,8 @@ public class GameScreen implements Screen {
             backgroundOffSet = 0;
         }
 
-        batch.draw(background, 0, -backgroundOffSet, WORLD_WIDTH, WORLD_HEIGHT);
-        batch.draw(background, 0, -backgroundOffSet + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.draw(background1, 0, -backgroundOffSet, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.draw(background1, 0, -backgroundOffSet + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
     }
 
     /**

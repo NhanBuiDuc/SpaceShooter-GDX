@@ -65,21 +65,21 @@ public class MenuScreen implements Screen{
         Table table=new Table();
         table.top();
         table.setFillParent(true);
-        table.padTop(60f);
+        table.padTop(80f);
         //create title
         Label.LabelStyle labelStyle=rm.skin.get("title", Label.LabelStyle.class);
-        Label title=new Label("Space Invader",labelStyle);
-        title.setFontScale(0.38f);
+        Label title=new Label("Space Shooter",labelStyle);
+        title.setFontScale(0.4f);
         title.setAlignment(Align.center);
         title.setWrap(true);
         //create buttons
         TextButton.TextButtonStyle textButtonStyle=rm.skin.get("toggle", TextButton.TextButtonStyle.class);
         TextButton playButton=new TextButton("Play",textButtonStyle);
-        playButton.getLabel().setFontScale(0.4f);
+        playButton.getLabel().setFontScale(0.5f);
         TextButton settingsButton=new TextButton("Settings",textButtonStyle);
-        settingsButton.getLabel().setFontScale(0.4f);
+        settingsButton.getLabel().setFontScale(0.5f);
         TextButton exitButton=new TextButton("Exit",textButtonStyle);
-        exitButton.getLabel().setFontScale(0.4f);
+        exitButton.getLabel().setFontScale(0.5f);
         //handle click event for play button
         playButton.addListener(new ClickListener(){
             @Override
@@ -122,9 +122,9 @@ public class MenuScreen implements Screen{
         });
         //add buttons and title to the container
         table.add(title).width(185f).padBottom(-10).row();
-        table.add(playButton).width(160f).padBottom(-20).row();
-        table.add(settingsButton).width(160f).padBottom(-20).row();
-        table.add(exitButton).width(160f).row();
+        table.add(playButton).size(200,60).padBottom(-20).row();
+        table.add(settingsButton).size(200,60).padBottom(-20).row();
+        table.add(exitButton).size(200,60).row();
         stage.addActor(table);
         stage.addAction(Actions.sequence(Actions.alpha(0),Actions.fadeIn(1)));
 
@@ -155,7 +155,6 @@ public class MenuScreen implements Screen{
     public void pause() {
 
     }
-
     @Override
     public void resume() {
 
@@ -169,7 +168,6 @@ public class MenuScreen implements Screen{
     public void dispose() {
         stage.dispose();
         rm.dispose();
-
     }
 
 

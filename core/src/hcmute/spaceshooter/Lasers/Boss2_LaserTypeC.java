@@ -1,15 +1,13 @@
 package hcmute.spaceshooter.Lasers;
 
 
-import static hcmute.spaceshooter.GlobalVariables.boss1_LaserTypeB_Texture;
-import static hcmute.spaceshooter.GlobalVariables.boss1_LaserTypeC_Texture;
 import static hcmute.spaceshooter.GlobalVariables.boss2_LaserTypeC_Texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Boss1_LaserTypeC extends EnemyLaser {
+public class Boss2_LaserTypeC extends EnemyLaser {
     // Gdx's Animation object
     //public Animation<TextureRegion> animation ;
     int phase = 1;
@@ -45,19 +43,19 @@ public class Boss1_LaserTypeC extends EnemyLaser {
      * @param laserTexture      :The texture for rendering the laser
      **/
 
-    public Boss1_LaserTypeC(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
+    public Boss2_LaserTypeC(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
         super(xCentre, yBottom, laserWidth, laserHeight, laserMovementSpeed, laserTexture);
         typeName = "BLUE";
     }
 
-    public Boss1_LaserTypeC(){
+    public Boss2_LaserTypeC(){
 
     }
 
 
-    public Boss1_LaserTypeC(Rectangle shipBoundingBox) {
+    public Boss2_LaserTypeC(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
-        laserTexture = boss1_LaserTypeC_Texture;
+        laserTexture = boss2_LaserTypeC_Texture;
         laserWidth = 5f;
         laserHeight = 5f;
         movementSpeed = 30;

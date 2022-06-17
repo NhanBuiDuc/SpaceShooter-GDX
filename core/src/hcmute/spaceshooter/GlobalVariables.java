@@ -5,8 +5,12 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import org.w3c.dom.Text;
 
@@ -23,7 +27,9 @@ public class GlobalVariables {
     public static final TextureAtlas textureAtlas = new TextureAtlas("images.atlas");
     /* Backgrounds Texture Array . Each item defines a rectangular area of a texture.
     The coordinate system used has its origin in the upper left corner with the x-axis pointing to the right and the y axis pointing downwards.*/
-    public static final Texture background = new Texture("Space Background02.png");
+    public static final Texture background1 = new Texture("Space Background.png");
+    public static final Texture background2 = new Texture("Space Background01.png");
+    public static final Texture background3 = new Texture("Space Background02.png");
     public static final Texture orangeLaserBulletTexture = new Texture("bullet_orange_laser.png");
     public static final Texture blueBulletTexture = new Texture("bullet_blue.png");
     public static final Texture yellowBulletTexture = new Texture("bullet_yellow.png");
@@ -37,9 +43,14 @@ public class GlobalVariables {
     public static final Texture archPowerUpTexture = new Texture("powerupArch_bolt.png");
     public static final Texture greenPowerUpTexture = new Texture("powerupGreen_bolt.png");
     public static final Texture explosiveDrone = new Texture("explosive_drone_sprite.png");
+    //Boss1 laser types
     public static final Texture boss1_LaserTypeA_Texture = new Texture("boss03_bullet03_sprite-removebg-preview.png");
-    public static final Texture boss1_LaserTypeB_Texture = new Texture("boss01_bullet02.png");
-    public static final Texture boss1_LaserTypeC_Texture = new Texture("boss02_bullet01.png");
+    public static final Texture boss1_LaserTypeB_Texture = new Texture("boss02_bullet02.png");
+    public static final Texture boss1_LaserTypeC_Texture = new Texture("boss02_bullet03.png");
+    //Boss2 laser types
+    public static final Texture boss2_LaserTypeA_Texture = new Texture("boss03_bullet03_sprite.png");
+    public static final Texture boss2_LaserTypeB_Texture = new Texture("boss03_bullet01.png");
+    public static final Texture boss2_LaserTypeC_Texture = new Texture("boss02_bullet01.png");
     public static final TextureRegion finalDroneExplosionTextureRegion = GetFinalExplosionAnimation(explosiveDrone);
     public static TextureRegion GetFinalExplosionAnimation(Texture texture) {
         TextureRegion textureRegion = new TextureRegion();
@@ -49,9 +60,4 @@ public class GlobalVariables {
         textureRegion = textureRegion2D[4][2];
         return textureRegion;
     }
-    public static final Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Sprites_bg_music.ogg"));
-    public static final Music bossMusic = Gdx.audio.newMusic(Gdx.files.internal("Sprites_boss_music.ogg"));
-    public static final Music explosionEffect = Gdx.audio.newMusic(Gdx.files.internal("Sprites_explosion.wav"));
-    public static final Music laserEffect = Gdx.audio.newMusic(Gdx.files.internal("laser_effect1.mp3"));
-
 }
