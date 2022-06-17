@@ -1,16 +1,13 @@
 package hcmute.spaceshooter.Lasers;
 
 
-import static hcmute.spaceshooter.GlobalVariables.boss1_LaserTypeB_Texture;
 import static hcmute.spaceshooter.GlobalVariables.boss2_LaserTypeB_Texture;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Boss1_LaserTypeB extends EnemyLaser {
+public class Boss2_LaserTypeB extends EnemyLaser {
     // Gdx's Animation object
     //public Animation<TextureRegion> animation ;
     int phase = 1;
@@ -45,24 +42,24 @@ public class Boss1_LaserTypeB extends EnemyLaser {
      * @param laserTexture      :The texture for rendering the laser
      **/
 
-    public Boss1_LaserTypeB(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
+    public Boss2_LaserTypeB(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
         super(xCentre, yBottom, laserWidth, laserHeight, laserMovementSpeed, laserTexture);
         typeName = "BLUE";
     }
 
-    public Boss1_LaserTypeB(){
+    public Boss2_LaserTypeB(){
 
     }
 
 
-    public Boss1_LaserTypeB(Rectangle shipBoundingBox) {
+    public Boss2_LaserTypeB(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
-        laserTexture = boss1_LaserTypeB_Texture;
+        laserTexture = boss2_LaserTypeB_Texture;
         laserWidth = 10f;
         laserHeight = 10f;
-        movementSpeed = 30;
+        movementSpeed = 50;
         totalAnimationTime = 0.5f;
-        typeName = "Boss1_TypeB";
+        typeName = "Boss2_TypeB";
         /**
          * The title width and height of the given Texture
          * starting from the top left corner going to the right
@@ -130,37 +127,6 @@ public class Boss1_LaserTypeB extends EnemyLaser {
             lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.93f,
                     lasers[1].getShipBoundingBox().getY(),
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
-//            lasers[2] = new Boss1_LaserTypeB(shipBoundingBox);
-//            lasers[2].setLaserWidth(laserWidth);
-//            lasers[2].setLaserHeight(laserHeight);
-//            lasers[2].setLaserMovementSpeed(45);
-//            lasers[2].setLaserBoundingBox(new Rectangle(lasers[2].getShipBoundingBox().getX() + lasers[2].getShipBoundingBox().getWidth() * 0.07f,
-//                    lasers[2].getShipBoundingBox().getY(),
-//                    lasers[2].getLaserWidth(), lasers[2].getLaserHeight()));
-//
-//
-//            lasers[3] = new Boss1_LaserTypeB(shipBoundingBox);
-//            lasers[3].setLaserWidth(laserWidth);
-//            lasers[3].setLaserHeight(laserHeight);
-//            lasers[3].setLaserMovementSpeed(45);
-//            lasers[3].setLaserBoundingBox(new Rectangle(lasers[3].getShipBoundingBox().getX() + lasers[3].getShipBoundingBox().getWidth() * 0.93f,
-//                    lasers[3].getShipBoundingBox().getY(),
-//                    lasers[3].getLaserWidth(), lasers[3].getLaserHeight()));
-//            lasers[4] = new Boss1_LaserTypeB(shipBoundingBox);
-//            lasers[4].setLaserWidth(laserWidth);
-//            lasers[4].setLaserHeight(laserHeight);
-//            lasers[4].setLaserMovementSpeed(45);
-//            lasers[4].setLaserBoundingBox(new Rectangle(lasers[4].getShipBoundingBox().getX() + lasers[4].getShipBoundingBox().getWidth() * 0.93f,
-//                    lasers[4].getShipBoundingBox().getY(),
-//                    lasers[4].getLaserWidth(), lasers[4].getLaserHeight()));
-//            lasers[5] = new Boss1_LaserTypeB(shipBoundingBox);
-//            lasers[5].setLaserWidth(laserWidth);
-//            lasers[5].setLaserHeight(laserHeight);
-//            lasers[5].setLaserMovementSpeed(45);
-//            lasers[5].setLaserBoundingBox(new Rectangle(lasers[5].getShipBoundingBox().getX() + lasers[5].getShipBoundingBox().getWidth() * 0.93f,
-//                    lasers[5].getShipBoundingBox().getY(),
-//                    lasers[5].getLaserWidth(), lasers[5].getLaserHeight()));
-
             this.bullets = lasers;
         }
         return lasers;

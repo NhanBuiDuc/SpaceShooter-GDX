@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("SpaceShooter");
-		config.setWindowedMode(400, 680);
+		config.setWindowedMode(500, 820);
 		new Lwjgl3Application(new SpaceShooterGame(), config);
 	}
 }

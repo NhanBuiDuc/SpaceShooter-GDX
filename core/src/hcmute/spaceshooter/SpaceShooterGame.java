@@ -1,38 +1,31 @@
 package hcmute.spaceshooter;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
-import static hcmute.spaceshooter.GlobalVariables.backgroundMusic;
+
 import java.util.Random;
 
 public class SpaceShooterGame extends Game {
 
-	GameScreen gameScreen;
+	GameScreen1 gameScreen1;
 	public static Random random = new Random();
 	public SpaceShooterGame() {
 	}
 
 	@Override
 	public void create () {
-		backgroundMusic.setVolume(1f);
-		backgroundMusic.setLooping(true);
-		backgroundMusic.play();
-		gameScreen = new GameScreen();
-		setScreen(gameScreen);
+		gameScreen1 = new GameScreen1();
+		setScreen(gameScreen1);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		gameScreen.resize(width, height);
+		gameScreen1.resize(width, height);
 	}
 
 	@Override
 	public void dispose() {
 		super.dispose();
-		gameScreen.dispose();
+		gameScreen1.dispose();
 	}
 
 	@Override

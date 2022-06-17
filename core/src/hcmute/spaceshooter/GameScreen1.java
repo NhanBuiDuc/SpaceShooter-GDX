@@ -2,7 +2,9 @@ package hcmute.spaceshooter;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
-import static hcmute.spaceshooter.GlobalVariables.background;
+import static hcmute.spaceshooter.GlobalVariables.background1;
+import static hcmute.spaceshooter.GlobalVariables.backgroundMusic;
+import static hcmute.spaceshooter.GlobalVariables.pauseButton;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -42,12 +44,12 @@ import hcmute.spaceshooter.Ships.EnemyShipTypeC;
 import hcmute.spaceshooter.Ships.EnemyShipTypeD;
 import hcmute.spaceshooter.Ships.EnemyShipTypeE;
 import hcmute.spaceshooter.SoundEffect.ExplosionSoundEffect;
-import hcmute.spaceshooter.Episode.Episode;
+import hcmute.spaceshooter.Episode.Episode1;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.PlayerShip;
 
-public class GameScreen implements Screen {
+public class GameScreen1 implements Screen {
 
     //screen Base class for OrthographicCamera and PerspectiveCamera.
     private Camera camera;
@@ -78,7 +80,7 @@ public class GameScreen implements Screen {
     private float backgroundMaxScrollingSpeed;
 
     // The time to spawn new enemy ships
-    private float timeBetweenEnemySpawns = 5f;
+    private float timeBetweenEnemySpawns = 8f;
     private float enemySpawnTimer = 0;
 
     //
@@ -109,7 +111,7 @@ public class GameScreen implements Screen {
     BitmapFont font;
 
     // The margin, coordinate of the HUDs. A table-like type of display.
-    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
+    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudRow3Y, hudRow4Y, hudRow5Y, hudRow6Y, hudSectionWidth;
 
     /**
      *  The real time span from the beginning of the program
@@ -125,15 +127,26 @@ public class GameScreen implements Screen {
     long elapsedTime;
 
     //
-    Episode episode;
+    Episode1 episode1;
 
     // Main Constructor.
-    public GameScreen() {
+    public GameScreen1() {
         // Set Up Screen
         camera = new OrthographicCamera();
 
         //  Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
+
+        // set pause button coordinate and size
+        pauseButton.setX(WORLD_WIDTH - 15);
+        pauseButton.setX(WORLD_HEIGHT - 16);
+        pauseButton.setWidth(17);
+        pauseButton.setHeight(20);
+
+        //sound
+        backgroundMusic.setVolume(1f);
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
 
         //setting up the backgrounds
 
@@ -178,7 +191,7 @@ public class GameScreen implements Screen {
         // Render HUD(score, life, shields)
         prepareHud();
 
-        episode = new Episode(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList);
+        episode1 = new Episode1(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList);
     }
 
     /**
@@ -204,7 +217,7 @@ public class GameScreen implements Screen {
          */
         renderBackground(deltaTime);
         //
-        episode.Start(deltaTime, startTime, batch);
+        episode1.Start(deltaTime, startTime, batch);
         //
         checkGetUpgrades();
         checkCrashing();
@@ -226,7 +239,7 @@ public class GameScreen implements Screen {
         spawnEnemyShips(deltaTime);
 
         // spawn Boss
-        episode.SpawnBoss1(deltaTime, batch);
+        episode1.SpawnBoss1(deltaTime, batch);
 
         //lasers
         renderLasers(deltaTime);
@@ -242,11 +255,11 @@ public class GameScreen implements Screen {
 
     private void prepareHud() {
         //Create a BitmapFont from out font File
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("EdgeOfTheGalaxyRegular-OVEa6.otf"));
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("./assets/font/upheavtt.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        fontParameter.size = 72;
-        fontParameter.borderWidth = 3.6f;
+        fontParameter.size = 60;
+        fontParameter.borderWidth = 1.6f;
         fontParameter.color = new Color(1, 1, 1, 0.3f);
         fontParameter.borderColor = new Color(0, 0, 0, 0.3f);
 
@@ -261,6 +274,10 @@ public class GameScreen implements Screen {
         hudCentreX = WORLD_WIDTH / 3;
         hudRow1Y = WORLD_HEIGHT - hudVerticalMargin;
         hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
+        hudRow3Y = hudRow2Y - hudVerticalMargin - font.getCapHeight();
+        hudRow4Y = hudRow3Y - 1 - font.getCapHeight();
+        hudRow5Y = hudRow4Y - hudVerticalMargin - font.getCapHeight();
+        hudRow6Y = hudRow5Y - 1 - font.getCapHeight();
         hudSectionWidth = WORLD_WIDTH / 3;
     }
 
@@ -268,13 +285,13 @@ public class GameScreen implements Screen {
     private void updateAndRenderHUD(float deltaTime) {
         // render Top row labels
         font.draw(batch, "Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
-        font.draw(batch, "Shield", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
-        font.draw(batch, "Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
+        font.draw(batch, "Shield", hudLeftX, hudRow3Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, "Lives", hudLeftX, hudRow5Y, hudSectionWidth, Align.left, false);
 
         // render second row values
-        font.draw(batch, String.format(Locale.getDefault(), "%06d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
-        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.shield), hudCentreX, hudRow2Y, hudSectionWidth, Align.center, false);
-        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.getHP()), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%05d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.shield), hudLeftX, hudRow4Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.getHP()), hudLeftX, hudRow6Y, hudSectionWidth, Align.left, false);
     }
 
     private void detectInput(float deltaTime) {
@@ -658,36 +675,51 @@ public class GameScreen implements Screen {
         if(elapsedTime < 300){
             enemySpawnTimer += deltaTime;
             if(enemySpawnTimer > timeBetweenEnemySpawns){
-                if(elapsedTime > 1 && elapsedTime < 70){
-                    for(int i = 0; i < 3; i++){
+                //spawn enemy type A
+                if(elapsedTime > 50 && elapsedTime < 200){
+                    for(int i = 0; i < 4; i++){
                         enemyShipList.add(new EnemyShipTypeA());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 1 && elapsedTime < 150){
-                    for(int j = 0; j < 1; j++){
+                if(elapsedTime > 250 && elapsedTime < 300){
+                    for(int i = 0; i < 2; i++){
+                        enemyShipList.add(new EnemyShipTypeA());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
+                }
+                //spawn enemy type B
+                if(elapsedTime > 1 && elapsedTime < 300){
+                    for(int j = 0; j < 2; j++){
                         enemyShipList.add( new EnemyShipTypeB());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 70 && elapsedTime < 230){
+                //spawn enemy type C
+                if(elapsedTime > 100 && elapsedTime < 200){
                     for(int j = 0; j < 1; j++){
                         enemyShipList.add( new EnemyShipTypeC());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 150 && elapsedTime < 290){
-                    for(int j = 0; j < 1; j++){
-                        enemyShipList.add( new EnemyShipTypeD());
+                if(elapsedTime > 200 && elapsedTime < 300){
+                    for(int j = 0; j < 2; j++){
+                        enemyShipList.add( new EnemyShipTypeC());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 150 && elapsedTime < 290){
-                    for(int j = 0; j < 1; j++){
-                        enemyShipList.add( new EnemyShipTypeE());
-                        enemySpawnTimer -= timeBetweenEnemySpawns;
-                    }
-                }
+//                if(elapsedTime > 150 && elapsedTime < 300){
+//                    for(int j = 0; j < 2; j++){
+//                        enemyShipList.add( new EnemyShipTypeD());
+//                        enemySpawnTimer -= timeBetweenEnemySpawns;
+//                    }
+//                }
+//                if(elapsedTime > 150 && elapsedTime < 300){
+//                    for(int j = 0; j < 1; j++){
+//                        enemyShipList.add( new EnemyShipTypeE());
+//                        enemySpawnTimer -= timeBetweenEnemySpawns;
+//                    }
+//                }
                 enemySpawnTimer = 0;
             }
             ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
@@ -860,8 +892,8 @@ public class GameScreen implements Screen {
             backgroundOffSet = 0;
         }
 
-        batch.draw(background, 0, -backgroundOffSet, WORLD_WIDTH, WORLD_HEIGHT);
-        batch.draw(background, 0, -backgroundOffSet + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.draw(background1, 0, -backgroundOffSet, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.draw(background1, 0, -backgroundOffSet + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
     }
 
     /**
