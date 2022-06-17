@@ -13,6 +13,7 @@ public class SpaceShooterGame extends Game {
 
 	public static Random random = new Random();
 	public SpaceShooterGame() {
+
 	}
 
 	@Override

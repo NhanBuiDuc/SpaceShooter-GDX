@@ -43,6 +43,7 @@ import hcmute.spaceshooter.Ships.EnemyShipTypeB;
 import hcmute.spaceshooter.Ships.EnemyShipTypeC;
 import hcmute.spaceshooter.Ships.EnemyShipTypeD;
 import hcmute.spaceshooter.Ships.EnemyShipTypeE;
+import hcmute.spaceshooter.Ships.IShip;
 import hcmute.spaceshooter.SoundEffect.ExplosionSoundEffect;
 import hcmute.spaceshooter.Episode.Episode;
 import hcmute.spaceshooter.Lasers.ILaser;
@@ -225,6 +226,7 @@ public class GameScreen implements Screen {
         updateAndRenderExplosions(deltaTime);
 
         // spawnEnemyShips
+        episode.spawnEnemyHorde(startTime, 5, 5, enemyShipList);
         spawnEnemyShips(deltaTime);
 
         // spawn Boss
@@ -268,7 +270,7 @@ public class GameScreen implements Screen {
         BitmapFont font=new BitmapFont(Gdx.files.internal("font-export.fnt"));
         TextButton.TextButtonStyle textButtonStyle=new TextButton.TextButtonStyle();
         textButtonStyle.font=font;
-        TextButton textButton=new TextButton("pause",textButtonStyle);
+        TextButton textButton = new TextButton("pause",textButtonStyle);
     }
 
     //
@@ -637,21 +639,10 @@ public class GameScreen implements Screen {
         float leftLimit, rightLimit, upLimit;
         leftLimit = -enemyShip.getBoundingBox().x;
         rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
-//        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
-//        downLimit = - WORLD_HEIGHT;
         upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
         float xMove = 0;
         xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
         float yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//        boolean isStutter = true;
-//        while (isStutter){
-//            enemyShip.randomizeDirectionVector();
-//
-//            yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//            if( Math.abs(xMove + enemyShip.getLastXDirection()) != 0)
-//                isStutter = false;
-//        }
-
         if(xMove > 0){
             xMove = Math.min(xMove, rightLimit);
             enemyShip.translate(xMove, yMove);

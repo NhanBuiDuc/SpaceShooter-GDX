@@ -22,6 +22,8 @@ import hcmute.spaceshooter.Lasers.Boss1_LaserTypeC;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBoss1;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
+import hcmute.spaceshooter.Ships.EnemyShip;
+import hcmute.spaceshooter.Ships.EnemyShipTypeA;
 import hcmute.spaceshooter.SpaceShooterGame;
 
 public class Episode{ //Upgrade boxes
@@ -416,6 +418,24 @@ public class Episode{ //Upgrade boxes
                         }
                     }
                 }
+            }
+        }
+    }
+    public void spawnEnemyHorde(float startTime, int row, int col, Stack<EnemyShip> enemyShipList){
+        elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
+        float x = 10;
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++){
+                EnemyShip enemyShip = new EnemyShipTypeA();
+                enemyShip.setInHorde(true);
+                enemyShip.setMovementSpeed(5);
+                enemyShip.getBoundingBox().setX(x);
+                x += enemyShip.getBoundingBox().getX() + enemyShip.getBoundingBox().getWidth();
+                enemyShipList.add(new EnemyShipTypeA());
+                if(col == 0){
+                    x = 10;
+                }
+
             }
         }
     }
