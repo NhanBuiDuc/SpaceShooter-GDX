@@ -46,10 +46,18 @@ public abstract class EnemyShip extends Ship{
     }
 
     public void MoveRandomly(float deltaTime){
-        timeSinceLastDirectionChange += deltaTime;
-        if(timeSinceLastDirectionChange > directionChangeFrequency){
-            randomizeDirectionVector();
-            timeSinceLastDirectionChange -= directionChangeFrequency;
+        if(isInHorde == false){
+            timeSinceLastDirectionChange += deltaTime;
+            if(timeSinceLastDirectionChange > directionChangeFrequency){
+                randomizeDirectionVector();
+                timeSinceLastDirectionChange -= directionChangeFrequency;
+            }
+        }
+        else {
+            timeSinceLastDirectionChange += deltaTime;
+            if(timeSinceLastDirectionChange > directionChangeFrequency){
+                timeSinceLastDirectionChange -= directionChangeFrequency;
+            }
         }
     }
 

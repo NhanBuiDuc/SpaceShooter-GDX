@@ -24,6 +24,7 @@ import hcmute.spaceshooter.Ships.EnemyBoss1;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeA;
+import hcmute.spaceshooter.Ships.EnemyShipTypeB;
 import hcmute.spaceshooter.SpaceShooterGame;
 
 public class Episode1 { //Upgrade boxes
@@ -71,14 +72,23 @@ public class Episode1 { //Upgrade boxes
     Stack<IEnemyLaser> enemyBossLaserList;
     // List of Enemy Ships
     private Stack<EnemyBossShip> enemyBossesList;
+    // List of Enemy Ships
+    private Stack<EnemyShip> enemyShipList;
     float elapsedTime;
     boolean isBoss1_TypeC_Shooting = false;
+
     Stack<IDropDownAnimation> mainAnimationList;
 
-    public Episode1(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList, Stack<EnemyBossShip> enemyBossesList) {
+    boolean isSpawnHordeTypeA_1 = false;
+    int countHordeTypeA_1_ableToFire= 2;
+    float xHorde = 21, yHorde = WORLD_HEIGHT - 30;
+
+    public Episode1(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList,
+                    Stack<EnemyBossShip> enemyBossesList, Stack<EnemyShip> enemyShipList) {
         this.mainAnimationList = mainAnimationList;
         this.enemyBossLaserList = enemyBossLaserList;
         this.enemyBossesList = enemyBossesList;
+        this.enemyShipList = enemyShipList;
 
         upgradeTypeA_1 = new UpgradeTypeA();
         upgradeTypeA_2 = new UpgradeTypeA();
@@ -192,8 +202,16 @@ public class Episode1 { //Upgrade boxes
         System.out.println("Time elapsed in seconds = " + elapsedTime);
 
         DropObjects(deltaTime, batch);
+        SpawnEnemy(startTime, batch);
         SpawnBoss1(deltaTime, batch);
 
+    }
+
+    private void SpawnEnemy(long startTime, SpriteBatch batch) {
+        if (elapsedTime == 1 && isSpawnHordeTypeA_1 == false) {
+            spawnHordeTypeA(3, 3);
+            isSpawnHordeTypeA_1 = true;
+        }
     }
 
     public void DropObjects(float deltaTime, SpriteBatch batch) {
@@ -303,14 +321,14 @@ public class Episode1 { //Upgrade boxes
 
     public void SpawnBoss1(float deltaTime,  SpriteBatch batch){
 
-        if(elapsedTime == 1){
+        if(elapsedTime == 280){
             if(!enemyBossesList.contains(enemyBoss1)){
                 enemyBossesList.push(enemyBoss1);
             }
 
         }
 
-        if(elapsedTime >= 1 && !enemyBoss1.IsDead()){
+        if(elapsedTime >= 280 && !enemyBoss1.IsDead()){
             enemyBoss1.drawShip(batch);
             makeBoss1Lasers(deltaTime, batch, elapsedTime);
             enemyBoss1.update(deltaTime);
@@ -421,22 +439,33 @@ public class Episode1 { //Upgrade boxes
             }
         }
     }
-    public void spawnEnemyHorde(float startTime, int row, int col, Stack<EnemyShip> enemyShipList){
-        elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
-        float x = 10;
+    public void spawnHordeTypeA(int row, int col){
+        float random =  SpaceShooterGame.random.nextFloat() * (row * col);
+
         for(int i = 0; i < row; i++) {
             for(int j = 0; j < col; j++){
-                EnemyShip enemyShip = new EnemyShipTypeA();
+                EnemyShip enemyShip = new EnemyShipTypeB();
                 enemyShip.setInHorde(true);
-                enemyShip.setMovementSpeed(5);
-                enemyShip.getBoundingBox().setX(x);
-                x += enemyShip.getBoundingBox().getX() + enemyShip.getBoundingBox().getWidth();
-                enemyShipList.add(new EnemyShipTypeA());
-                if(col == 0){
-                    x = 10;
+                enemyShip.setMovementSpeed(3);
+                enemyShip.getBoundingBox().setX(xHorde);
+                enemyShip.getBoundingBox().setY(yHorde);
+                enemyShip.setAbleToFire(false);
+                if(countHordeTypeA_1_ableToFire > 0){
+                    if(i * j == random){
+                        enemyShip.setAbleToFire(true);
+                        countHordeTypeA_1_ableToFire -= 1;
+                    }
+                }
+
+                xHorde += enemyShip.getBoundingBox().getWidth();
+                enemyShipList.add(enemyShip);
+                if(j == col - 1){
+                    xHorde = 21;
+                    yHorde -= enemyShip.getBoundingBox().getHeight();
                 }
 
             }
         }
+
     }
 }

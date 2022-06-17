@@ -20,9 +20,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -42,8 +39,6 @@ import hcmute.spaceshooter.Ships.EnemyBossShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeA;
 import hcmute.spaceshooter.Ships.EnemyShipTypeB;
 import hcmute.spaceshooter.Ships.EnemyShipTypeC;
-import hcmute.spaceshooter.Ships.EnemyShipTypeD;
-import hcmute.spaceshooter.Ships.EnemyShipTypeE;
 import hcmute.spaceshooter.Episode.Episode1;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Ships.EnemyShip;
@@ -184,7 +179,7 @@ public class GameScreen1 implements Screen {
         // Render HUD(score, life, shields)
         prepareHud();
 
-        episode1 = new Episode1(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList);
+        episode1 = new Episode1(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList, enemyShipList);
     }
 
     /**
@@ -640,20 +635,10 @@ public class GameScreen1 implements Screen {
         float leftLimit, rightLimit, upLimit;
         leftLimit = -enemyShip.getBoundingBox().x;
         rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
-//        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
-//        downLimit = - WORLD_HEIGHT;
         upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
-        float xMove = 0;
-        xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
+        float xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
         float yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//        boolean isStutter = true;
-//        while (isStutter){
-//            enemyShip.randomizeDirectionVector();
-//
-//            yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//            if( Math.abs(xMove + enemyShip.getLastXDirection()) != 0)
-//                isStutter = false;
-//        }
+
 
         if(xMove > 0){
             xMove = Math.min(xMove, rightLimit);
@@ -728,9 +713,15 @@ public class GameScreen1 implements Screen {
             while(enemyShipListIterator.hasNext()){
                 // enemy ships
                 EnemyShip enemyShip = enemyShipListIterator.next();
-                moveEnemy(enemyShip, deltaTime);
-                enemyShip.MoveRandomly(deltaTime);
-                enemyShip.drawShip(batch);
+                if(enemyShip.isInHorde() == false){
+                    moveEnemy(enemyShip, deltaTime);
+                    enemyShip.MoveRandomly(deltaTime);
+                    enemyShip.drawShip(batch);
+                }
+                else {
+                    moveHorde(deltaTime);
+                    enemyShip.drawShip(batch);
+                }
             }
             ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
 
@@ -744,6 +735,63 @@ public class GameScreen1 implements Screen {
         }
         else{
             enemyShipList.clear();
+        }
+    }
+
+    int countAtBound = 0;
+    boolean isMoveRight = true;
+
+    public void moveHorde(float deltaTime){
+
+        Stack<EnemyShip> enemyShipStack = new Stack<>();
+        ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
+
+        while(enemyShipListIterator.hasNext()){
+            EnemyShip enemyShip = enemyShipListIterator.next();
+            if(enemyShip.isInHorde() == true){
+                enemyShipStack.push(enemyShip);
+            }
+        }
+
+        enemyShipListIterator = enemyShipStack.listIterator();
+
+        while(enemyShipListIterator.hasNext()){
+
+            EnemyShip enemyShip = enemyShipListIterator.next();
+            if(enemyShip.getBoundingBox().getX() <= 0){
+                countAtBound += 1;
+                isMoveRight = true;
+            }
+            if(enemyShip.getBoundingBox().getX() + enemyShip.getBoundingBox().getWidth() >= WORLD_WIDTH){
+                countAtBound += 1;
+                isMoveRight = false;
+            }
+            else{
+                // countAtBound = false;
+            }
+        }
+
+        if(countAtBound / 2 == 0){
+            isMoveRight = true;
+        }
+        else{
+            if(countAtBound / 2 == 1){
+                isMoveRight = false;
+            }
+        }
+        enemyShipListIterator = enemyShipStack.listIterator();
+
+        if(isMoveRight == true){
+            while(enemyShipListIterator.hasNext()){
+                EnemyShip enemyShip = enemyShipListIterator.next();
+                enemyShip.getBoundingBox().setX(enemyShip.getBoundingBox().getX() + enemyShip.getMovementSpeed() * deltaTime);
+            }
+        }
+        else {
+            while(enemyShipListIterator.hasNext()){
+                EnemyShip enemyShip = enemyShipListIterator.next();
+                enemyShip.getBoundingBox().setX(enemyShip.getBoundingBox().getX() - enemyShip.getMovementSpeed() * deltaTime);
+            }
         }
     }
 
