@@ -189,6 +189,11 @@ public class Boss1_LaserTypeB extends EnemyLaser {
     }
 
     @Override
+    public int getDamage() {
+        return 1;
+    }
+
+    @Override
     public boolean isFinished() {
         return false;
     }

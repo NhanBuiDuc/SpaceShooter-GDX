@@ -74,14 +74,14 @@ public abstract class EnemyShip extends Ship{
     }
 
     @Override
-    public boolean hitAndCheckDestroyed() {
+    public boolean hitAndCheckDestroyed(int laserDamage) {
         if(shield > 0){
             shield --;
             return false;
         }
         else{
             if(HP > 0){
-                HP--;
+                HP -= laserDamage;
                 return false;
             }
             return true;

@@ -22,6 +22,7 @@ import hcmute.spaceshooter.Lasers.Boss1_LaserTypeC;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBoss1;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
+import hcmute.spaceshooter.Ships.Ship;
 import hcmute.spaceshooter.SpaceShooterGame;
 
 public class Episode1 { //Upgrade boxes
@@ -301,14 +302,14 @@ public class Episode1 { //Upgrade boxes
 
     public void SpawnBoss1(float deltaTime,  SpriteBatch batch){
 
-        if(elapsedTime == 1){
+        if(elapsedTime == 300){
             if(!enemyBossesList.contains(enemyBoss1)){
                 enemyBossesList.push(enemyBoss1);
             }
 
         }
 
-        if(elapsedTime >= 1 && !enemyBoss1.IsDead()){
+        if(elapsedTime >= 300 && !enemyBoss1.IsDead()){
             enemyBoss1.drawShip(batch);
             makeBoss1Lasers(deltaTime, batch, elapsedTime);
             enemyBoss1.update(deltaTime);
@@ -418,5 +419,9 @@ public class Episode1 { //Upgrade boxes
                 }
             }
         }
+    }
+
+    public Ship GetEnemyBoss1(){
+        return enemyBoss1;
     }
 }

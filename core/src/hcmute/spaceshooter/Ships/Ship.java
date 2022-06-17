@@ -94,7 +94,7 @@ abstract public class Ship implements IShip{
 
     }
 
-    public abstract boolean hitAndCheckDestroyed();
+    public abstract boolean hitAndCheckDestroyed(int laserDamage);
 
     public void translate(float xChange, float yChange){
         boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);

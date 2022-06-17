@@ -25,6 +25,8 @@ public interface ILaser {
 
     int getLevel();
 
+    int getDamage();
+
     void drawExplosion(Batch batch);
 
     void pushLaserUpward(float deltaTime,Batch batch);

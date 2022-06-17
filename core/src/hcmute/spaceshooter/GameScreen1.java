@@ -1,8 +1,12 @@
 package hcmute.spaceshooter;
 
+import static hcmute.spaceshooter.GlobalVariables.GAME_RUNNING;
+import static hcmute.spaceshooter.GlobalVariables.GAME_PAUSED;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 import static hcmute.spaceshooter.GlobalVariables.background1;
+import static hcmute.spaceshooter.GlobalVariables.pauseButtonTexture;
+import static hcmute.spaceshooter.GlobalVariables.pauseMenuTexture;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -20,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -48,6 +53,7 @@ import hcmute.spaceshooter.Episode.Episode1;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.PlayerShip;
+import sun.jvm.hotspot.gc.shared.Space;
 
 public class GameScreen1 implements Screen {
     public ResourceManager rm;
@@ -130,11 +136,21 @@ public class GameScreen1 implements Screen {
     //
     Episode1 episode1;
 
+    //Current state
+    int state;
+    Vector3 touchPoint;
+    //Bouding boxes of buttons
+    Rectangle pauseBound;
+    Rectangle resumeBound;
+    Rectangle quitBound;
+
     // Main Constructor.
     public GameScreen1() {
         rm=new ResourceManager();
         rm.setMusicVolume(rm.musicVolume);
         rm.setSfxVolume(rm.sfxVolume);
+        rm.backgroundTheme.play();
+
         // Set Up Screen
         camera = new OrthographicCamera();
 
@@ -157,7 +173,7 @@ public class GameScreen1 implements Screen {
         //PlayerShield And EnemyShield
         playerShieldTextureRegion = textureAtlas.findRegion("shield2");
         enemyShieldTextureRegion = textureAtlas.findRegion("shield1");
-        enemyShieldTextureRegion.flip(false, true);
+        //enemyShieldTextureRegion.flip(false, true);
 
         // Explosion
         explosionTexture = new Texture("explosion.png");
@@ -185,6 +201,18 @@ public class GameScreen1 implements Screen {
         prepareHud();
 
         episode1 = new Episode1(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList);
+
+        state = GAME_RUNNING;
+        touchPoint = new Vector3();
+        pauseBound = new Rectangle(WORLD_WIDTH-14, WORLD_HEIGHT-13, 15, 15);
+        resumeBound = new Rectangle(
+                WORLD_WIDTH/2 - 60/2 + 7f,
+                WORLD_HEIGHT/2 - 45/2 + 15.7f,
+                45, 8);
+        quitBound = new Rectangle(
+                WORLD_WIDTH/2 - 60/2 + 7f,
+                WORLD_HEIGHT/2 - 45/2 + 5.6f,
+                45, 8);
     }
 
     /**
@@ -195,6 +223,10 @@ public class GameScreen1 implements Screen {
 
     @Override
     public void render(float deltaTime) {
+        //Check GameOver
+        //IsGameOver();
+        //Check Victory
+        //IsVictory();
         /*
             Sets up the Batch for drawing.
             This will disable depth buffer writing.
@@ -202,50 +234,107 @@ public class GameScreen1 implements Screen {
          */
         batch.enableBlending();
         batch.begin();
-        // Get The Input Of User
-        detectInput(deltaTime);
-        timeSpan += deltaTime;
-        /** Renders scrolling background, this should be the first graphic method to be called
-         * Otherwise, other graphics will be overwritten
-         */
-        renderBackground(deltaTime);
-        //
-        episode1.Start(deltaTime, startTime, batch);
-        //
-        checkGetUpgrades();
-        checkCrashing();
 
-        // player ship
-        playerShip.drawShip(batch);
-        playerShip.countInvincibleTime(deltaTime);
-        // detect collisions between lasers and ships
-        try {
-            detectCollisions(deltaTime);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(state == 1){
+            // Get The Input Of User
+            detectInput(deltaTime);
+            timeSpan += deltaTime;
+            /** Renders scrolling background, this should be the first graphic method to be called
+             * Otherwise, other graphics will be overwritten
+             */
+            renderBackground(deltaTime);
+            //
+            episode1.Start(deltaTime, startTime, batch);
+            //
+            checkGetUpgrades();
+            checkCrashing();
+
+            // player ship
+            playerShip.drawShip(batch);
+            playerShip.countInvincibleTime(deltaTime);
+            // detect collisions between lasers and ships
+            try {
+                detectCollisions(deltaTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            detectBossCollisions(deltaTime);
+            // explosions
+            updateAndRenderExplosions(deltaTime);
+
+            // spawnEnemyShips
+            spawnEnemyShips(deltaTime);
+
+            // spawn Boss
+            episode1.SpawnBoss1(deltaTime, batch);
+
+            //lasers
+            renderLasers(deltaTime);
+            removeEnemyShipsAtBounds();
+            // hud rendering
+            updateAndRenderHUD(deltaTime);
         }
-        detectBossCollisions(deltaTime);
-        // explosions
-        updateAndRenderExplosions(deltaTime);
-
-        // spawnEnemyShips
-        spawnEnemyShips(deltaTime);
-
-        // spawn Boss
-        episode1.SpawnBoss1(deltaTime, batch);
-
-        //lasers
-        renderLasers(deltaTime);
-        removeEnemyShipsAtBounds();
-        // hud rendering
-        updateAndRenderHUD(deltaTime);
-
+        //Update game state
+        UpdateState();
+        DrawState();
         batch.end();
     }
 
+    private void UpdateState(){
+        switch (state){
+            case GAME_RUNNING:
+                if (Gdx.input.justTouched()) {
+                    camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+                    if (pauseBound.contains(touchPoint.x, touchPoint.y)) {
+                        state = GAME_PAUSED;
+                    }
+                }
+                break;
+            case GAME_PAUSED:
+                if (Gdx.input.justTouched()) {
+                    camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+                    if (resumeBound.contains(touchPoint.x, touchPoint.y)) {
+                        state = GAME_RUNNING;
+                    }
+
+                    if (quitBound.contains(touchPoint.x, touchPoint.y)) {
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(new SelectCampaignScreen());
+                    }
+                }
+                break;
+        }
+    }
+
+    private void DrawState(){
+        switch (state){
+            case GAME_RUNNING:
+                batch.draw(pauseButtonTexture, WORLD_WIDTH-13, WORLD_HEIGHT-12, 15, 15);
+                break;
+            case GAME_PAUSED:
+                batch.draw(pauseMenuTexture,
+                        0,
+                        0,
+                        WORLD_WIDTH, WORLD_HEIGHT);
+                pause();
+                break;
+        }
+    }
+
+    private void IsGameOver(){
+        if(playerShip.getHP() < 1){
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
+        }
+    }
+
+    private void IsVictory(){
+        if(episode1.GetEnemyBoss1().getHP() < 1){
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new SelectCampaignScreen());
+        }
+    }
 
     // Render HUD(score, life, shields) for the main screen
-
     private void prepareHud() {
         //Create a BitmapFont from out font File
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("./assets/font/upheavtt.ttf"));
@@ -375,7 +464,7 @@ public class GameScreen1 implements Screen {
                 if(boss != null){
                     if(boss.intersects(laser.getLaserBoundingBox())){
                         // contact with enemy ship
-                        if(boss.hitAndCheckDestroyed())
+                        if(boss.hitAndCheckDestroyed(laser.getDamage()))
                         {
                             rm.explosionSoundEffect.play();
 
@@ -414,7 +503,7 @@ public class GameScreen1 implements Screen {
                     if(playerShip.isInvincible() == false){
                         playerShip.setStartCounterInvincibleTime(true);
                         playerShip.setInvincible(true);
-                        if(playerShip.hitAndCheckDestroyed()){
+                        if(playerShip.hitAndCheckDestroyed(laser.getDamage())){
                             rm.explosionSoundEffect.play();
                             Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                             Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
@@ -448,7 +537,7 @@ public class GameScreen1 implements Screen {
                     if(playerShip.isInvincible() == false){
                         playerShip.setStartCounterInvincibleTime(true);
                         playerShip.setInvincible(true);
-                        if(playerShip.hitAndCheckDestroyed()){
+                        if(playerShip.hitAndCheckDestroyed(laser.getDamage())){
                             rm.explosionSoundEffect.play();
                             Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                             Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
@@ -495,7 +584,7 @@ public class GameScreen1 implements Screen {
                 if(enemyShip != null){
                     if(enemyShip.intersects(laser.getLaserBoundingBox())){
                         // contact with enemy ship
-                        if(enemyShip.hitAndCheckDestroyed()){
+                        if(enemyShip.hitAndCheckDestroyed(laser.getDamage())){
                             rm.explosionSoundEffect.play();
 
                             enemyShipListIterator.remove();
@@ -582,7 +671,7 @@ public class GameScreen1 implements Screen {
 
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
-                    if(playerShip.hitAndCheckDestroyed()){
+                    if(playerShip.hitAndCheckDestroyed(laser.getDamage())){
                         rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(laser.getLaserBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
@@ -761,7 +850,7 @@ public class GameScreen1 implements Screen {
                 if(playerShip.isFinishInvincible() == false){
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
-                    playerShip.hitAndCheckDestroyed();
+                    playerShip.hitAndCheckDestroyed(1);
                 }
                 else{
                     if(playerShip.isFinishInvincible() == true){
@@ -784,7 +873,7 @@ public class GameScreen1 implements Screen {
                 if(playerShip.isInvincible() == false){
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
-                    playerShip.hitAndCheckDestroyed();
+                    playerShip.hitAndCheckDestroyed(1);
                 }
                 else{
                     if(playerShip.isFinishInvincible() == true){
@@ -807,7 +896,7 @@ public class GameScreen1 implements Screen {
                     rm.explosionSoundEffect.play();
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
-                    playerShip.hitAndCheckDestroyed();
+                    playerShip.hitAndCheckDestroyed(1);
                 }
                 else{
                     if(playerShip.isFinishInvincible() == true){

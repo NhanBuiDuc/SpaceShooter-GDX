@@ -103,6 +103,11 @@ public class EnemyLaserTypeD extends EnemyLaser  {
     }
 
     @Override
+    public int getDamage() {
+        return 1;
+    }
+
+    @Override
     public boolean isFinished() {
         return false;
     }

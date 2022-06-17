@@ -125,6 +125,11 @@ public class Boss1_LaserTypeA extends EnemyLaser {
         return level;
     }
 
+    @Override
+    public int getDamage() {
+        return 1;
+    }
+
 
     public void setLevel(int level) {
         this.level = level;

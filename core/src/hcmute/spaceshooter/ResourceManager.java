@@ -91,8 +91,8 @@ public class ResourceManager {
     }
     public void setSfxVolume(float sfxVolume)
     {
-        explosionSoundEffect.setVolume(sfxVolume);
-        laserSoundEffect.setVolume(sfxVolume);
+        explosionSoundEffect.setVolume(sfxVolume/2);
+        laserSoundEffect.setVolume(sfxVolume/2);
     }
 
     public void dispose()

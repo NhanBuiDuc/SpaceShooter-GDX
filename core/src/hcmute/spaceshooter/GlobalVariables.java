@@ -60,4 +60,11 @@ public class GlobalVariables {
         textureRegion = textureRegion2D[4][2];
         return textureRegion;
     }
+    static final int GAME_RUNNING = 1;
+    static final int GAME_PAUSED = 2;
+    //Create pause menu
+    public static Texture pauseMenuTexture = new Texture("pause_menu.png");
+    //Create pause button
+    public static Texture pauseButtonTexture = new Texture("pause_button.png");
+    //public static final TextureRegion pauseButton = new TextureRegion(pauseTexture, 6, 6, 21, 22);
 }

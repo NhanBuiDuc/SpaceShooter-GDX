@@ -40,6 +40,7 @@ public class LaserTypeC extends Laser {
     public LaserTypeC(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
         typeName = "YELLOW";
+        damage = 1;
         laserTexture = yellowBulletTexture;
         explosionTexture = GlobalVariables.explosionTexture;
         // laser width and height
