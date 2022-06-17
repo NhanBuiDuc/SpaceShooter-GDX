@@ -16,9 +16,9 @@ public class EnemyShipTypeD extends EnemyShip {
     public EnemyShipTypeD(){
         super();
         boundingBox = new Rectangle(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10), WORLD_HEIGHT - 5, 15, 15);
-        movementSpeed = 50;
+        movementSpeed = 30;
         shield = 0;
-        timeBetweenShots = 1f;
+        timeBetweenShots = 5f;
         shipTextureRegion = textureAtlas.findRegion("enemy_ship05");
         shieldTextureRegion = textureAtlas.findRegion("shield1");
         ableToFire = true;

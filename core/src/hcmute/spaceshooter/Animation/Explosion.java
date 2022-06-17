@@ -1,7 +1,5 @@
 package hcmute.spaceshooter.Animation;
 
-import static hcmute.spaceshooter.GlobalVariables.backgroundMusic;
-import static hcmute.spaceshooter.GlobalVariables.explosionEffect;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;

@@ -60,9 +60,4 @@ public class GlobalVariables {
         textureRegion = textureRegion2D[4][2];
         return textureRegion;
     }
-    public static final Music backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("./assets/music/Sprites_bg_music.ogg"));
-    public static final Music bossMusic = Gdx.audio.newMusic(Gdx.files.internal("./assets/music/Sprites_boss_music.ogg"));
-    public static final Music explosionEffect = Gdx.audio.newMusic(Gdx.files.internal("./assets/sfx/Sprites_explosion.wav"));
-    public static final Music laserEffect = Gdx.audio.newMusic(Gdx.files.internal("./assets/sfx/laser_effect1.mp3"));
-    public static FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("./assets/font/upheavtt.ttf"));
 }

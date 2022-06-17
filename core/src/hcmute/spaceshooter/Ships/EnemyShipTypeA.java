@@ -17,10 +17,10 @@ import hcmute.spaceshooter.SpaceShooterGame;
 public class EnemyShipTypeA extends EnemyShip{
 
     public EnemyShipTypeA(){
-        boundingBox = new Rectangle(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10), WORLD_HEIGHT - 5, 10, 10);
-        movementSpeed = 70;
+        boundingBox = new Rectangle(SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH -10), WORLD_HEIGHT - 5, 7, 7);
+        movementSpeed = 30;
         shield = 0;
-        timeBetweenShots = 10.f;
+        timeBetweenShots = 5f;
         shipTextureRegion = textureAtlas.findRegion("enemy_ship04");
         shieldTextureRegion = textureAtlas.findRegion("shield1");
         ableToFire = false;
