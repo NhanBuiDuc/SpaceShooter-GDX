@@ -94,19 +94,22 @@ public abstract class EnemyBossShip extends EnemyShip{
     }
 
     public Stack<IEnemyLaser> GetLasers() {
-        // Enemy lasers
-        Stack<IEnemyLaser> laserStack = new Stack<>();
-        if(canFireLaser()){
-            IEnemyLaser[] lasers = this.laserI.GetBullets();
-            for(int i = 0; i < lasers.length ; i++){
-                if(lasers[i] != null){
-                    laserStack.push(lasers[i]);
-                }
+        if (canFireLaser()) {
+            // Enemy lasers
+            Stack<IEnemyLaser> laserStack = new Stack<>();
+            if (canFireLaser()) {
+                IEnemyLaser[] lasers = this.laserI.GetBullets();
+                for (int i = 0; i < lasers.length; i++) {
+                    if (lasers[i] != null) {
+                        laserStack.push(lasers[i]);
+                    }
 
+                }
             }
+            timeSinceLastShot = 0;
+            return laserStack;
         }
-        timeSinceLastShot = 0;
-        return laserStack;
+        return null;
     }
 
     @Override

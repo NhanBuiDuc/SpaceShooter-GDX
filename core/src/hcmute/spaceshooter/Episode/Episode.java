@@ -18,18 +18,13 @@ import hcmute.spaceshooter.Animation.UpgradeTypeD;
 import hcmute.spaceshooter.Animation.UpgradeTypeE;
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeA;
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
+import hcmute.spaceshooter.Lasers.Boss1_LaserTypeC;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBoss1;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
-import hcmute.spaceshooter.Ships.EnemyShip;
-import hcmute.spaceshooter.Ships.EnemyShipTypeA;
-import hcmute.spaceshooter.Ships.EnemyShipTypeB;
-import hcmute.spaceshooter.Ships.EnemyShipTypeC;
-import hcmute.spaceshooter.Ships.EnemyShipTypeD;
-import hcmute.spaceshooter.Ships.EnemyShipTypeE;
+import hcmute.spaceshooter.SpaceShooterGame;
 
-public class Episode{
-    //Upgrade boxes
+public class Episode{ //Upgrade boxes
     //UpgradeTypeA
     UpgradeTypeA upgradeTypeA_1;
     UpgradeTypeA upgradeTypeA_2;
@@ -69,16 +64,17 @@ public class Episode{
 
     EnemyBoss1 enemyBoss1;
 
-//    Stack<IDropDownAnimation> mainAnimationList;
+    //    Stack<IDropDownAnimation> mainAnimationList;
 //    Stack<Meteor> meteorList;
     Stack<IEnemyLaser> enemyBossLaserList;
     // List of Enemy Ships
     private Stack<EnemyBossShip> enemyBossesList;
-    float boss1StartingShootingTimer = 0;
     float elapsedTime;
+    boolean isBoss1_TypeC_Shooting = false;
+    Stack<IDropDownAnimation> mainAnimationList;
 
     public Episode(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList, Stack<EnemyBossShip> enemyBossesList) {
-        //this.mainAnimationList = mainAnimationList;
+        this.mainAnimationList = mainAnimationList;
         this.enemyBossLaserList = enemyBossLaserList;
         this.enemyBossesList = enemyBossesList;
 
@@ -190,13 +186,15 @@ public class Episode{
     }
 
     public void Start(float deltaTime, long startTime, SpriteBatch batch){
-        DropObjects(deltaTime, startTime, batch);
+        elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
+        System.out.println("Time elapsed in seconds = " + elapsedTime);
+
+        DropObjects(deltaTime, batch);
         SpawnBoss1(deltaTime, batch);
+
     }
 
-    public void DropObjects(float deltaTime, long startTime, SpriteBatch batch) {
-        elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
-        System.out.println(elapsedTime);
+    public void DropObjects(float deltaTime, SpriteBatch batch) {
 
         //Meteor
         if (elapsedTime >= 30 && meteor1.getTaken() == false && meteor1.getDestroyed() == false) {
@@ -302,13 +300,15 @@ public class Episode{
     }
 
     public void SpawnBoss1(float deltaTime,  SpriteBatch batch){
-        if(elapsedTime == 300){
+
+        if(elapsedTime == 1){
             if(!enemyBossesList.contains(enemyBoss1)){
                 enemyBossesList.push(enemyBoss1);
             }
 
         }
-        if(elapsedTime >= 300 && !enemyBoss1.IsDead()){
+
+        if(elapsedTime >= 1 && !enemyBoss1.IsDead()){
             enemyBoss1.drawShip(batch);
             makeBoss1Lasers(deltaTime, batch, elapsedTime);
             enemyBoss1.update(deltaTime);
@@ -331,11 +331,26 @@ public class Episode{
                             enemyBossLaserList.push(laser);
                     }
                 }
-                if (elapsedTime % 2 == 0) {
+                if (elapsedTime % 3 == 0) {
                     enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
                     for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
                         enemyBossLaserList.push(laser);
                     }
+                }
+                if (elapsedTime % 4 == 0) {
+                    float randomX = SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH);
+                    enemyBossShip.setLaserI(new Boss1_LaserTypeC(enemyBossShip.getBoundingBox()));
+                    for(IEnemyLaser laser: enemyBossShip.GetLasers()){
+
+                        laser.getLaserBoundingBox().setX(randomX);
+                        enemyBossLaserList.push(laser);
+                    }
+                    randomX = SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH);
+                    for(IEnemyLaser laser: enemyBossShip.GetLasers()){
+                        laser.getLaserBoundingBox().setX(randomX);
+                        enemyBossLaserList.push(laser);
+                    }
+                    enemyBossShip.setTimeSinceLastShot(0);
                 }
             }
         }
@@ -343,29 +358,65 @@ public class Episode{
         DrawAndRemoveBossBullets(deltaTime, batch);
     }
 
-    public void DrawAndRemoveBossBullets(float deltaTime, Batch batch){
-        if(!enemyBossLaserList.isEmpty()){
+    public void DrawAndRemoveBossBullets(float deltaTime, Batch batch) {
+        if (!enemyBossLaserList.isEmpty()) {
             ListIterator<IEnemyLaser> iterator = enemyBossLaserList.listIterator();
             while (iterator.hasNext()) {
                 IEnemyLaser laser = iterator.next();
-                if(laser != null){
-                    if(laser instanceof Boss1_LaserTypeA){
+                if (laser != null) {
+                    if (laser instanceof Boss1_LaserTypeA) {
                         laser.drawLasersWithAnimation(deltaTime, batch);
-                        if(laser.isFinished() == true)
+                        if (laser.isFinished() == true)
                             iterator.remove();
-                    }
-                    else{
-                        if (laser.getLaserBoundingBox().getY() + laser.getLaserBoundingBox().getHeight() < (-50)) {
-                            iterator.remove();
-                        }
-                        else{
-                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
-                            laser.drawLaser(batch);
+                    } else {
+                        if (laser instanceof Boss1_LaserTypeB) {
+                            if (laser.getLaserBoundingBox().getY() + laser.getLaserBoundingBox().getHeight() < (-50)) {
+                                iterator.remove();
+                            } else {
+                                laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
+                                laser.drawLaser(batch);
+                            }
+                        } else {
+                            if (laser instanceof Boss1_LaserTypeC) {
+
+                                if (laser.getLaserBoundingBox().getY() + laser.getLaserBoundingBox().getHeight() < (0)) {
+
+                                    iterator.remove();
+                                }
+                                else {
+
+                                    if (((Boss1_LaserTypeC) laser).getLaserBoundingBox().getY() > WORLD_HEIGHT / 3 && (((Boss1_LaserTypeC) laser).isSpreading() == false)) {
+                                        laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
+                                        laser.drawLaser(batch);
+                                    }
+                                    else {
+                                        ((Boss1_LaserTypeC) laser).setSpreading(true);
+                                        if (laser.getMovementType() == "UP_LEFT") {
+                                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 15f * deltaTime);
+                                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                                        } else if (laser.getMovementType() == "UP_RIGHT") {
+                                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() + 15f * deltaTime);
+                                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
+                                        } else if (laser.getMovementType() == "RIGHT") {
+                                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() + 20f  * deltaTime);
+                                        } else if (laser.getMovementType() == "DOWN_RIGHT") {
+                                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() + 15f * deltaTime);
+                                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
+                                        } else if (laser.getMovementType() == "DOWN_LEFT") {
+                                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 15f * deltaTime);
+                                            laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
+                                        } else if (laser.getMovementType() == "LEFT") {
+                                            laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 20f * deltaTime);
+                                        }
+                                        isBoss1_TypeC_Shooting = false;
+                                        laser.drawLaser(batch);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
     }
-
 }

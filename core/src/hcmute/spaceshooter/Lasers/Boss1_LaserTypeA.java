@@ -82,6 +82,12 @@ public class Boss1_LaserTypeA extends EnemyLaser{
             drawLaser(batch);
         }
     }
+
+    @Override
+    public boolean isSpreading() {
+        return false;
+    }
+
     /** Update the animation's rendering time by @param delaTime
      *
      * @param deltaTime The time in seconds since the last render.

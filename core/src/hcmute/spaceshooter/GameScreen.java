@@ -33,6 +33,7 @@ import java.util.Stack;
 import hcmute.spaceshooter.Animation.Explosion;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
+import hcmute.spaceshooter.Lasers.Boss1_LaserTypeC;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeA;
@@ -399,10 +400,29 @@ public class GameScreen implements Screen {
         while (enemyLaserListIterator.hasNext()) {
             IEnemyLaser laser = enemyLaserListIterator.next();
             if(playerShip.intersects(laser.getLaserBoundingBox())){
-                if(playerShip.isInvincible() == false){
-                    playerShip.setStartCounterInvincibleTime(true);
-                    playerShip.setInvincible(true);
-                    if(playerShip.hitAndCheckDestroyed()){
+                if(laser instanceof Boss1_LaserTypeC){
+                    if(playerShip.isInvincible() == false){
+                        playerShip.setStartCounterInvincibleTime(true);
+                        playerShip.setInvincible(true);
+                        if(playerShip.hitAndCheckDestroyed()){
+                            ExplosionSoundEffect.smallSoundEffect();
+                            Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
+                            Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
+                            smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
+                            smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight());
+                            smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
+                            smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
+                            explosionList.add(smallExplosion);
+                            break;
+                        }
+                    }
+                    else{
+                        if(playerShip.isFinishInvincible() == true){
+                            playerShip.setStartCounterInvincibleTime(false);
+                            playerShip.setInvincibleTimer(0);
+                            playerShip.setInvincible(false);
+
+                        }
                         ExplosionSoundEffect.smallSoundEffect();
                         Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
@@ -411,17 +431,43 @@ public class GameScreen implements Screen {
                         smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
                         smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
                         explosionList.add(smallExplosion);
-                        break;
                     }
+                    enemyLaserListIterator.remove();
                 }
-               else{
-                    if(playerShip.isFinishInvincible() == true){
-                        playerShip.setStartCounterInvincibleTime(false);
-                        playerShip.setInvincibleTimer(0);
-                        playerShip.setInvincible(false);
+                else {
+                    if(playerShip.isInvincible() == false){
+                        playerShip.setStartCounterInvincibleTime(true);
+                        playerShip.setInvincible(true);
+                        if(playerShip.hitAndCheckDestroyed()){
+                            ExplosionSoundEffect.smallSoundEffect();
+                            Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
+                            Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
+                            smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
+                            smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight());
+                            smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
+                            smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
+                            explosionList.add(smallExplosion);
+                            break;
+                        }
                     }
+                    else{
+                        if(playerShip.isFinishInvincible() == true){
+                            playerShip.setStartCounterInvincibleTime(false);
+                            playerShip.setInvincibleTimer(0);
+                            playerShip.setInvincible(false);
 
+                        }
+                        ExplosionSoundEffect.smallSoundEffect();
+                        Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
+                        Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
+                        smallExplosion.getBoundingBox().setWidth(smallExplosion.getBoundingBox().getWidth());
+                        smallExplosion.getBoundingBox().setHeight(smallExplosion.getBoundingBox().getHeight());
+                        smallExplosion.getBoundingBox().setX(smallExplosion.getBoundingBox().getX() - 5);
+                        smallExplosion.getBoundingBox().setY(smallExplosion.getBoundingBox().getY() - 10);
+                        explosionList.add(smallExplosion);
+                    }
                 }
+
             }
 
         }
@@ -491,7 +537,7 @@ public class GameScreen implements Screen {
                             explosion.getBoundingBox().setWidth(explosion.getBoundingBox().getWidth() + 5);
                             explosion.getBoundingBox().setHeight(explosion.getBoundingBox().getHeight() +5);
                             explosionList.add(explosion);
-                            score += 100;
+                            score += 500;
 
                         }
                         else {

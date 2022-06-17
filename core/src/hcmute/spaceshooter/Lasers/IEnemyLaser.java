@@ -27,4 +27,6 @@ public interface IEnemyLaser{
     boolean isFinished();
 
     void drawLasersWithAnimation(float deltaTime, Batch batch);
+
+    boolean isSpreading();
 }

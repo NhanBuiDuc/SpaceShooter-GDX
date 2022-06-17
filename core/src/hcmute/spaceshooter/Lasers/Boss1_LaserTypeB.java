@@ -192,6 +192,11 @@ public class Boss1_LaserTypeB extends EnemyLaser {
         return false;
     }
 
+    @Override
+    public boolean isSpreading() {
+        return false;
+    }
+
 
     public void setLevel(int level) {
         this.level = level;
