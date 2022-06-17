@@ -1,0 +1,111 @@
+
+images.png
+size: 8192, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Starscape00
+  rotate: false
+  xy: 2166, 123
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+Starscape01
+  rotate: false
+  xy: 2, 123
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+Starscape02
+  rotate: false
+  xy: 3248, 123
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+Starscape03
+  rotate: false
+  xy: 1084, 123
+  size: 1080, 1920
+  orig: 1080, 1920
+  offset: 0, 0
+  index: -1
+darkPurpleStarscape
+  rotate: false
+  xy: 4588, 1787
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+enemyBlack1
+  rotate: false
+  xy: 147, 37
+  size: 93, 84
+  orig: 93, 84
+  offset: 0, 0
+  index: -1
+explosion
+  rotate: false
+  xy: 4330, 1465
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+explosive_drone
+  rotate: false
+  xy: 4330, 1723
+  size: 256, 320
+  orig: 256, 320
+  offset: 0, 0
+  index: -1
+laserBlue13
+  rotate: false
+  xy: 4760, 1728
+  size: 9, 57
+  orig: 9, 57
+  offset: 0, 0
+  index: -1
+laserRed13
+  rotate: false
+  xy: 4588, 1466
+  size: 9, 57
+  orig: 9, 57
+  offset: 0, 0
+  index: -1
+playerShip2_blue
+  rotate: false
+  xy: 4330, 1181
+  size: 112, 75
+  orig: 112, 75
+  offset: 0, 0
+  index: -1
+red_present
+  rotate: false
+  xy: 4330, 1258
+  size: 246, 205
+  orig: 246, 205
+  offset: 0, 0
+  index: -1
+shield1
+  rotate: false
+  xy: 4846, 1935
+  size: 133, 108
+  orig: 133, 108
+  offset: 0, 0
+  index: -1
+shield2
+  rotate: false
+  xy: 2, 2
+  size: 143, 119
+  orig: 143, 119
+  offset: 0, 0
+  index: -1
+small_drone
+  rotate: false
+  xy: 4588, 1525
+  size: 170, 260
+  orig: 170, 260
+  offset: 0, 0
+  index: -1
