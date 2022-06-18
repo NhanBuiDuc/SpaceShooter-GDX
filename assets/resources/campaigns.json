@@ -3,28 +3,18 @@
     {
       "name": "Earth",
       "boss": "Earth Overlord",
-      "description": "..."
-	  "record":100
+	  "record":0
     },
     {
       "name": "Mars",
-      "boss": "????",
-      "description": "..."
-	  "record":100
+      "boss": "The Addictor",
+	  "record":0
 
     },
     {
       "name": "Jupiter",
-      "boss": "?????",
-      "description": "..."
-	  "record":100
-    },
-    {
-      "name": "Saturn",
-      "boss":"?????",
-      "description": "..."
-	  "record":100
-
+      "boss": "Dignity VI",
+	  "record":0
     }
   ]
 }

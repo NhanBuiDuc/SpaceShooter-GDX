@@ -8,11 +8,15 @@ import java.util.Random;
  * The main game entry
  */
 public class SpaceShooterGame extends Game {
+	public ResourceManager rm;
 	public static Random random = new Random();
 	public SpaceShooterGame() {
 	}
 	@Override
 	public void create () {
+		rm=new ResourceManager();
+		//load campaigns
+		rm.loadCampaigns();
 		this.setScreen(new SplashScreen());
 	}
 

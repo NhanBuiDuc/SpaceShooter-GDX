@@ -65,11 +65,11 @@ public class MenuScreen implements Screen{
         Table table=new Table();
         table.top();
         table.setFillParent(true);
-        table.padTop(80f);
+        table.padTop(70f);
         //create title
         Label.LabelStyle labelStyle=rm.skin.get("title", Label.LabelStyle.class);
         Label title=new Label("Space Shooter",labelStyle);
-        title.setFontScale(0.4f);
+        title.setFontScale(0.42f);
         title.setAlignment(Align.center);
         title.setWrap(true);
         //create buttons
@@ -123,7 +123,7 @@ public class MenuScreen implements Screen{
             }
         });
         //add buttons and title to the container
-        table.add(title).width(185f).padBottom(-10).row();
+        table.add(title).width(200f).padBottom(-10).row();
         table.add(playButton).size(200,60).padBottom(-20).row();
         table.add(settingsButton).size(200,60).padBottom(-20).row();
         table.add(exitButton).size(200,60).row();
