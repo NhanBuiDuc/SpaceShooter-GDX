@@ -1,0 +1,9 @@
+{
+earthRecord: 100
+saturnRecord: 200
+marsRecord: 300
+jupiterRecord: 400
+playerMusicVolume: 0.5
+playerSfxVolume: 0.5
+recordList: [ 100, 200, 300, 400 ]
+}

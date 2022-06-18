@@ -142,9 +142,10 @@ public class GameScreen implements Screen {
     // Main Constructor.
     public GameScreen() {
         rm=new ResourceManager();
-        rm.setMusicVolume(rm.musicVolume);
         rm.setSfxVolume(rm.sfxVolume);
-        rm.backgroundTheme.play();
+        rm.battleTheme.setVolume(rm.musicVolume);
+        rm.battleTheme.play();
+        rm.battleTheme.setLooping(true);
 
         // Set Up Screen
         camera = new OrthographicCamera();
@@ -214,9 +215,9 @@ public class GameScreen implements Screen {
     @Override
     public void render(float deltaTime) {
         //Check GameOver
-        //IsGameOver();
+        IsGameOver();
         //Check Victory
-        //IsVictory();
+        IsVictory();
         /*
             Sets up the Batch for drawing.
             This will disable depth buffer writing.
@@ -284,8 +285,8 @@ public class GameScreen implements Screen {
                     if (resumeBound.contains(touchPoint.x, touchPoint.y)) {
                         state = GAME_RUNNING;
                     }
-
                     if (quitBound.contains(touchPoint.x, touchPoint.y)) {
+                        rm.battleTheme.stop();
                         ((Game)Gdx.app.getApplicationListener()).setScreen(new SelectCampaignScreen());
                     }
                 }
@@ -310,13 +311,15 @@ public class GameScreen implements Screen {
 
     private void IsGameOver(){
         if(playerShip.getHP() < 1){
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
+            rm.battleTheme.stop();
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
         }
     }
 
     private void IsVictory(){
         if(episode.getEnemyBoss().getHP() < 1){
-            ((Game)Gdx.app.getApplicationListener()).setScreen(new SelectCampaignScreen());
+            rm.battleTheme.stop();
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new VictoryScreen());
         }
     }
 
@@ -1048,13 +1051,14 @@ public class GameScreen implements Screen {
      */
     @Override
     public void show() {
-
+        rm.battleTheme.setLooping(true);
+        rm.battleTheme.play();
     }
     /**
      * Called when this screen should release all resources.
      */
     @Override
     public void dispose() {
-
+        rm.dispose();
     }
 }

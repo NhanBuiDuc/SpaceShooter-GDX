@@ -29,7 +29,6 @@ public class SelectCampaignScreen implements Screen {
     private Stage stage;
     private Viewport viewport;
     private SpriteBatch batch;
-    private int campaignIndex=0;
     private int backgroundOffset=0;
     public ResourceManager rm;
     public SelectCampaignScreen()
@@ -42,25 +41,27 @@ public class SelectCampaignScreen implements Screen {
         //set stage for actors
         stage=new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
-        //play theme
-        rm.menuTheme.setVolume(rm.musicVolume);
-        rm.menuTheme.setLooping(true);
-        rm.menuTheme.play();
+
     }
     @Override
     public void show() {
+        //play theme
+        rm.selectCampaignTheme.setVolume(rm.musicVolume);
+        rm.selectCampaignTheme.setLooping(true);
+        rm.selectCampaignTheme.play();
         //set label style for title
         Label.LabelStyle titleStyle=rm.skin.get("title", Label.LabelStyle.class);
         Label title= new Label("Select Campaign",titleStyle);
-        title.setFontScale(0.2f);
-        title.setSize(150,100);
-        title.setPosition(120,300,Align.center);
+        title.setFontScale(0.3f);
+        title.setSize(200,100);
+        title.setPosition(0,280);
+        title.setAlignment(Align.center);
         title.setWrap(true);
         stage.addActor(title);
         //set container for the scroll pane and objective description
         Window.WindowStyle scrollTableStyle= rm.skin.get("special", Window.WindowStyle.class);
         Window scrollTable=new Window("",scrollTableStyle);
-        scrollTable.setOrigin(0,60);
+        scrollTable.setOrigin(20,80);
         scrollTable.setSize(360,500);
         scrollTable.setScale(0.5f);
         Array<TextButton> campaignButtons=new Array<TextButton>();
@@ -85,16 +86,16 @@ public class SelectCampaignScreen implements Screen {
             final int index=i;
             //create a group of labels and button: campaign name and player's record
             Group g=new Group();
-            Label name=new Label(rm.campaigns.get(index),labelStyle);
+            Label name=new Label(rm.campaigns.get(index).name,labelStyle);
             name.setPosition(50,80);
             name.setFontScale(1.4f);
             name.setTouchable(Touchable.disabled);
             name.setAlignment(Align.left);
-            Label record=new Label("Record:",labelStyle);
+            Label record=new Label("Record: "+rm.campaigns.get(rm.campaignIndex).record,labelStyle);
             record.setPosition(50,50);
             record.setFontScale(0.8f);
             record.setTouchable(Touchable.disabled);
-
+            record.setAlignment(Align.left);
             final TextButton b=new TextButton("",rm.skin);
             campaignButtons.add(b);
             //change boss description to corresponding campaign
@@ -103,9 +104,9 @@ public class SelectCampaignScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event,float x,float y)
                 {
-                    campaignIndex=index;
-                    bossDesc.setText(rm.bosses.get(campaignIndex));
-                    System.out.println(campaignIndex);
+                    rm.campaignIndex=index;
+                    bossDesc.setText(rm.campaigns.get(rm.campaignIndex).boss);
+                    System.out.println(rm.campaignIndex);
                 }
             });
             //add group to the selection container
@@ -130,14 +131,14 @@ public class SelectCampaignScreen implements Screen {
         //create a button to confirm campaign selection
         TextButton playButton=new TextButton("Enter",rm.skin);
         playButton.getLabel().setFontScale(0.6f);
-        playButton.setSize(120,55);
-        playButton.setPosition(130,15,Align.center);
+        playButton.setSize(130,60);
+        playButton.setPosition(80,-5);
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event,float x,float y)
             {
-
-                switch (campaignIndex){
+                rm.selectCampaignTheme.stop();
+                switch (rm.campaignIndex){
                     case 0:
                         GameScreen gameScreen1 = new GameScreen();
                         gameScreen1.episode = new Episode1(gameScreen1.upgradeDroppingItemList, gameScreen1.meteorList,
@@ -159,14 +160,13 @@ public class SelectCampaignScreen implements Screen {
                     default:
                         Gdx.app.exit();
                 }
-
             }
         });
         //create a button to confirm campaign selection
         TextButton returnButton=new TextButton("Return",rm.skin);
         returnButton.getLabel().setFontScale(0.6f);
-        returnButton.setSize(120,55);
-        returnButton.setPosition(50,15,Align.center);
+        returnButton.setSize(130,60);
+        returnButton.setPosition(-10,-5);
         returnButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event,float x,float y)
@@ -175,6 +175,7 @@ public class SelectCampaignScreen implements Screen {
                     //return to menu screen
                     @Override
                     public void run() {
+                        rm.selectCampaignTheme.stop();
                         ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
                     }
                 })));
@@ -184,7 +185,6 @@ public class SelectCampaignScreen implements Screen {
         stage.addActor(playButton);
         stage.addActor(returnButton);
         stage.addAction(Actions.sequence(Actions.alpha(0),Actions.fadeIn(1)));
-
     }
 
     @Override

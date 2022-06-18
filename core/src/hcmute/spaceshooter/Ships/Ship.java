@@ -99,7 +99,6 @@ abstract public class Ship {
      * @param batch Draws batched quads using indices.
      */
     public void drawShip(Batch batch){
-        rm.laserSoundEffect.play();
         batch.draw(shipTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
         if(shield > 0) {
             batch.draw(shieldTextureRegion,  boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);

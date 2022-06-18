@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -17,12 +16,12 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-public class VictoryScreen implements Screen {
+public class GameOverScreen implements Screen {
     private Stage stage;
     private Viewport viewport;
     private SpriteBatch batch;
     public ResourceManager rm;
-    public VictoryScreen()
+    public GameOverScreen()
     {
         rm=new ResourceManager();
         batch=new SpriteBatch();
@@ -37,17 +36,18 @@ public class VictoryScreen implements Screen {
     @Override
     public void show() {
         //set theme
-        rm.victoryTheme.setVolume(rm.musicVolume);
-        rm.victoryTheme.setLooping(true);
-        rm.victoryTheme.play();
+        rm.gameOverTheme.setVolume(rm.musicVolume);
+        rm.gameOverTheme.setLooping(true);
+        rm.gameOverTheme.play();
         //set label style for title
         Label.LabelStyle titleStyle=rm.skin.get("title", Label.LabelStyle.class);
         //create title label
-        Label title= new Label("Victory",titleStyle);
+        Label title= new Label("Game over",titleStyle);
         title.setFontScale(0.45f);
         title.setSize(200,100);
-        title.setPosition(0,250);
+        title.setPosition(0,260);
         title.setAlignment(Align.center);
+        title.setWrap(true);
         stage.addActor(title);
         //create container for achievement
         Window.WindowStyle windowStyle=rm.skin.get("special",Window.WindowStyle.class);
@@ -57,7 +57,7 @@ public class VictoryScreen implements Screen {
         achievement.setScale(0.5f);
         achievement.setTouchable(Touchable.disabled);
         Label.LabelStyle labelStyle=rm.skin.get("default",Label.LabelStyle.class);
-        Label report=new Label(rm.campaigns.get(rm.campaignIndex).boss+" has been defeated!",labelStyle);
+        Label report=new Label("You failed to defeat "+rm.campaigns.get(rm.campaignIndex).boss,labelStyle);
         report.setWrap(true);
         report.setAlignment(Align.center);
         report.setFontScale(1.2f);
@@ -79,7 +79,7 @@ public class VictoryScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                rm.victoryTheme.stop();
+                rm.gameOverTheme.stop();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
             }
         });
@@ -91,7 +91,7 @@ public class VictoryScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                rm.victoryTheme.stop();
+                rm.gameOverTheme.stop();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new SelectCampaignScreen());
             }
         });
@@ -104,7 +104,7 @@ public class VictoryScreen implements Screen {
         Gdx.gl.glClearColor(0f,0f,0f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(rm.victoryBackground,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(rm.gameOverBackground,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         batch.end();
         stage.act();
         stage.draw();

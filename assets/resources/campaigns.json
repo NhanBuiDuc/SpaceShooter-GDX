@@ -1,0 +1,30 @@
+{
+  "campaigns": [
+    {
+      "name": "Earth",
+      "boss": "Earth Overlord",
+      "description": "..."
+	  "record":100
+    },
+    {
+      "name": "Mars",
+      "boss": "????",
+      "description": "..."
+	  "record":100
+
+    },
+    {
+      "name": "Jupiter",
+      "boss": "?????",
+      "description": "..."
+	  "record":100
+    },
+    {
+      "name": "Saturn",
+      "boss":"?????",
+      "description": "..."
+	  "record":100
+
+    }
+  ]
+}
