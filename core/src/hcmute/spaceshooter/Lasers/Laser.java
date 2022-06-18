@@ -9,54 +9,53 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ *  The abstract class of the laser implementing ILaser
+ */
 public abstract class Laser implements ILaser {
 
     // laser physical characteristics
     public String movementType;
+    // level of the laser
     int level;
+    // the damage of the bullets
     int damage;
+    // type of the laser
     String typeName;
     // The movement speed of the laser
     float laserMovementSpeed; // world units per second
     //laser information
     // Lasers' width and height
     float laserWidth, laserHeight;
-    // Explosion' width and height
-    float explosionWidth, explosionHeight;
     // graphics
     // Texture to render the laser
     Texture laserTexture;
-    Texture explosionTexture;
     // position and dimensions of the laser
     Rectangle laserBoundingBox;
-    // position and dimensions of the explosion
-    Rectangle explosionBoundingBox;
+
     // Gdx's Animation object
     Animation<TextureRegion> laserAnimation;
-    Animation<TextureRegion> explosionAnimation;
+
     /**
      * The title width and height of the given Texture
      * starting from the top left corner going to the right
      * and ending at the bottom right corner.
      */
     int laserTitleWidth, laserTitleHeight;
-    int explosionTitleWidth, explosionTitleHeight;
     // Total time of the whole animation rendering.
     float totalLaserAnimationTime;
-    float totalExplosionAnimationTime;
+    // number of row of image in the texture
     int laserRowTextureCount;
+    // number of column of image in the texture
     int laserColumnTextureCount;
-    int explosionRowTextureCount;
-    int explosionColumnTextureCount;
+
     /**
      *  The number of texture region after splitting the texture,
      *  equals to the number of images from the whole Texture
      */
     int laserTextureNum;
-    int explosionTextureNum;
     // A timer increased with each update method call
     float laserTimer = 0;
-    float explosionTimer = 0;
 
     /**
      * Constructor of the Laser Type.
@@ -80,7 +79,16 @@ public abstract class Laser implements ILaser {
     public Laser() {
 
     }
-
+    /** Get the animation based on the texture
+     *
+     * @param texture animation texture
+     * @param titleWidth the width for each image in the texture
+     * @param titleHeight the height for each image in the texture
+     * @param textureNum the number of image in the texture
+     * @param rowTextureCount the rows of images in the texture
+     * @param columnTextureCount the columns of images in the texture
+     * @return
+     */
     public Animation<TextureRegion> GetLaserAnimation(Texture texture, int titleWidth, int titleHeight,
                                                  int textureNum, int rowTextureCount, int columnTextureCount) {
         // split texture
@@ -101,25 +109,7 @@ public abstract class Laser implements ILaser {
         return new Animation<TextureRegion>(totalLaserAnimationTime / textureNum, textureRegion1D);
     }
 
-    public Animation<TextureRegion> GetExplosionAnimation(Texture texture, int titleWidth, int titleHeight,
-                                                      int textureNum, int rowTextureCount, int columnTextureCount) {
-        // split texture
-        TextureRegion[][] textureRegion2D = TextureRegion.split(texture, titleWidth, titleHeight);
 
-        // convert to 1D array
-        TextureRegion[] textureRegion1D = new TextureRegion[textureNum];
-        int index = 0;
-        for(int i = 0; i < rowTextureCount; i++){
-            for(int j = 0; j < columnTextureCount; j++){
-                textureRegion1D[index] = textureRegion2D[i][j];
-                index++;
-            }
-        }
-        explosionTimer = 0;
-
-        // Frame duration = Desired Animation Time / number of images
-        return new Animation<TextureRegion>(totalExplosionAnimationTime / textureNum, textureRegion1D);
-    }
 
     /**
      * Draw the laser animation
@@ -132,19 +122,6 @@ public abstract class Laser implements ILaser {
                  laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
      }
 
-    /**
-     * Draw the explosion animation
-     *
-     * @param batch Draws batched quads using indices.
-     */
-
-    public void drawExplosion(Batch batch){
-        explosionBoundingBox = new Rectangle(new Rectangle(laserBoundingBox.getX() + laserBoundingBox.getWidth(),
-                laserBoundingBox.getY() - laserBoundingBox.getHeight() * 1.55f,
-                explosionWidth, explosionHeight));
-        batch.draw(explosionAnimation.getKeyFrame(explosionTimer),
-                explosionBoundingBox.x, explosionBoundingBox.y, explosionBoundingBox.width, explosionBoundingBox.height);
-    }
 
     /** make the coordinates of the object go down the height of the screen
      * @param deltaTime The time in seconds since the last render.
@@ -195,14 +172,7 @@ public abstract class Laser implements ILaser {
     public void laserUpdate(float deltaTime) {
         laserTimer += deltaTime;
     }
-    /** Update the explosion animation's rendering time by @param delaTime
-     *
-     * @param deltaTime The time in seconds since the last render.
-     */
 
-    public void explosionUpdate(float deltaTime) {
-        explosionTimer += deltaTime;
-    }
     /**
      * Whether the laser animation would be finished if played without looping, given the state time.
      */
@@ -210,13 +180,7 @@ public abstract class Laser implements ILaser {
     public boolean isLaserAnimationFinished() {
         return laserAnimation.isAnimationFinished(laserTimer);
     }
-    /**
-     * Whether the explosion animation would be finished if played without looping, given the state time.
-     */
 
-    public boolean isExplosionAnimationFinished() {
-        return explosionAnimation.isAnimationFinished(explosionTimer);
-    }
 
      //region Getter and Setter
     public abstract ILaser[] GetBullets();

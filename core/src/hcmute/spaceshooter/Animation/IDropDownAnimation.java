@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ *  The interface for the going-down animation objects
+ */
 public interface IDropDownAnimation {
 
     /** Update method increasing timer by deltaTime
@@ -29,9 +32,21 @@ public interface IDropDownAnimation {
      */
     Animation<TextureRegion> GetAnimation(Texture texture);
 
+    /**
+     *
+     * @return the Rectangle of the Object
+     */
     Rectangle getDrawingRectangle();
 
+    /**
+     *
+     * @return the type name of the object
+     */
     String getTypeName();
 
+    /**
+     *
+     * @param taken is set to true if the object is taken
+     */
     void setTaken(Boolean taken);
 }

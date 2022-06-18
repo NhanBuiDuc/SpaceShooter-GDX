@@ -9,14 +9,21 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Boss3_LaserTypeA extends EnemyLaser {
-
+    // level of the bullet
     int level = 1;
+    // the ship's drawing rectangle
     Rectangle shipBoundingBox;
+    // Constructor
     public Boss3_LaserTypeA(Rectangle shipBoundingBox) {
+        // the ship's drawing rectangle
         this.shipBoundingBox = shipBoundingBox;
+        // the laser's texture
         laserTexture = boss3_LaserTypeA_Texture;
+        // the laser width
         laserWidth = 20f;
+        // the laser height
         laserHeight = WORLD_HEIGHT;
+        // the laser's type name
         typeName = "Boss2_TypeA";
         // laser movement speed
         laserMovementSpeed = 50;
@@ -29,8 +36,12 @@ public class Boss3_LaserTypeA extends EnemyLaser {
         laserTitleHeight = 138;
         // Total time of the whole animation rendering.
         totalLaserAnimationTime = 1f;
+        // number of row of image in the texture
         laserRowTextureCount = 1;
+        // number of column of image in the texture
         laserColumnTextureCount = 16;
+        // the timer to track the animation time
+
         laserTimer = 0;
         /**
          *  The number of texture region after splitting the texture,
@@ -41,35 +52,35 @@ public class Boss3_LaserTypeA extends EnemyLaser {
         laserAnimation = GetLaserAnimation(laserTexture, laserTitleWidth, laserTitleHeight,
                 laserTextureNum, laserRowTextureCount, laserColumnTextureCount);
     }
-
+    /**
+     *
+     * @return true if the animation is finished, false if not.
+     */
     public boolean isFinished() {
         return laserAnimation.isAnimationFinished(laserTimer);
     }
 
+    /**
+     * Upgrade the level of the laser
+     */
     public void Upgrade(){
         this.level++;
     }
 
+    /**
+     *
+     * @return the array of this type
+     */
+    public Boss3_LaserTypeA[] GetBullets(){
+        Boss3_LaserTypeA[] lasers = new Boss3_LaserTypeA[20];
 
-    public Boss1_LaserTypeA[] GetBullets(){
-        Boss1_LaserTypeA[] lasers = new Boss1_LaserTypeA[20];
-
-        lasers[0] = new Boss1_LaserTypeA(shipBoundingBox);
+        lasers[0] = new Boss3_LaserTypeA(shipBoundingBox);
         lasers[0].setLaserWidth(laserWidth);
         lasers[0].setLaserHeight(laserHeight);
         lasers[0].setLaserMovementSpeed(45);
         lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().width * 0.4f,
                 lasers[0].getShipBoundingBox().getY() - lasers[0].getShipBoundingBox().height * 1.5f,
                 lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
-
-
-//        lasers[1] = new Boss1_LaserTypeA(shipBoundingBox);
-//        lasers[1].setLaserWidth(laserWidth);
-//        lasers[1].setLaserHeight(laserHeight);
-//        lasers[1].setLaserMovementSpeed(45);
-//        lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + 40f,
-//                lasers[1].getShipBoundingBox().getY() - 100f,
-//                lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
 
         return lasers;
     }
@@ -83,7 +94,10 @@ public class Boss3_LaserTypeA extends EnemyLaser {
             drawLaser(batch);
         }
     }
-
+    /**
+     *
+     * @return true if it is spreading, false if it is not
+     */
     @Override
     public boolean isSpreading() {
         return false;
@@ -98,12 +112,6 @@ public class Boss3_LaserTypeA extends EnemyLaser {
     }
 
 
-    @Override
-    public void setTypename(String red) {
-
-    }
-
-
     /**
      * Draw the laser animation
      *
@@ -114,12 +122,12 @@ public class Boss3_LaserTypeA extends EnemyLaser {
         super.drawLaser(batch);
     }
 
+    //region Getter and Setter
+
     @Override
     public String getMovementType() {
         return movementType;
     }
-
-    //region Getter and Setter
 
     public int getLevel() {
         return level;

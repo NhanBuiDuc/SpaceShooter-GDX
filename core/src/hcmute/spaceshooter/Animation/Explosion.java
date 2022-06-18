@@ -12,6 +12,9 @@ import com.badlogic.gdx.math.Rectangle;
 
 import org.w3c.dom.Text;
 
+/**
+ *  The concrete class for the explosion animation objects
+ */
 public class Explosion {
     private Animation<TextureRegion> explosionAnimation;
     private float explosionTimer;
@@ -34,36 +37,32 @@ public class Explosion {
         explosionAnimation = new Animation<TextureRegion>(totalAnimationTime / 8, textureRegion1D);
         explosionTimer = 0;
     }
+    /** Update the animation's rendering time by @param delaTime
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     public void update(float deltaTime){
         explosionTimer += deltaTime;
     }
 
+    /**
+     * Draw the animation
+     *
+     * @param batch Draws batched quads using indices.
+     */
     public void draw(Batch batch){
 
         batch.draw(explosionAnimation.getKeyFrame(explosionTimer),
                 boundingBox.x, boundingBox.y, boundingBox.width * 1.25f, boundingBox.height * 1.25f);
     }
-
+    /**
+     * Whether the animation would be finished if played without looping, given the state time.
+     */
     public boolean isFinished(){
         return explosionAnimation.isAnimationFinished(explosionTimer);
     }
 
-    public Animation<TextureRegion> getExplosionAnimation() {
-        return explosionAnimation;
-    }
-
-    public void setExplosionAnimation(Animation<TextureRegion> explosionAnimation) {
-        this.explosionAnimation = explosionAnimation;
-    }
-
-    public float getExplosionTimer() {
-        return explosionTimer;
-    }
-
-    public void setExplosionTimer(float explosionTimer) {
-        this.explosionTimer = explosionTimer;
-    }
-
+    //region Getter and Setter
     public Rectangle getBoundingBox() {
         return boundingBox;
     }
@@ -71,4 +70,5 @@ public class Explosion {
     public void setBoundingBox(Rectangle boundingBox) {
         this.boundingBox = boundingBox;
     }
+    //endregion
 }

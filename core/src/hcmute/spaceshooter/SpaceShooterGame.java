@@ -9,6 +9,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.Random;
 
+/**
+ * The main game entry
+ */
 public class SpaceShooterGame extends Game {
 
 	public static Random random = new Random();

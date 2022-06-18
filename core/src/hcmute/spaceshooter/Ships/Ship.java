@@ -4,19 +4,18 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.ResourceManager;
 import hcmute.spaceshooter.Lasers.ILaser;
-import hcmute.spaceshooter.Lasers.Laser;
 
 /**
  * Abstract class for all the ship objects
  */
-abstract public class Ship implements IShip{
+abstract public class Ship {
+
+    // Resource Manager
     public ResourceManager rm;
-
+    // hp of the ship
     int HP;
-
     // ship characteristic
     // world units per second
     float movementSpeed;
@@ -77,14 +76,28 @@ abstract public class Ship implements IShip{
     public void update(float deltaTime){
         timeSinceLastShot = timeSinceLastShot + deltaTime;
     }
+
+    /** check the time since the last shot and the attack speed of the ship
+     * @return if the time since the last shot is greater, return true, else return false
+     */
     public boolean canFireLaser(){
         boolean result = timeSinceLastShot - timeBetweenShots >= 0;
         return result;
     }
 
+    /** check if this ship's rectangle intersects another
+     *
+     * @param otherRectangle the other rectangle this ship need to check
+     * @return true if intersect, false if not
+     */
     public boolean intersects(Rectangle otherRectangle){
         return this.boundingBox.overlaps(otherRectangle);
     }
+
+    /** draw the ship and its shield, also make sound effect for the laser after shooting.
+     *
+     * @param batch Draws batched quads using indices.
+     */
     public void drawShip(Batch batch){
         rm.laserSoundEffect.play();
         batch.draw(shipTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
@@ -94,8 +107,19 @@ abstract public class Ship implements IShip{
 
     }
 
+    /** abstract method for other subclasses, check if the ship is destroyed or not
+     *
+     * @param laserDamage getting the laser damage of the laser
+     * @return true if is destroyed, false if not
+     */
     public abstract boolean hitAndCheckDestroyed(int laserDamage);
 
+
+    /** Change the coordinate of the ship
+     *
+     * @param xChange the change in horizontal axis
+     * @param yChange the change in vertical axis
+     */
     public void translate(float xChange, float yChange){
         boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);
     }
@@ -125,17 +149,6 @@ abstract public class Ship implements IShip{
         this.boundingBox = boundingBox;
     }
 
-    public float getTimeBetweenShots() {
-        return timeBetweenShots;
-    }
-
-    public void setTimeBetweenShots(float timeBetweenShots) {
-        this.timeBetweenShots = timeBetweenShots;
-    }
-
-    public float getTimeSinceLastShot() {
-        return timeSinceLastShot;
-    }
 
     public void setTimeSinceLastShot(float timeSinceLastShot) {
         this.timeSinceLastShot = timeSinceLastShot;
@@ -162,9 +175,6 @@ abstract public class Ship implements IShip{
     }
 
     public abstract void setLaserI(ILaser laserI);
-
-
-
 
     public boolean isAbleToFire() {
         return ableToFire;

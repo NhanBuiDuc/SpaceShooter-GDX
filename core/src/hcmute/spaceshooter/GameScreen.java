@@ -68,9 +68,7 @@ public class GameScreen implements Screen {
 //    private float backgroundHeight;
     /* TextTure region For:
     Player Ship, Player Shield, Player Laser, Enemy Ship, Enemy Shield, Enemy Laser */
-    private TextureRegion playerShipTextureRegion, playerShieldTextureRegion,
-            enemyShip_drone1_TextureRegion, enemyShip_battleShip1_TextureRegion,
-            enemyShieldTextureRegion;
+    private TextureRegion playerShipTextureRegion, playerShieldTextureRegion;
 
     //timing
     /* An Array of backgroundOffSet for each background texture
@@ -165,11 +163,8 @@ public class GameScreen implements Screen {
         // initialize texture regions for animation
         // PlayerShip And Enemy Ship
         playerShipTextureRegion = textureAtlas.findRegion("player_ship");
-        enemyShip_drone1_TextureRegion = textureAtlas.findRegion("explosive_drone");
-        enemyShip_battleShip1_TextureRegion = textureAtlas.findRegion("enemy_ship01");
         //PlayerShield And EnemyShield
         playerShieldTextureRegion = textureAtlas.findRegion("shield2");
-        enemyShieldTextureRegion = textureAtlas.findRegion("shield1");
         //enemyShieldTextureRegion.flip(false, true);
 
         // Explosion
@@ -252,6 +247,7 @@ public class GameScreen implements Screen {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // detect boss's laser
         detectBossCollisions(deltaTime);
         // explosions
         updateAndRenderExplosions(deltaTime);
@@ -353,7 +349,7 @@ public class GameScreen implements Screen {
         hudSectionWidth = WORLD_WIDTH / 3;
     }
 
-    //
+    // update the user interface
     private void updateAndRenderHUD(float deltaTime) {
         // render Top row labels
         font.draw(batch, "Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
@@ -366,6 +362,7 @@ public class GameScreen implements Screen {
         font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.getHP()), hudLeftX, hudRow6Y, hudSectionWidth, Align.left, false);
     }
 
+    // detect the input of the player and move the player's ship
     private void detectInput(float deltaTime) {
 
         //keyboard input
@@ -441,6 +438,11 @@ public class GameScreen implements Screen {
         }
 
     }
+
+    /** Detect the boss's laser
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void detectBossCollisions(float deltaTime){
         ListIterator<ILaser> laserListIterator;
 
@@ -561,6 +563,11 @@ public class GameScreen implements Screen {
 
         }
     }
+
+    /** Detect the player's laser and enemy laser's intersecting each others
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void detectCollisions(float deltaTime){
         ListIterator<ILaser> laserListIterator;
 
@@ -700,6 +707,10 @@ public class GameScreen implements Screen {
 
 
     }
+
+    /**
+     * Check the player is getting upgrade items and upgrade the player's ship
+     */
     private void checkGetUpgrades(){
         // Check the Upgrade Items are collected by player's ship
         ListIterator<IDropDownAnimation> itemsIterator = upgradeDroppingItemList.listIterator();
@@ -713,7 +724,11 @@ public class GameScreen implements Screen {
             }
     }
 
-
+    /** Move the enemy randomly
+     *
+     * @param enemyShip the ship needed to move
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void moveEnemy(EnemyShip enemyShip, float deltaTime) {
         // strategy: determine the max distance the ship can move
         float leftLimit, rightLimit, upLimit;
@@ -740,6 +755,10 @@ public class GameScreen implements Screen {
 
     }
 
+    /** Spawn enemy ships at random spot
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     public void spawnEnemyShips(float deltaTime){
         elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
         if(elapsedTime < 300){
@@ -778,18 +797,7 @@ public class GameScreen implements Screen {
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-//                if(elapsedTime > 150 && elapsedTime < 300){
-//                    for(int j = 0; j < 2; j++){
-//                        enemyShipList.add( new EnemyShipTypeD());
-//                        enemySpawnTimer -= timeBetweenEnemySpawns;
-//                    }
-//                }
-//                if(elapsedTime > 150 && elapsedTime < 300){
-//                    for(int j = 0; j < 1; j++){
-//                        enemyShipList.add( new EnemyShipTypeE());
-//                        enemySpawnTimer -= timeBetweenEnemySpawns;
-//                    }
-//                }
+
                 enemySpawnTimer = 0;
             }
             ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
@@ -822,8 +830,9 @@ public class GameScreen implements Screen {
         }
     }
 
-
-
+    /**
+     * Check if the player is crashing meteors or enemy ships
+     */
     private void checkCrashing(){
         // Check the Meteors crash to the player's ship
         ListIterator<Meteor> itemsIterator = meteorList.listIterator();
@@ -896,6 +905,10 @@ public class GameScreen implements Screen {
             }
         }
     }
+
+    /**
+     * Removes the enemies is moving out the screen,
+     */
     private void removeEnemyShipsAtBounds(){
         ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
         while (enemyShipListIterator.hasNext()){
@@ -905,6 +918,11 @@ public class GameScreen implements Screen {
             }
         }
     }
+
+    /** Check the explosion and render the animation
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void updateAndRenderExplosions(float deltaTime) {
         ListIterator<Explosion> explosionListIterator = explosionList.listIterator();
         while (explosionListIterator.hasNext()){
@@ -922,6 +940,10 @@ public class GameScreen implements Screen {
 
     }
 
+    /** Render all the lasers
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void renderLasers(float deltaTime){
         // create new lasers
         //player lasers
@@ -946,6 +968,10 @@ public class GameScreen implements Screen {
         DrawAndRemoveEnemyBulletsIfAtBound(deltaTime);
     }
 
+    /** Remove the enemies' lasers if they are getting out of the screen
+     *
+     * @param deltaTime
+     */
     public void DrawAndRemoveEnemyBulletsIfAtBound(float deltaTime){
         if(!enemyLaserList.isEmpty()){
             ListIterator<IEnemyLaser> iterator = enemyLaserList.listIterator();

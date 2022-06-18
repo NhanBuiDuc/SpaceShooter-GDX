@@ -10,17 +10,17 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Boss1_LaserTypeC extends EnemyLaser {
-    // Gdx's Animation object
-    //public Animation<TextureRegion> animation ;
-    int phase = 1;
+    // The array of this type's bullet
     Boss1_LaserTypeC[] bullets;
+    // the drawing rectangle
     Rectangle shipBoundingBox;
     // Movement speed of the object
     public int movementSpeed;
     // Total time of the whole animation rendering.
     public float totalAnimationTime;
-
+    // number of row of image in the texture
     public int rowTextureCount;
+    // number of column of image in the texture
     public int columnTextureCount;
     /**
      * The title width and height of the given Texture
@@ -32,35 +32,23 @@ public class Boss1_LaserTypeC extends EnemyLaser {
 
     // A timer increased with each update method call
     public float timer = 0;
-    public float firstShootTimer;
+
+    // check if the bullet is spreading
     boolean isSpreading = false;
-    /**
-     * Constructor of the Laser Type.
-     *
-     * @param xCentre            : The horizontal center-coordinate of the ship
-     * @param yBottom            : The vertical center-coordinate of the ship
-     * @param laserWidth         :The width of the laser
-     * @param laserHeight        :The height of the laser
-     * @param laserMovementSpeed :The movement speed of the laser
-     * @param laserTexture      :The texture for rendering the laser
-     **/
 
-    public Boss1_LaserTypeC(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
-        super(xCentre, yBottom, laserWidth, laserHeight, laserMovementSpeed, laserTexture);
-        typeName = "BLUE";
-    }
-
-    public Boss1_LaserTypeC(){
-
-    }
-
-
+    // Constructor
     public Boss1_LaserTypeC(Rectangle shipBoundingBox) {
+        // the ship's drawing rectangle
         this.shipBoundingBox = shipBoundingBox;
+        // the laser's texture
         laserTexture = boss1_LaserTypeC_Texture;
+        // the laser width
         laserWidth = 5f;
+        // the laser height
         laserHeight = 5f;
+        // laser movement speed
         movementSpeed = 30;
+        // Total time of the whole animation rendering.
         totalAnimationTime = 0.5f;
 
         /**
@@ -72,24 +60,29 @@ public class Boss1_LaserTypeC extends EnemyLaser {
         laserTitleHeight = 138;
         // Total time of the whole animation rendering.
         totalLaserAnimationTime = 1f;
+        // number of row of image in the texture
         laserRowTextureCount = 1;
+        // number of column of image in the texture
         laserColumnTextureCount = 16;
+        // the timer to track the animation time
         laserTimer = 0;
         /**
          *  The number of texture region after splitting the texture,
          *  equals to the number of images from the whole Texture
          */
         laserTextureNum = laserRowTextureCount * laserColumnTextureCount;
-        // Gdx's Animation object
-//        laserAnimation = GetLaserAnimation(laserTexture, laserTitleWidth, laserTitleHeight,
-//                laserTextureNum, laserRowTextureCount, laserColumnTextureCount);
     }
 
-
+    /**
+     * Upgrade the level of the laser
+     */
     public void Upgrade(){
         this.level++;
     }
-
+    /**
+     *
+     * @return the array of this type
+     */
     public Boss1_LaserTypeC[] GetBullets() {
         Boss1_LaserTypeC[] lasers = new Boss1_LaserTypeC[7];
         if (level == 1) {
@@ -155,24 +148,24 @@ public class Boss1_LaserTypeC extends EnemyLaser {
         }
         return lasers;
     }
+
+    /** Draw the laser with static animation
+     *
+     * @param batch Draws batched quads using indices.
+     */
     @Override
     public void drawLaser(Batch batch) {
         batch.draw(laserTexture,
                 laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
     }
 
-    @Override
-    public void setTypename(String red) {
 
-    }
+    //region Getter and Setter
 
     @Override
     public String getMovementType() {
         return movementType;
     }
-
-    //region Getter and Setter
-
     public int getLevel() {
         return level;
     }
@@ -229,12 +222,5 @@ public class Boss1_LaserTypeC extends EnemyLaser {
         this.laserTexture = laserTexture;
     }
 
-    public int getPhase() {
-        return phase;
-    }
-
-    public void setPhase(int phase) {
-        this.phase = phase;
-    }
-//endregion Getter and Setter
+    //endregion Getter and Setter
 }

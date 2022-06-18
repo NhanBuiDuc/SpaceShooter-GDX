@@ -10,17 +10,19 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ *  The concrete class for the enemy boss laser
+ */
 public class Boss1_LaserTypeB extends EnemyLaser {
-    // Gdx's Animation object
-    //public Animation<TextureRegion> animation ;
-    int phase = 1;
+    // The array of this type's bullet
     Boss1_LaserTypeB[] bullets;
+    // the ship's drawing rectangle
     Rectangle shipBoundingBox;
     // Movement speed of the object
     public int movementSpeed;
     // Total time of the whole animation rendering.
     public float totalAnimationTime;
-
+    // number of rows and columns of images in the texture
     public int rowTextureCount;
     public int columnTextureCount;
     /**
@@ -33,35 +35,22 @@ public class Boss1_LaserTypeB extends EnemyLaser {
 
     // A timer increased with each update method call
     public float timer = 0;
-    public float firstShootTimer;
-    /**
-     * Constructor of the Laser Type.
-     *
-     * @param xCentre            : The horizontal center-coordinate of the ship
-     * @param yBottom            : The vertical center-coordinate of the ship
-     * @param laserWidth         :The width of the laser
-     * @param laserHeight        :The height of the laser
-     * @param laserMovementSpeed :The movement speed of the laser
-     * @param laserTexture      :The texture for rendering the laser
-     **/
 
-    public Boss1_LaserTypeB(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
-        super(xCentre, yBottom, laserWidth, laserHeight, laserMovementSpeed, laserTexture);
-        typeName = "BLUE";
-    }
-
-    public Boss1_LaserTypeB(){
-
-    }
-
-
+    // Constructor
     public Boss1_LaserTypeB(Rectangle shipBoundingBox) {
+        // the ship's drawing rectangle
         this.shipBoundingBox = shipBoundingBox;
+        // the laser's texture
         laserTexture = boss1_LaserTypeB_Texture;
+        // the laser width
         laserWidth = 10f;
+        // the laser height
         laserHeight = 10f;
+        // laser movement speed
         movementSpeed = 30;
+        // Total time of the whole animation rendering.
         totalAnimationTime = 0.5f;
+        // the laser's type name
         typeName = "Boss1_TypeB";
         /**
          * The title width and height of the given Texture
@@ -72,24 +61,29 @@ public class Boss1_LaserTypeB extends EnemyLaser {
         laserTitleHeight = 138;
         // Total time of the whole animation rendering.
         totalLaserAnimationTime = 1f;
+        // number of row of image in the texture
         laserRowTextureCount = 1;
+        // number of column of image in the texture
         laserColumnTextureCount = 16;
+        // the timer to track the animation time
         laserTimer = 0;
         /**
          *  The number of texture region after splitting the texture,
          *  equals to the number of images from the whole Texture
          */
         laserTextureNum = laserRowTextureCount * laserColumnTextureCount;
-        // Gdx's Animation object
-//        laserAnimation = GetLaserAnimation(laserTexture, laserTitleWidth, laserTitleHeight,
-//                laserTextureNum, laserRowTextureCount, laserColumnTextureCount);
     }
 
-
+    /**
+     * Upgrade the level of the laser
+     */
     public void Upgrade(){
         this.level++;
     }
-
+    /**
+     *
+     * @return the array of this type
+     */
     public Boss1_LaserTypeB[] GetBullets() {
         Boss1_LaserTypeB[] lasers = new Boss1_LaserTypeB[2];
         if(level == 1){
@@ -130,59 +124,27 @@ public class Boss1_LaserTypeB extends EnemyLaser {
             lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.93f,
                     lasers[1].getShipBoundingBox().getY(),
                     lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
-//            lasers[2] = new Boss1_LaserTypeB(shipBoundingBox);
-//            lasers[2].setLaserWidth(laserWidth);
-//            lasers[2].setLaserHeight(laserHeight);
-//            lasers[2].setLaserMovementSpeed(45);
-//            lasers[2].setLaserBoundingBox(new Rectangle(lasers[2].getShipBoundingBox().getX() + lasers[2].getShipBoundingBox().getWidth() * 0.07f,
-//                    lasers[2].getShipBoundingBox().getY(),
-//                    lasers[2].getLaserWidth(), lasers[2].getLaserHeight()));
-//
-//
-//            lasers[3] = new Boss1_LaserTypeB(shipBoundingBox);
-//            lasers[3].setLaserWidth(laserWidth);
-//            lasers[3].setLaserHeight(laserHeight);
-//            lasers[3].setLaserMovementSpeed(45);
-//            lasers[3].setLaserBoundingBox(new Rectangle(lasers[3].getShipBoundingBox().getX() + lasers[3].getShipBoundingBox().getWidth() * 0.93f,
-//                    lasers[3].getShipBoundingBox().getY(),
-//                    lasers[3].getLaserWidth(), lasers[3].getLaserHeight()));
-//            lasers[4] = new Boss1_LaserTypeB(shipBoundingBox);
-//            lasers[4].setLaserWidth(laserWidth);
-//            lasers[4].setLaserHeight(laserHeight);
-//            lasers[4].setLaserMovementSpeed(45);
-//            lasers[4].setLaserBoundingBox(new Rectangle(lasers[4].getShipBoundingBox().getX() + lasers[4].getShipBoundingBox().getWidth() * 0.93f,
-//                    lasers[4].getShipBoundingBox().getY(),
-//                    lasers[4].getLaserWidth(), lasers[4].getLaserHeight()));
-//            lasers[5] = new Boss1_LaserTypeB(shipBoundingBox);
-//            lasers[5].setLaserWidth(laserWidth);
-//            lasers[5].setLaserHeight(laserHeight);
-//            lasers[5].setLaserMovementSpeed(45);
-//            lasers[5].setLaserBoundingBox(new Rectangle(lasers[5].getShipBoundingBox().getX() + lasers[5].getShipBoundingBox().getWidth() * 0.93f,
-//                    lasers[5].getShipBoundingBox().getY(),
-//                    lasers[5].getLaserWidth(), lasers[5].getLaserHeight()));
-
             this.bullets = lasers;
         }
         return lasers;
     }
 
+    /** Draw the laser with static animation
+     *
+     * @param batch Draws batched quads using indices.
+     */
     @Override
     public void drawLaser(Batch batch) {
         batch.draw(laserTexture,
                 laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
     }
 
-    @Override
-    public void setTypename(String red) {
-
-    }
+    //region Getter and Setter
 
     @Override
     public String getMovementType() {
         return movementType;
     }
-
-    //region Getter and Setter
 
     public int getLevel() {
         return level;
@@ -237,12 +199,5 @@ public class Boss1_LaserTypeB extends EnemyLaser {
         this.laserTexture = laserTexture;
     }
 
-    public int getPhase() {
-        return phase;
-    }
-
-    public void setPhase(int phase) {
-        this.phase = phase;
-    }
-//endregion Getter and Setter
+    //endregion Getter and Setter
 }

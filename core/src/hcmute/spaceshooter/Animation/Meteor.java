@@ -4,14 +4,12 @@ import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
 import static hcmute.spaceshooter.GlobalVariables.meteorTexture;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
-import hcmute.spaceshooter.Ships.IShip;
-import hcmute.spaceshooter.Ships.Ship;
-
+/**
+ *  The concrete class for the meteor animation objects
+ */
 public class Meteor extends DropDownAnimation {
     String typeName;
     Boolean taken = false;
@@ -71,10 +69,19 @@ public class Meteor extends DropDownAnimation {
         drawingRectangle.x -= movementSpeed * 0.2 * deltaTime;
     }
 
+    /**
+     *
+     * @param otherRectangle check if this object hit by another object
+     * @return true if is getting hit, false if not.
+     */
     public boolean intersects(Rectangle otherRectangle){
         return this.drawingRectangle.overlaps(otherRectangle);
     }
 
+    /** This check if the object is getting destroyed, if not, decreases its HP
+     *
+     * @return true if is getting destroyed, false if not.
+     */
     public boolean hitAndCheckDestroyed() {
         if(HP > 0){
             HP--;
@@ -82,6 +89,9 @@ public class Meteor extends DropDownAnimation {
         }
         return true;
     }
+
+    //region Getter and Setter
+
     public String getTypeName() {
         return typeName;
     }
@@ -114,6 +124,9 @@ public class Meteor extends DropDownAnimation {
     public void setDestroyed(Boolean destroyed) {
         isDestroyed = destroyed;
     }
+
+    //endRegion
+
 }
 
 

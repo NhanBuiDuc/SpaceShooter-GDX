@@ -29,6 +29,11 @@ public class EnemyBoss3 extends EnemyBossShip {
         laserI.setLevel(1);
     }
 
+    /** Get the lasers of type B
+     *
+     * @param deltaTime Update the status of the Ship respect to the deltaTime
+     * @return the list of laser of type B
+     */
     public Stack<IEnemyLaser> FireTypeB(float deltaTime) {
         Stack<IEnemyLaser> laserStack = new Stack<>();
         if(canFireLaser()) {
@@ -42,6 +47,11 @@ public class EnemyBoss3 extends EnemyBossShip {
         timeSinceLastShot = 0;
         return laserStack;
     }
+
+    /** Get the lasers
+     *
+     * @return the list of laser
+     */
     @Override
     public Stack<IEnemyLaser> GetLasers() {
         // Enemy lasers
@@ -58,6 +68,7 @@ public class EnemyBoss3 extends EnemyBossShip {
         return laserStack;
     }
 
+    //region Getter and Setter
     @Override
     public void setLaserI(ILaser laserI) {
         this.laserI = (IEnemyLaser) laserI;
@@ -66,4 +77,5 @@ public class EnemyBoss3 extends EnemyBossShip {
     public void setLaserI(IEnemyLaser laserI) {
         this.laserI = laserI;
     }
+    //endregion
 }
