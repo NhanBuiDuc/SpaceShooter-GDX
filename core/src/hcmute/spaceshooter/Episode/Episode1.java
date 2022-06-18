@@ -558,8 +558,8 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
                         enemyBossLaserList.push(laser);
                     }
                 }
-                if (elapsedTime % 4 == 0) {
-                    float randomX = SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH);
+                if (elapsedTime % 2 == 0) {
+                    float randomX = SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH - 10);
                     enemyBossShip.setLaserI(new Boss1_LaserTypeC(enemyBossShip.getBoundingBox()));
                     for(IEnemyLaser laser: enemyBossShip.GetLasers()){
 

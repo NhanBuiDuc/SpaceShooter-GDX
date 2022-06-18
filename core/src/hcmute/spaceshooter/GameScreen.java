@@ -230,41 +230,40 @@ public class GameScreen implements Screen {
         batch.enableBlending();
         batch.begin();
 
-        if(state == 1){
-            // Get The Input Of User
-            detectInput(deltaTime);
-            timeSpan += deltaTime;
-            /** Renders scrolling background, this should be the first graphic method to be called
-             * Otherwise, other graphics will be overwritten
-             */
-            renderBackground(deltaTime);
-            //
-            episode.Start(deltaTime, startTime, batch);
-            //
-            checkGetUpgrades();
-            checkCrashing();
+        // Get The Input Of User
+        detectInput(deltaTime);
+        timeSpan += deltaTime;
+        /** Renders scrolling background, this should be the first graphic method to be called
+         * Otherwise, other graphics will be overwritten
+         */
+        renderBackground(deltaTime);
+        //
+        episode.Start(deltaTime, startTime, batch);
+        //
+        checkGetUpgrades();
+        checkCrashing();
 
-            // player ship
-            playerShip.drawShip(batch);
-            playerShip.countInvincibleTime(deltaTime);
-            // detect collisions between lasers and ships
-            try {
-                detectCollisions(deltaTime);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            detectBossCollisions(deltaTime);
-            // explosions
-            updateAndRenderExplosions(deltaTime);
-            // spawn Boss
-            episode.SpawnBoss(deltaTime, batch);
-
-            //lasers
-            renderLasers(deltaTime);
-            removeEnemyShipsAtBounds();
-            // hud rendering
-            updateAndRenderHUD(deltaTime);
+        // player ship
+        playerShip.drawShip(batch);
+        playerShip.countInvincibleTime(deltaTime);
+        // detect collisions between lasers and ships
+        try {
+            detectCollisions(deltaTime);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        detectBossCollisions(deltaTime);
+        // explosions
+        updateAndRenderExplosions(deltaTime);
+        // spawn Boss
+        spawnEnemyShips(deltaTime);
+
+        //lasers
+        renderLasers(deltaTime);
+        removeEnemyShipsAtBounds();
+        // hud rendering
+        updateAndRenderHUD(deltaTime);
+
         //Update game state
         UpdateState();
         DrawState();
