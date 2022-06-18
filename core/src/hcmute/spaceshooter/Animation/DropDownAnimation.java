@@ -9,6 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
+
+/**
+ *  The abstract class for the going-down animation objects
+ */
 public abstract class DropDownAnimation implements IDropDownAnimation {
 
 
@@ -40,7 +44,9 @@ public abstract class DropDownAnimation implements IDropDownAnimation {
      */
     public int titleWidth;
     public int titleHeight;
-
+    /**
+     * The row and column of the images of the given animating Texture,
+     */
     public int rowTextureCount;
     public int columnTextureCount;
 
@@ -161,10 +167,6 @@ public abstract class DropDownAnimation implements IDropDownAnimation {
 
     public Rectangle getDrawingRectangle() {
         return drawingRectangle;
-    }
-
-    public void setDrawingRectangle(Rectangle drawingRectangle) {
-        this.drawingRectangle = drawingRectangle;
     }
 
     public int getMovementSpeed() {

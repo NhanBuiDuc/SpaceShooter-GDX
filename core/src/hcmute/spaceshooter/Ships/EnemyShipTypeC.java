@@ -11,7 +11,9 @@ import hcmute.spaceshooter.Lasers.EnemyLaserTypeB;
 import hcmute.spaceshooter.Lasers.EnemyLaserTypeC;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.SpaceShooterGame;
-
+/**
+ *  Concrete class for the enemy ship
+ */
 public class EnemyShipTypeC extends EnemyShip {
     public EnemyShipTypeC(){
         super();

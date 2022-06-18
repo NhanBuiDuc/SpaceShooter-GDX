@@ -7,7 +7,9 @@ import static hcmute.spaceshooter.GlobalVariables.yellowPowerUpTexture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-
+/**
+ *  The concrete class for the drop-down upgrading type C animation objects
+ */
 public class UpgradeTypeC extends DropDownAnimation {
     String typeName;
     Boolean taken = false;

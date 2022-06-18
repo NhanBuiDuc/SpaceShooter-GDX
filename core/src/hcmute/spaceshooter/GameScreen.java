@@ -52,6 +52,7 @@ import hcmute.spaceshooter.Ships.PlayerShip;
 import sun.jvm.hotspot.gc.shared.Space;
 
 public class GameScreen implements Screen {
+    //Reference to ResourceManager class
     public ResourceManager rm;
 
     //screen Base class for OrthographicCamera and PerspectiveCamera.
@@ -64,13 +65,9 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     // explosion graphic Texture
     private Texture explosionTexture;
-    // height of background in World units
-//    private float backgroundHeight;
     /* TextTure region For:
     Player Ship, Player Shield, Player Laser, Enemy Ship, Enemy Shield, Enemy Laser */
-    private TextureRegion playerShipTextureRegion, playerShieldTextureRegion,
-            enemyShip_drone1_TextureRegion, enemyShip_battleShip1_TextureRegion,
-            enemyShieldTextureRegion;
+    private TextureRegion playerShipTextureRegion, playerShieldTextureRegion;
 
     //timing
     /* An Array of backgroundOffSet for each background texture
@@ -89,8 +86,8 @@ public class GameScreen implements Screen {
     //
     private final float TOUCH_MOVEMENT_THRESHOLD = 5f;
     private final float ENEMY_MOVEMENT_THRESHOLD = 5f;
-    // game objects
 
+    // game objects
     // Player Ship
     private PlayerShip playerShip;
 
@@ -129,12 +126,13 @@ public class GameScreen implements Screen {
     // Get time elapsed since startTime:
     long elapsedTime;
 
-    //
+    //Chosen campaign
     public IEpisode episode;
 
 
     //Current state
     int state;
+    //Track where the use touch
     Vector3 touchPoint;
     //Bouding boxes of buttons
     Rectangle pauseBound;
@@ -155,22 +153,14 @@ public class GameScreen implements Screen {
         // Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
-        //setting up the backgrounds
-
-
-        //backgroundHeight = WORLD_HEIGHT * 2;
-
         // A background with backgroundOffSet = backgroundMaxScrollingSpeed will make the background done rendering the whole Height of the Screen for 4 second
         backgroundMaxScrollingSpeed = (float) WORLD_HEIGHT / 4;
 
         // initialize texture regions for animation
         // PlayerShip And Enemy Ship
         playerShipTextureRegion = textureAtlas.findRegion("player_ship");
-        enemyShip_drone1_TextureRegion = textureAtlas.findRegion("explosive_drone");
-        enemyShip_battleShip1_TextureRegion = textureAtlas.findRegion("enemy_ship01");
         //PlayerShield And EnemyShield
         playerShieldTextureRegion = textureAtlas.findRegion("shield2");
-        enemyShieldTextureRegion = textureAtlas.findRegion("shield1");
         //enemyShieldTextureRegion.flip(false, true);
 
         // Explosion
@@ -180,12 +170,6 @@ public class GameScreen implements Screen {
         playerShip = new PlayerShip(WORLD_WIDTH / 2, WORLD_HEIGHT / 4,
                 10, 10, 100, 3, 0.5f,
                 playerShipTextureRegion, playerShieldTextureRegion, true, 3);
-
-//        enemyShip = new EnemyShip(WORLD_WIDTH / 2, WORLD_HEIGHT * 3 / 4,
-//                10, 10,
-//                50, 1,
-//                0.3f, 5, 30, 1f,
-//                enemyShipTextureRegion, enemyShieldTextureRegion, enemyLaserTextureRegion);
 
         // Initialize Lists
         enemyShipList = new Stack<>();
@@ -198,6 +182,7 @@ public class GameScreen implements Screen {
         // Render HUD(score, life, shields)
         prepareHud();
 
+        //Init current state of the game
         state = GAME_RUNNING;
         touchPoint = new Vector3();
         pauseBound = new Rectangle(WORLD_WIDTH-14, WORLD_HEIGHT-13, 15, 15);
@@ -216,7 +201,6 @@ public class GameScreen implements Screen {
      *
      * @param deltaTime The time in seconds since the last render.
      */
-
     @Override
     public void render(float deltaTime) {
         //Check GameOver
@@ -238,14 +222,16 @@ public class GameScreen implements Screen {
          * Otherwise, other graphics will be overwritten
          */
         renderBackground(deltaTime);
-        //
+        //Start the episode
         episode.Start(deltaTime, startTime, batch);
-        //
+        //Check get upgrade boxes
         checkGetUpgrades();
+        //Check the player crash with meteor, enemy ships and enemy boss
         checkCrashing();
 
-        // player ship
+        //draw player ship
         playerShip.drawShip(batch);
+        //become invicible after crash
         playerShip.countInvincibleTime(deltaTime);
         // detect collisions between lasers and ships
         try {
@@ -253,6 +239,7 @@ public class GameScreen implements Screen {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // detect boss's laser
         detectBossCollisions(deltaTime);
         // explosions
         updateAndRenderExplosions(deltaTime);
@@ -271,6 +258,7 @@ public class GameScreen implements Screen {
         batch.end();
     }
 
+    //Update game state every render time
     private void UpdateState(){
         switch (state){
             case GAME_RUNNING:
@@ -298,6 +286,7 @@ public class GameScreen implements Screen {
         }
     }
 
+    //Draw component in the screen according to current state
     private void DrawState(){
         switch (state){
             case GAME_RUNNING:
@@ -313,16 +302,20 @@ public class GameScreen implements Screen {
         }
     }
 
+    //Check Game Over
     private void IsGameOver(){
         if(playerShip.getHP() < 1){
             rm.battleTheme.stop();
+            rm.campaigns.get(rm.campaignIndex).record = score;
             ((Game)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
         }
     }
 
+    //Check win the game
     private void IsVictory(){
         if(episode.getEnemyBoss().getHP() < 1){
             rm.battleTheme.stop();
+            rm.campaigns.get(rm.campaignIndex).record = score;
             ((Game)Gdx.app.getApplicationListener()).setScreen(new VictoryScreen());
         }
     }
@@ -356,7 +349,7 @@ public class GameScreen implements Screen {
         hudSectionWidth = WORLD_WIDTH / 3;
     }
 
-    //
+    // update the user interface
     private void updateAndRenderHUD(float deltaTime) {
         // render Top row labels
         font.draw(batch, "Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
@@ -369,6 +362,7 @@ public class GameScreen implements Screen {
         font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.getHP()), hudLeftX, hudRow6Y, hudSectionWidth, Align.left, false);
     }
 
+    // detect the input of the player and move the player's ship
     private void detectInput(float deltaTime) {
 
         //keyboard input
@@ -384,10 +378,6 @@ public class GameScreen implements Screen {
         upLimit = (float) WORLD_HEIGHT - playerShip.getBoundingBox().y - playerShip.getBoundingBox().height;
 
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && rightLimit > 0){
-//            float xChange = playerShip.movementSpeed * deltaTime;
-//            xChange = Math.min(xChange, rightLimit);
-            // playerShip.translate(xChange, 0f);
-
             playerShip.translate(Math.min(playerShip.getMovementSpeed() * deltaTime, rightLimit), 0f);
         }
         if(Gdx.input.isKeyPressed(Input.Keys.UP) && upLimit > 0){
@@ -444,6 +434,11 @@ public class GameScreen implements Screen {
         }
 
     }
+
+    /** Detect the boss's laser
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void detectBossCollisions(float deltaTime){
         ListIterator<ILaser> laserListIterator;
 
@@ -564,6 +559,11 @@ public class GameScreen implements Screen {
 
         }
     }
+
+    /** Detect the player's laser and enemy laser's intersecting each others
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void detectCollisions(float deltaTime){
         ListIterator<ILaser> laserListIterator;
 
@@ -703,6 +703,10 @@ public class GameScreen implements Screen {
 
 
     }
+
+    /**
+     * Check the player is getting upgrade items and upgrade the player's ship
+     */
     private void checkGetUpgrades(){
         // Check the Upgrade Items are collected by player's ship
         ListIterator<IDropDownAnimation> itemsIterator = upgradeDroppingItemList.listIterator();
@@ -716,7 +720,11 @@ public class GameScreen implements Screen {
             }
     }
 
-
+    /** Move the enemy randomly
+     *
+     * @param enemyShip the ship needed to move
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void moveEnemy(EnemyShip enemyShip, float deltaTime) {
         // strategy: determine the max distance the ship can move
         float leftLimit, rightLimit, upLimit;
@@ -743,6 +751,10 @@ public class GameScreen implements Screen {
 
     }
 
+    /** Spawn enemy ships at random spot
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     public void spawnEnemyShips(float deltaTime){
         elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
         if(elapsedTime < 300){
@@ -781,18 +793,7 @@ public class GameScreen implements Screen {
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-//                if(elapsedTime > 150 && elapsedTime < 300){
-//                    for(int j = 0; j < 2; j++){
-//                        enemyShipList.add( new EnemyShipTypeD());
-//                        enemySpawnTimer -= timeBetweenEnemySpawns;
-//                    }
-//                }
-//                if(elapsedTime > 150 && elapsedTime < 300){
-//                    for(int j = 0; j < 1; j++){
-//                        enemyShipList.add( new EnemyShipTypeE());
-//                        enemySpawnTimer -= timeBetweenEnemySpawns;
-//                    }
-//                }
+
                 enemySpawnTimer = 0;
             }
             ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
@@ -825,8 +826,9 @@ public class GameScreen implements Screen {
         }
     }
 
-
-
+    /**
+     * Check if the player is crashing meteors or enemy ships
+     */
     private void checkCrashing(){
         // Check the Meteors crash to the player's ship
         ListIterator<Meteor> itemsIterator = meteorList.listIterator();
@@ -875,7 +877,7 @@ public class GameScreen implements Screen {
                 }
             }
         }
-        // Check the Enemy ships crash to the player's ship
+        // Check the Enemy boss crash to the player's ship
         ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
         while (enemyBossShipListIterator.hasNext()) {
             EnemyBossShip ship = enemyBossShipListIterator.next();
@@ -899,6 +901,10 @@ public class GameScreen implements Screen {
             }
         }
     }
+
+    /**
+     * Removes the enemies is moving out the screen,
+     */
     private void removeEnemyShipsAtBounds(){
         ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
         while (enemyShipListIterator.hasNext()){
@@ -908,6 +914,11 @@ public class GameScreen implements Screen {
             }
         }
     }
+
+    /** Check the explosion and render the animation
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void updateAndRenderExplosions(float deltaTime) {
         ListIterator<Explosion> explosionListIterator = explosionList.listIterator();
         while (explosionListIterator.hasNext()){
@@ -925,6 +936,10 @@ public class GameScreen implements Screen {
 
     }
 
+    /** Render all the lasers
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     private void renderLasers(float deltaTime){
         // create new lasers
         //player lasers
@@ -949,6 +964,10 @@ public class GameScreen implements Screen {
         DrawAndRemoveEnemyBulletsIfAtBound(deltaTime);
     }
 
+    /** Remove the enemies' lasers if they are getting out of the screen
+     *
+     * @param deltaTime
+     */
     public void DrawAndRemoveEnemyBulletsIfAtBound(float deltaTime){
         if(!enemyLaserList.isEmpty()){
             ListIterator<IEnemyLaser> iterator = enemyLaserList.listIterator();

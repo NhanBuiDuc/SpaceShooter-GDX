@@ -4,12 +4,20 @@ import com.badlogic.gdx.Game;
 
 import java.util.Random;
 
+/**
+ * The main game entry
+ */
 public class SpaceShooterGame extends Game {
 	public static Random random = new Random();
+	public ResourceManager rm;
 	public SpaceShooterGame() {
+
 	}
 	@Override
 	public void create () {
+		rm = new ResourceManager();
+		//load campaigns
+		rm.loadCampaigns();
 		this.setScreen(new SplashScreen());
 	}
 

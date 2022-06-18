@@ -31,7 +31,11 @@ import hcmute.spaceshooter.Ships.EnemyShipTypeD;
 import hcmute.spaceshooter.Ships.EnemyShipTypeE;
 import hcmute.spaceshooter.SpaceShooterGame;
 
-public class Episode1 implements IEpisode{ //Upgrade boxes
+/**
+ * The concrete class deciding the gameplay of each campaign
+ */
+public class Episode1 implements IEpisode{
+    //Upgrade boxes
     //UpgradeTypeA
     UpgradeTypeA upgradeTypeA_1;
     UpgradeTypeA upgradeTypeA_2;
@@ -63,18 +67,20 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     UpgradeTypeE upgradeTypeE_4;
     UpgradeTypeE upgradeTypeE_5;
 
+    // Meteors
     Meteor meteor1;
     Meteor meteor2;
     Meteor meteor3;
     Meteor meteor4;
     Meteor meteor5;
 
+    // Enemy bosses
     EnemyBoss1 enemyBoss;
-    // List of mainAnimationList
+    // List of main Animations
     Stack<IDropDownAnimation> mainAnimationList;
     // List of Enemy Lasers
     Stack<IEnemyLaser> enemyBossLaserList;
-    // List of Enemy Ships
+    // List of Enemy Boss Ships
     private Stack<EnemyBossShip> enemyBossesList;
     // List of Enemy Ships
     private Stack<EnemyShip> enemyShipList;
@@ -99,119 +105,18 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     boolean isSpawnHordeTypeE_1 = false;
     boolean isSpawnHordeTypeE_2 = false;
 
+    // the max number of enemy ships able to fire
     int countHordeTypeA_ableToFire = 2;
+    // the horde's movement
     float xHorde = 0, yHorde = WORLD_HEIGHT;
+    // Increased if at bound
     int countAtBound = 0;
+    // if it's true, the horde move right, else move left.
     boolean isMoveRight = true;
+    // true if the horde is already in the middle, else false
     boolean isMoveToMiddle = false;
 
-    public Episode1(){
-        upgradeTypeA_1 = new UpgradeTypeA();
-        upgradeTypeA_2 = new UpgradeTypeA();
-        upgradeTypeA_3 = new UpgradeTypeA();
-        upgradeTypeA_4 = new UpgradeTypeA();
-        upgradeTypeA_5 = new UpgradeTypeA();
-
-        upgradeTypeB_1 = new UpgradeTypeB();
-        upgradeTypeB_2 = new UpgradeTypeB();
-        upgradeTypeB_3 = new UpgradeTypeB();
-        upgradeTypeB_4 = new UpgradeTypeB();
-        upgradeTypeB_5 = new UpgradeTypeB();
-
-        upgradeTypeC_1 = new UpgradeTypeC();
-        upgradeTypeC_2 = new UpgradeTypeC();
-        upgradeTypeC_3 = new UpgradeTypeC();
-        upgradeTypeC_4 = new UpgradeTypeC();
-        upgradeTypeC_5 = new UpgradeTypeC();
-
-        upgradeTypeD_1 = new UpgradeTypeD();
-        upgradeTypeD_2 = new UpgradeTypeD();
-        upgradeTypeD_3 = new UpgradeTypeD();
-        upgradeTypeD_4 = new UpgradeTypeD();
-        upgradeTypeD_5 = new UpgradeTypeD();
-
-        upgradeTypeE_1 = new UpgradeTypeE();
-        upgradeTypeE_2 = new UpgradeTypeE();
-        upgradeTypeE_3 = new UpgradeTypeE();
-        upgradeTypeE_4 = new UpgradeTypeE();
-        upgradeTypeE_5 = new UpgradeTypeE();
-
-        upgradeTypeA_1.getDrawingRectangle().setX(WORLD_WIDTH / 2);
-        upgradeTypeA_2.getDrawingRectangle().setX(WORLD_WIDTH / 4);
-        upgradeTypeA_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
-        upgradeTypeA_4.getDrawingRectangle().setX(WORLD_WIDTH / 7);
-        upgradeTypeA_5.getDrawingRectangle().setX(WORLD_WIDTH / 2);
-
-        upgradeTypeB_1.getDrawingRectangle().setX(WORLD_WIDTH / 3);
-        upgradeTypeB_2.getDrawingRectangle().setX(WORLD_WIDTH / 2);
-        upgradeTypeB_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
-        upgradeTypeB_4.getDrawingRectangle().setX(WORLD_WIDTH / 7);
-        upgradeTypeB_5.getDrawingRectangle().setX(WORLD_WIDTH / 2);
-
-        upgradeTypeC_1.getDrawingRectangle().setX(WORLD_WIDTH / 3);
-        upgradeTypeC_2.getDrawingRectangle().setX(WORLD_WIDTH / 5);
-        upgradeTypeC_3.getDrawingRectangle().setX(WORLD_WIDTH / 5+10);
-        upgradeTypeC_4.getDrawingRectangle().setX(WORLD_WIDTH / 4);
-        upgradeTypeC_5.getDrawingRectangle().setX(WORLD_WIDTH / 2+10);
-
-        upgradeTypeD_1.getDrawingRectangle().setX(WORLD_WIDTH / 9);
-        upgradeTypeD_2.getDrawingRectangle().setX(WORLD_WIDTH / 2);
-        upgradeTypeD_3.getDrawingRectangle().setX(WORLD_WIDTH / 2+15);
-        upgradeTypeD_4.getDrawingRectangle().setX(WORLD_WIDTH / 3);
-        upgradeTypeD_5.getDrawingRectangle().setX(WORLD_WIDTH / 2+5);
-
-        upgradeTypeE_1.getDrawingRectangle().setX(WORLD_WIDTH / 3);
-        upgradeTypeE_2.getDrawingRectangle().setX(WORLD_WIDTH / 2);
-        upgradeTypeE_3.getDrawingRectangle().setX(WORLD_WIDTH / 5);
-        upgradeTypeE_4.getDrawingRectangle().setX(WORLD_WIDTH / 4);
-        upgradeTypeE_5.getDrawingRectangle().setX(WORLD_WIDTH / 2+10);
-
-        mainAnimationList.push(upgradeTypeA_1);
-        mainAnimationList.push(upgradeTypeA_2);
-        mainAnimationList.push(upgradeTypeA_3);
-        mainAnimationList.push(upgradeTypeA_4);
-        mainAnimationList.push(upgradeTypeA_5);
-        mainAnimationList.push(upgradeTypeB_1);
-        mainAnimationList.push(upgradeTypeB_2);
-        mainAnimationList.push(upgradeTypeB_3);
-        mainAnimationList.push(upgradeTypeB_4);
-        mainAnimationList.push(upgradeTypeB_5);
-        mainAnimationList.push(upgradeTypeC_1);
-        mainAnimationList.push(upgradeTypeC_2);
-        mainAnimationList.push(upgradeTypeC_3);
-        mainAnimationList.push(upgradeTypeC_4);
-        mainAnimationList.push(upgradeTypeC_5);
-        mainAnimationList.push(upgradeTypeD_1);
-        mainAnimationList.push(upgradeTypeD_2);
-        mainAnimationList.push(upgradeTypeD_3);
-        mainAnimationList.push(upgradeTypeD_4);
-        mainAnimationList.push(upgradeTypeD_5);
-        mainAnimationList.push(upgradeTypeE_1);
-        mainAnimationList.push(upgradeTypeE_2);
-        mainAnimationList.push(upgradeTypeE_3);
-        mainAnimationList.push(upgradeTypeE_4);
-        mainAnimationList.push(upgradeTypeE_5);
-
-        meteor1 = new Meteor();
-        meteor2 = new Meteor();
-        meteor3 = new Meteor();
-        meteor4 = new Meteor();
-        meteor5 = new Meteor();
-
-        meteor1.getDrawingRectangle().setX(WORLD_WIDTH/2);
-        meteor2.getDrawingRectangle().setX(WORLD_WIDTH/2+20);
-        meteor3.getDrawingRectangle().setX(WORLD_WIDTH/2+30);
-        meteor4.getDrawingRectangle().setX(WORLD_WIDTH/2-10);
-        meteor5.getDrawingRectangle().setX(WORLD_WIDTH/2+10);
-
-        meteorList.push(meteor1);
-        meteorList.push(meteor2);
-        meteorList.push(meteor3);
-        meteorList.push(meteor4);
-        meteorList.push(meteor5);
-
-        enemyBoss = new EnemyBoss1();
-    }
+    // Constructor getting the list from the Game Screen Class
     public Episode1(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList,
                     Stack<EnemyBossShip> enemyBossesList, Stack<EnemyShip> enemyShipList) {
         this.mainAnimationList = mainAnimationList;
@@ -327,17 +232,25 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         enemyBoss = new EnemyBoss1();
     }
 
+    /** The start method to combined all the gameplay determinants
+     *
+     * @param deltaTime The time in seconds since the last render.
+     * @param startTime The start time of the gameplay
+     * @param batch The drawing object of Gdx
+     */
+
     public void Start(float deltaTime, long startTime, SpriteBatch batch){
         elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
         System.out.println("Time elapsed in seconds = " + elapsedTime);
 
         DropObjects(deltaTime, batch);
-        SpawnEnemy(startTime, batch);
+        SpawnEnemy();
         SpawnBoss(deltaTime, batch);
 
     }
 
-    private void SpawnEnemy(long startTime, SpriteBatch batch) {
+    /** Spawn enemy at specific time */
+    private void SpawnEnemy() {
         if (elapsedTime == 1 && isSpawnHordeTypeA_1 == false) {
             countAtBound = 0;
             xHorde = 0;
@@ -418,6 +331,12 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         }
     }
 
+
+    /** Drop objects like upgrades and meteors
+     *
+     * @param deltaTime The time in seconds since the last render.
+     * @param batch The drawing object of Gdx
+     */
     public void DropObjects(float deltaTime, SpriteBatch batch) {
 
         //Meteor
@@ -523,6 +442,11 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         }
     }
 
+    /** To spawn Boss and draw its bullets and lasers
+     *
+     * @param deltaTime The time in seconds since the last render.
+     * @param batch The drawing object of Gdx
+     */
     public void SpawnBoss(float deltaTime, SpriteBatch batch){
         if(elapsedTime > 292 && elapsedTime < 299){
             batch.draw(boss_Warning_Texture, 0, 128/2, 72, 15);
@@ -541,6 +465,12 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
 
     }
 
+    /** Make The boss's lasers
+     *
+     * @param deltaTime The time in seconds since the last render.
+     * @param batch The drawing object of Gdx
+     * @param elapsedTime the real time at specific moment (in second)
+     */
     private void makeBossLasers(float deltaTime, SpriteBatch batch, float elapsedTime) {
         ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
 
@@ -583,6 +513,11 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         DrawAndRemoveBossBullets(deltaTime, batch);
     }
 
+    /** Draw and remove boss's bullets
+     *
+     * @param deltaTime The time in seconds since the last render.
+     * @param batch The drawing object of Gdx
+     */
     public void DrawAndRemoveBossBullets(float deltaTime, Batch batch) {
         if (!enemyBossLaserList.isEmpty()) {
             ListIterator<IEnemyLaser> iterator = enemyBossLaserList.listIterator();
@@ -645,6 +580,11 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         }
     }
 
+    /** Spawn group of enemy ship type A
+     *
+     * @param row of enemies
+     * @param col of enemies
+     */
     public void spawnHordeTypeA(int row, int col){
         float random =  SpaceShooterGame.random.nextFloat() * (row * col);
 
@@ -704,6 +644,11 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
             }
         }
     }
+    /** Spawn group of enemy ship type B
+     *
+     * @param row of enemies
+     * @param col of enemies
+     */
     public void spawnHordeTypeB(int row, int col){
         float random =  SpaceShooterGame.random.nextFloat() * (row * col);
 
@@ -733,6 +678,11 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         }
 
     }
+    /** Spawn group of enemy ship type C
+     *
+     * @param row of enemies
+     * @param col of enemies
+     */
     public void spawnHordeTypeC(int row, int col){
         float random =  SpaceShooterGame.random.nextFloat() * (row * col);
 
@@ -761,7 +711,13 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
             }
         }
 
+
     }
+    /** Spawn group of enemy ship type D
+     *
+     * @param row of enemies
+     * @param col of enemies
+     */
     public void spawnHordeTypeD(int row, int col){
         float random =  SpaceShooterGame.random.nextFloat() * (row * col);
 
@@ -791,6 +747,11 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         }
 
     }
+    /** Spawn group of enemy ship type E
+     *
+     * @param row of enemies
+     * @param col of enemies
+     */
     public void spawnHordeTypeE(int row, int col){
         float random =  SpaceShooterGame.random.nextFloat() * (row * col);
 
@@ -820,6 +781,11 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         }
 
     }
+
+    /** Move the horde left and right the screen
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     public void moveHorde(float deltaTime){
 
         Stack<EnemyShip> enemyShipStack = new Stack<>();
@@ -894,48 +860,8 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
 
     }
 
-    /* Getter Setter */
+    /* Getter */
     public EnemyShip getEnemyBoss(){
         return enemyBoss;
-    }
-
-    public Stack<IEnemyLaser> getEnemyBossLaserList() {
-        return enemyBossLaserList;
-    }
-
-    public void setEnemyBossLaserList(Stack<IEnemyLaser> enemyBossLaserList) {
-        this.enemyBossLaserList = enemyBossLaserList;
-    }
-
-    public Stack<EnemyBossShip> getEnemyBossesList() {
-        return enemyBossesList;
-    }
-
-    public void setEnemyBossesList(Stack<EnemyBossShip> enemyBossesList) {
-        this.enemyBossesList = enemyBossesList;
-    }
-
-    public Stack<EnemyShip> getEnemyShipList() {
-        return enemyShipList;
-    }
-
-    public void setEnemyShipList(Stack<EnemyShip> enemyShipList) {
-        this.enemyShipList = enemyShipList;
-    }
-
-    public Stack<IDropDownAnimation> getMainAnimationList() {
-        return mainAnimationList;
-    }
-
-    public void setMainAnimationList(Stack<IDropDownAnimation> mainAnimationList) {
-        this.mainAnimationList = mainAnimationList;
-    }
-
-    public Stack<Meteor> getMeteorList() {
-        return meteorList;
-    }
-
-    public void setMeteorList(Stack<Meteor> meteorList) {
-        this.meteorList = meteorList;
     }
 }

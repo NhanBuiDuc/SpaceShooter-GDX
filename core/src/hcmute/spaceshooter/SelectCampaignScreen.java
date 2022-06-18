@@ -91,7 +91,7 @@ public class SelectCampaignScreen implements Screen {
             name.setFontScale(1.4f);
             name.setTouchable(Touchable.disabled);
             name.setAlignment(Align.left);
-            Label record=new Label("Record: "+rm.campaigns.get(rm.campaignIndex).record,labelStyle);
+            Label record=new Label("Record: "+rm.campaigns.get(index).record,labelStyle);
             record.setPosition(50,50);
             record.setFontScale(0.8f);
             record.setTouchable(Touchable.disabled);
@@ -105,7 +105,7 @@ public class SelectCampaignScreen implements Screen {
                 public void clicked(InputEvent event,float x,float y)
                 {
                     rm.campaignIndex=index;
-                    bossDesc.setText(rm.campaigns.get(rm.campaignIndex).boss);
+                    bossDesc.setText(rm.campaigns.get(index).boss);
                     System.out.println(rm.campaignIndex);
                 }
             });

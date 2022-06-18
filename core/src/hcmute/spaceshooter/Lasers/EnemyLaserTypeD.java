@@ -5,32 +5,16 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class EnemyLaserTypeD extends EnemyLaser  {
-
+    // level of the bullet
     int level = 1;
+    // The array of this type's bullet
     EnemyLaserTypeD[] bullets;
+    // the ship's drawing rectangle
     Rectangle shipBoundingBox;
-
-    /**
-     * Constructor of the Laser Type.
+    /** Constructor
      *
-     * @param xCentre            : The horizontal center-coordinate of the ship
-     * @param yBottom            : The vertical center-coordinate of the ship
-     * @param laserWidth         :The width of the laser
-     * @param laserHeight        :The height of the laser
-     * @param laserMovementSpeed :The movement speed of the laser
-     * @param laserTexture      :The texture for rendering the laser
-     **/
-
-    public EnemyLaserTypeD(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
-        super(xCentre, yBottom, laserWidth, laserHeight, laserMovementSpeed, laserTexture);
-        typeName = "BLUE";
-    }
-
-    public EnemyLaserTypeD(){
-
-    }
-
-
+     * @param shipBoundingBox the rectangle of the firing ship
+     */
     public EnemyLaserTypeD(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
         laserTexture = new Texture("bullet_enemy04.png");
@@ -40,18 +24,18 @@ public class EnemyLaserTypeD extends EnemyLaser  {
         typeName = "RED";
     }
 
-
+    /**
+     * Upgrade the level of the laser
+     */
     public void Upgrade(){
         this.level++;
     }
-
+    /**
+     *
+     * @return the array of this type
+     */
     public EnemyLaserTypeD[] GetBullets(){
         EnemyLaserTypeD[] lasers = new EnemyLaserTypeD[20];
-
-//            lasers[0] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.18f, shipBoundingBox.y - laserHeight,
-//                    laserWidth, laserHeight, laserMovementSpeed, laserTextureRegion);
-//            lasers[1] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.82f, shipBoundingBox.y - laserHeight,
-//                    laserWidth, laserHeight, laserMovementSpeed, laserTextureRegion);
 
         lasers[0] = new EnemyLaserTypeD(shipBoundingBox);
         lasers[0].setLaserWidth(laserWidth);
@@ -61,24 +45,10 @@ public class EnemyLaserTypeD extends EnemyLaser  {
                 lasers[0].getShipBoundingBox().getY() - lasers[0].getShipBoundingBox().getHeight() * 0.4f,
                 lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
-
-//        lasers[1] = new EnemyLaserTypeD(shipBoundingBox);
-//        lasers[1].setLaserWidth(laserWidth);
-//        lasers[1].setLaserHeight(laserHeight);
-//        lasers[1].setLaserMovementSpeed(laserMovementSpeed);
-//        lasers[1].setLaserBoundingBox(new Rectangle(lasers[1].getShipBoundingBox().getX() + lasers[1].getShipBoundingBox().getWidth() * 0.93f,
-//                lasers[1].getShipBoundingBox().getY() + lasers[0].getShipBoundingBox().getHeight() * 0.55f,
-//                lasers[1].getLaserWidth(), lasers[1].getLaserHeight()));
-
-
         this.bullets = lasers;
         return lasers;
     }
 
-    @Override
-    public void setTypename(String red) {
-
-    }
 
     /**
      * Draw the laser animation
@@ -91,12 +61,13 @@ public class EnemyLaserTypeD extends EnemyLaser  {
                 laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
     }
 
+
+    //region Getter and Setter
+
     @Override
     public String getMovementType() {
         return movementType;
     }
-
-    //region Getter and Setter
 
     public int getLevel() {
         return level;

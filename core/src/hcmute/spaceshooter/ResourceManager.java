@@ -33,10 +33,8 @@ public class ResourceManager {
     public float sfxVolume=.5f;
     public AssetManager assetManager;
     public JsonReader jsonReader;
-    public static  int campaignIndex;
-    public static Array<Integer> campaignScore=new Array<Integer>();
-    public Array<Campaign> campaigns=new Array<Campaign>();
-    public FileHandle file=Gdx.files.local("player.json");
+    public static int campaignIndex;
+    public static Array<Campaign> campaigns=new Array<Campaign>();
     public ResourceManager()
     {
         assetManager =new AssetManager();
@@ -86,8 +84,6 @@ public class ResourceManager {
         splashBackground=assetManager.get("screen/splash.jpg",Texture.class);
         victoryBackground=assetManager.get("screen/victory.jpg",Texture.class);
         gameOverBackground=assetManager.get("screen/game-over.jpg",Texture.class);
-        //load campaigns
-        loadCampaigns();
     }
     //set volume for theme
     public void setMusicVolume(float musicVolume)

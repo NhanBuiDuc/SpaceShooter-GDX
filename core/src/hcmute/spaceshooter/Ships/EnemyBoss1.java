@@ -14,23 +14,41 @@ import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Lasers.ILaser;
 
+/**
+ *  The concrete class for the boss ship
+ */
 public class EnemyBoss1 extends EnemyBossShip{
 
     public EnemyBoss1(){
         super();
+        // the ship's rectangle
         boundingBox = new Rectangle(WORLD_WIDTH / 5, WORLD_HEIGHT - 45, 40, 40);
+        // the boss's movement speed
         movementSpeed = 50;
+        // the boss's shield
         shield = 0;
+        // the boss's attack speed
         timeBetweenShots = 5f;
+        // the boss's texture
         shipTextureRegion = textureAtlas.findRegion("boss01");
+        // the boss's shield texture
         shieldTextureRegion = textureAtlas.findRegion("shield1");
+        // check if the boss able to shoot
         ableToFire = true;
+        // the Health point of the boss
         HP = 500;
+        // the direction vector of the boss
         directionVector = new Vector2(0, -1);
+        // the laser of the boss
         laserI = new Boss1_LaserTypeA(boundingBox);
+        // the level of the laser
         laserI.setLevel(1);
     }
-
+    /** Get the lasers of type B
+     *
+     * @param deltaTime Update the status of the Ship respect to the deltaTime
+     * @return the list of laser of type B
+     */
     public Stack<IEnemyLaser> FireTypeB(float deltaTime) {
         Stack<IEnemyLaser> laserStack = new Stack<>();
         if(canFireLaser()) {
@@ -44,6 +62,10 @@ public class EnemyBoss1 extends EnemyBossShip{
         timeSinceLastShot = 0;
         return laserStack;
     }
+    /** Get the lasers
+     *
+     * @return the list of laser
+     */
     @Override
     public Stack<IEnemyLaser> GetLasers() {
         // Enemy lasers

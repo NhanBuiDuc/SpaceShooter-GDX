@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ *  The concrete class for the drop-down upgrading type A animation objects
+ */
 public class UpgradeTypeA extends DropDownAnimation {
     //name of upgrade type
     String typeName;
@@ -80,4 +83,5 @@ public class UpgradeTypeA extends DropDownAnimation {
     public Boolean getTaken() {
         return taken;
     }
+    //endregion
 }
