@@ -134,7 +134,7 @@ public abstract class DropDownAnimation implements IDropDownAnimation {
         return animation.isAnimationFinished(timer);
     }
 
-    //region Getter and Setter
+    //Getter and Setter
     public float getTotalAnimationTime() {
         return totalAnimationTime;
     }
@@ -222,8 +222,5 @@ public abstract class DropDownAnimation implements IDropDownAnimation {
     public void setTextureNum(int textureNum) {
         this.textureNum = textureNum;
     }
-
-
-    //endregion
 }
 

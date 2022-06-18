@@ -56,6 +56,8 @@ public class GlobalVariables {
     public static final Texture boss3_LaserTypeB_Texture = new Texture("boss03_bullet02.png");
     public static final Texture boss3_LaserTypeC_Texture = new Texture("boss03_bullet03.png");
 
+    public static final Texture boss_Warning_Texture = new Texture("boss_warning.png");
+
     public static final TextureRegion finalDroneExplosionTextureRegion = GetFinalExplosionAnimation(explosiveDrone);
     public static TextureRegion GetFinalExplosionAnimation(Texture texture) {
         TextureRegion textureRegion = new TextureRegion();

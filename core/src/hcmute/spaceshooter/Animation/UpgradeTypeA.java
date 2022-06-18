@@ -10,8 +10,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class UpgradeTypeA extends DropDownAnimation {
+    //name of upgrade type
     String typeName;
+    //check the upgrade was taken or not
     Boolean taken = false;
+
+    //constructor
     public UpgradeTypeA() {
         drawingRectangle = new Rectangle(WORLD_WIDTH / 2, WORLD_HEIGHT, 5, 5);
         movementSpeed = 20;
@@ -59,6 +63,7 @@ public class UpgradeTypeA extends DropDownAnimation {
         }
     }
 
+    //Getter and Setter
     public String getTypeName() {
         return typeName;
     }

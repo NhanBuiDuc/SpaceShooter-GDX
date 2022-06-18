@@ -2,6 +2,7 @@ package hcmute.spaceshooter.Episode;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
+import static hcmute.spaceshooter.GlobalVariables.boss_Warning_Texture;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -423,123 +424,123 @@ public class Episode3 implements IEpisode{ //Upgrade boxes
     public void DropObjects(float deltaTime, SpriteBatch batch) {
 
         //Meteor
-        if (elapsedTime >= 30 && meteor1.getTaken() == false && meteor1.getDestroyed() == false) {
+        if (elapsedTime >= 235 && meteor1.getTaken() == false && meteor1.getDestroyed() == false) {
             meteor1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 35 && meteor2.getTaken() == false && meteor2.getDestroyed() == false) {
+        if (elapsedTime >= 245 && meteor2.getTaken() == false && meteor2.getDestroyed() == false) {
             meteor2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 43 && meteor3.getTaken() == false && meteor3.getDestroyed() == false) {
+        if (elapsedTime >= 255 && meteor3.getTaken() == false && meteor3.getDestroyed() == false) {
             meteor3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 50 && meteor4.getTaken() == false && meteor4.getDestroyed() == false) {
+        if (elapsedTime >= 265 && meteor4.getTaken() == false && meteor4.getDestroyed() == false) {
             meteor4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 52 && meteor5.getTaken() == false && meteor5.getDestroyed() == false) {
+        if (elapsedTime >= 275 && meteor5.getTaken() == false && meteor5.getDestroyed() == false) {
             meteor5.dropDownward(deltaTime, batch);
         }
 
         //UpgradeType A
-        if (elapsedTime >= 10 && upgradeTypeA_1.getTaken() == false) {
+        if (elapsedTime >= 230 && upgradeTypeA_1.getTaken() == false) {
             upgradeTypeA_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 30 && upgradeTypeA_2.getTaken() == false) {
+        if (elapsedTime >= 245 && upgradeTypeA_2.getTaken() == false) {
             upgradeTypeA_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 50 && upgradeTypeA_3.getTaken() == false) {
+        if (elapsedTime >= 260 && upgradeTypeA_3.getTaken() == false) {
             upgradeTypeA_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 70 && upgradeTypeA_4.getTaken() == false) {
+        if (elapsedTime >= 270 && upgradeTypeA_4.getTaken() == false) {
             upgradeTypeA_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 90 && upgradeTypeA_5.getTaken() == false) {
+        if (elapsedTime >= 280 && upgradeTypeA_5.getTaken() == false) {
             upgradeTypeA_5.dropDownward(deltaTime, batch);
         }
 
         //UpgradeTypeB
-        if (elapsedTime >= 1 && upgradeTypeB_1.getTaken() == false) {
+        if (elapsedTime >= 100 && upgradeTypeB_1.getTaken() == false) {
             upgradeTypeB_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 2 && upgradeTypeB_2.getTaken() == false) {
+        if (elapsedTime >= 120 && upgradeTypeB_2.getTaken() == false) {
             upgradeTypeB_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 3 && upgradeTypeB_3.getTaken() == false) {
+        if (elapsedTime >= 130 && upgradeTypeB_3.getTaken() == false) {
             upgradeTypeB_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 4 && upgradeTypeB_4.getTaken() == false) {
+        if (elapsedTime >= 145 && upgradeTypeB_4.getTaken() == false) {
             upgradeTypeB_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 5 && upgradeTypeB_5.getTaken() == false) {
+        if (elapsedTime >= 155 && upgradeTypeB_5.getTaken() == false) {
             upgradeTypeB_5.dropDownward(deltaTime, batch);
         }
 
         //UpgradeTypeC
-        if (elapsedTime >= 55 && upgradeTypeC_1.getTaken() == false) {
+        if (elapsedTime >= 10 && upgradeTypeC_1.getTaken() == false) {
             upgradeTypeC_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 65 && upgradeTypeC_2.getTaken() == false) {
+        if (elapsedTime >= 15 && upgradeTypeC_2.getTaken() == false) {
             upgradeTypeC_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 75 && upgradeTypeC_3.getTaken() == false) {
+        if (elapsedTime >= 25 && upgradeTypeC_3.getTaken() == false) {
             upgradeTypeC_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 135 && upgradeTypeC_4.getTaken() == false) {
+        if (elapsedTime >= 35 && upgradeTypeC_4.getTaken() == false) {
             upgradeTypeC_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 145 && upgradeTypeC_5.getTaken() == false) {
+        if (elapsedTime >= 45 && upgradeTypeC_5.getTaken() == false) {
             upgradeTypeC_5.dropDownward(deltaTime, batch);
         }
 
         //UpgradeTypeD
-        if (elapsedTime >= 130 && upgradeTypeD_1.getTaken() == false) {
+        if (elapsedTime >= 200 && upgradeTypeD_1.getTaken() == false) {
             upgradeTypeD_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 155 && upgradeTypeD_2.getTaken() == false) {
+        if (elapsedTime >= 215 && upgradeTypeD_2.getTaken() == false) {
             upgradeTypeD_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 165 && upgradeTypeD_3.getTaken() == false) {
+        if (elapsedTime >= 225 && upgradeTypeD_3.getTaken() == false) {
             upgradeTypeD_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 185 && upgradeTypeD_4.getTaken() == false) {
+        if (elapsedTime >= 240 && upgradeTypeD_4.getTaken() == false) {
             upgradeTypeD_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 195 && upgradeTypeD_5.getTaken() == false) {
+        if (elapsedTime >= 255 && upgradeTypeD_5.getTaken() == false) {
             upgradeTypeD_5.dropDownward(deltaTime, batch);
         }
 
         //UpgradeTypeE
-        if (elapsedTime >= 190 && upgradeTypeE_1.getTaken() == false) {
+        if (elapsedTime >= 55 && upgradeTypeE_1.getTaken() == false) {
             upgradeTypeE_1.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 210 && upgradeTypeE_2.getTaken() == false) {
+        if (elapsedTime >= 65 && upgradeTypeE_2.getTaken() == false) {
             upgradeTypeE_2.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 235 && upgradeTypeE_3.getTaken() == false) {
+        if (elapsedTime >= 80 && upgradeTypeE_3.getTaken() == false) {
             upgradeTypeE_3.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 260 && upgradeTypeE_4.getTaken() == false) {
+        if (elapsedTime >= 90 && upgradeTypeE_4.getTaken() == false) {
             upgradeTypeE_4.dropDownward(deltaTime, batch);
         }
-        if (elapsedTime >= 275 && upgradeTypeE_5.getTaken() == false) {
+        if (elapsedTime >= 100 && upgradeTypeE_5.getTaken() == false) {
             upgradeTypeE_5.dropDownward(deltaTime, batch);
         }
     }
 
     public void SpawnBoss(float deltaTime, SpriteBatch batch){
-
-        if(elapsedTime == 1){
+        if(elapsedTime > 292 && elapsedTime < 299){
+            batch.draw(boss_Warning_Texture, 0, 128/2, 72, 15);
+        }
+        if(elapsedTime == 300){
             if(!enemyBossesList.contains(enemyBoss)){
                 enemyBossesList.push(enemyBoss);
 
             }
         }
-
-        if(elapsedTime >= 1 && !enemyBoss.IsDead()){
+        if(elapsedTime >= 300 && !enemyBoss.IsDead()){
             enemyBoss.drawShip(batch);
             makeBossLasers(deltaTime, batch, elapsedTime);
             enemyBoss.update(deltaTime);
         }
-
     }
 
     private void makeBossLasers(float deltaTime, SpriteBatch batch, float elapsedTime) {

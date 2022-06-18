@@ -2,6 +2,7 @@ package hcmute.spaceshooter.Episode;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
+import static hcmute.spaceshooter.GlobalVariables.boss_Warning_Texture;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -523,13 +524,16 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     }
 
     public void SpawnBoss(float deltaTime, SpriteBatch batch){
-        if(elapsedTime == 1){
+        if(elapsedTime > 292 && elapsedTime < 299){
+            batch.draw(boss_Warning_Texture, 0, 128/2, 72, 15);
+        }
+        if(elapsedTime == 300){
             if(!enemyBossesList.contains(enemyBoss)){
                 enemyBossesList.push(enemyBoss);
 
             }
         }
-        if(elapsedTime >= 1 && !enemyBoss.IsDead()){
+        if(elapsedTime >= 300 && !enemyBoss.IsDead()){
             enemyBoss.drawShip(batch);
             makeBossLasers(deltaTime, batch, elapsedTime);
             enemyBoss.update(deltaTime);

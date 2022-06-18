@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import org.w3c.dom.Text;
 
 public class Explosion {
+    // animation for explosion
     private Animation<TextureRegion> explosionAnimation;
     private float explosionTimer;
     private Rectangle boundingBox;
