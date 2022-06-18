@@ -57,16 +57,19 @@ public class VictoryScreen implements Screen {
         achievement.setScale(0.5f);
         achievement.setTouchable(Touchable.disabled);
         Label.LabelStyle labelStyle=rm.skin.get("default",Label.LabelStyle.class);
+        //create campaign report label
         Label report=new Label(rm.campaigns.get(rm.campaignIndex).boss+" has been defeated!",labelStyle);
         report.setWrap(true);
         report.setAlignment(Align.center);
         report.setFontScale(1.2f);
         achievement.add(report).size(300,120).row();
-        Label scoreLabel=new Label("Your record: "+rm.campaigns.get(rm.campaignIndex).record,labelStyle);
+        //create personal record label
+        Label scoreLabel=new Label("Your record",labelStyle);
         scoreLabel.setFontScale(1.2f);
         scoreLabel.setAlignment(Align.center);
         achievement.add(scoreLabel).pad(15,15,15,15).row();
-        Label score=new Label("...",labelStyle);
+        //display record
+        Label score=new Label(""+rm.campaigns.get(rm.campaignIndex).record,labelStyle);
         score.setFontScale(1.2f);
         score.setAlignment(Align.center);
         achievement.add(score).row();
@@ -83,10 +86,12 @@ public class VictoryScreen implements Screen {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
             }
         });
+        //create continue button
         TextButton continueButton=new TextButton("Continue",rm.skin);
         continueButton.getLabel().setFontScale(0.45f);
         continueButton.setSize(125,70);
         continueButton.setPosition(85,0);
+        //handle continue button event
         continueButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y)

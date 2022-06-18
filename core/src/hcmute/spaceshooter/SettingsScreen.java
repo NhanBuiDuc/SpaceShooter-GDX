@@ -32,7 +32,6 @@ public class SettingsScreen implements Screen {
     private Viewport viewport;
     private SpriteBatch batch;
     public ResourceManager rm;
-    private int backgroundOffset=0;
     public SettingsScreen()
     {
         rm=new ResourceManager();
@@ -43,14 +42,13 @@ public class SettingsScreen implements Screen {
         //set stage for actors
         stage=new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
-
     }
     @Override
     public void show() {
         //play theme
-        rm.menuTheme.setVolume(rm.musicVolume);
-        rm.menuTheme.setLooping(true);
-        rm.menuTheme.play();
+        rm.settingsTheme.setVolume(rm.musicVolume);
+        rm.settingsTheme.setLooping(true);
+        rm.settingsTheme.play();
         //set label style for title
         Label.LabelStyle titleStyle=rm.skin.get("title", Label.LabelStyle.class);
         //create title label
@@ -136,6 +134,7 @@ public class SettingsScreen implements Screen {
         settingsWindow.add(muteMusic).padTop(15).size(240,50).row();
         settingsWindow.add(muteSfx).padTop(15).size(240,50).row();
         settingsWindow.row();
+        //handle event for mute music checkbox
         muteMusic.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -147,11 +146,11 @@ public class SettingsScreen implements Screen {
                 }
             }
         });
-
+        //handle event for mute sound effects checkbox
         muteSfx.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(muteMusic.isChecked()) {
+                if(muteSfx.isChecked()) {
                     rm.setSfxVolume(0f);
                 }
                 else
@@ -169,7 +168,7 @@ public class SettingsScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                rm.menuTheme.stop();
+                rm.settingsTheme.stop();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
             }
         });
@@ -193,15 +192,8 @@ public class SettingsScreen implements Screen {
         Gdx.gl.glClearColor(0f,0f,0f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        backgroundOffset++;
-        //scrolling background
-        batch.draw(rm.background,0,-backgroundOffset,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        batch.draw(rm.background,0,-backgroundOffset+Gdx.graphics.getHeight(),Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(rm.settingsBackground,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         batch.end();
-        if(backgroundOffset%Gdx.graphics.getHeight()==0)
-        {
-            backgroundOffset=0;
-        }
         stage.act();
         stage.draw();
     }

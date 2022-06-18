@@ -62,15 +62,17 @@ public class GameOverScreen implements Screen {
         report.setAlignment(Align.center);
         report.setFontScale(1.2f);
         achievement.add(report).size(300,120).row();
-        Label scoreLabel=new Label("Your record: "+rm.campaigns.get(rm.campaignIndex).record,labelStyle);
+        //create record label
+        Label scoreLabel=new Label("Your record",labelStyle);
         scoreLabel.setFontScale(1.2f);
         scoreLabel.setAlignment(Align.center);
         achievement.add(scoreLabel).pad(15,15,15,15).row();
-        Label score=new Label("...",labelStyle);
+        Label score=new Label(""+rm.campaigns.get(rm.campaignIndex).record,labelStyle);
         score.setFontScale(1.2f);
         score.setAlignment(Align.center);
         achievement.add(score).row();
         stage.addActor(achievement);
+        //create return to menu button
         TextButton returnButton=new TextButton("Quit",rm.skin);
         returnButton.getLabel().setFontScale(0.45f);
         returnButton.setSize(125,70);
@@ -83,10 +85,12 @@ public class GameOverScreen implements Screen {
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
             }
         });
+        //create continue button
         TextButton continueButton=new TextButton("Continue",rm.skin);
         continueButton.getLabel().setFontScale(0.45f);
         continueButton.setSize(125,70);
         continueButton.setPosition(85,0);
+        //handle event for continue button
         continueButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y)

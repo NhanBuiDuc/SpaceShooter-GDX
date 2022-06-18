@@ -3,13 +3,11 @@ package hcmute.spaceshooter;
 public class Campaign {
     public String name;
     public String boss;
-    public String description;
     public int record;
 
-    public Campaign(String name, String boss, String description,int record) {
+    public Campaign(String name, String boss,int record) {
         this.name = name;
         this.boss = boss;
-        this.description = description;
         this.record=record;
     }
 
@@ -30,13 +28,6 @@ public class Campaign {
         this.boss = boss;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
     public int getRecord() {
         return record;
     }

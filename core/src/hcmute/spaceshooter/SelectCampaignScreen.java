@@ -29,7 +29,6 @@ public class SelectCampaignScreen implements Screen {
     private Stage stage;
     private Viewport viewport;
     private SpriteBatch batch;
-    private int backgroundOffset=0;
     public ResourceManager rm;
     public SelectCampaignScreen()
     {
@@ -54,7 +53,7 @@ public class SelectCampaignScreen implements Screen {
         Label title= new Label("Select Campaign",titleStyle);
         title.setFontScale(0.3f);
         title.setSize(200,100);
-        title.setPosition(0,280);
+        title.setPosition(0,270);
         title.setAlignment(Align.center);
         title.setWrap(true);
         stage.addActor(title);
@@ -158,7 +157,7 @@ public class SelectCampaignScreen implements Screen {
                         ((Game)Gdx.app.getApplicationListener()).setScreen(gameScreen3);
                         break;
                     default:
-                        Gdx.app.exit();
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
                 }
             }
         });
@@ -186,21 +185,13 @@ public class SelectCampaignScreen implements Screen {
         stage.addActor(returnButton);
         stage.addAction(Actions.sequence(Actions.alpha(0),Actions.fadeIn(1)));
     }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0f,0f,0f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        backgroundOffset++;
-        //scrolling background
-        batch.draw(rm.background,0,-backgroundOffset,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        batch.draw(rm.background,0,-backgroundOffset+Gdx.graphics.getHeight(),Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(rm.selectCampaignBackground,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         batch.end();
-        if(backgroundOffset%Gdx.graphics.getHeight()==0)
-        {
-            backgroundOffset=0;
-        }
         stage.act();
         stage.draw();
     }

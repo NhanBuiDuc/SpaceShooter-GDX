@@ -17,10 +17,11 @@ import com.badlogic.gdx.utils.JsonWriter;
 public class ResourceManager {
     public TextureAtlas textureAtlas;
     public Skin skin;
-    public Texture background,splashBackground,menuBackground,victoryBackground,gameOverBackground;
+    public Texture settingsBackground,splashBackground,menuBackground,victoryBackground,gameOverBackground,
+    selectCampaignBackground;
     public SpriteBatch batch;
     public Music menuTheme;
-    public Music loadingTheme;
+    public Music settingsTheme;
     public Music selectCampaignTheme;
     public Music battleTheme;
     public Music bossTheme;
@@ -29,8 +30,8 @@ public class ResourceManager {
     public Music explosionSoundEffect;
     public Music laserSoundEffect;
     public Music splashTheme;
-    public float musicVolume=.5f;
-    public float sfxVolume=.5f;
+    public static float musicVolume=.5f;
+    public static float sfxVolume=.5f;
     public AssetManager assetManager;
     public JsonReader jsonReader;
     public static int campaignIndex;
@@ -42,8 +43,8 @@ public class ResourceManager {
         assetManager.load("star-soldier-ui.atlas",TextureAtlas.class);
         assetManager.load("star-soldier-ui.json",Skin.class);
 
-        assetManager.load("music/menu.wav",Music.class);
-        assetManager.load("music/loading.wav",Music.class);
+        assetManager.load("music/menu.mp3",Music.class);
+        assetManager.load("music/settings.mp3",Music.class);
         assetManager.load("music/select-campaign.wav",Music.class);
         assetManager.load("music/battle.ogg",Music.class);
         assetManager.load("music/boss.ogg",Music.class);
@@ -54,11 +55,12 @@ public class ResourceManager {
         assetManager.load("sfx/explosion_effect.wav",Music.class);
         assetManager.load("sfx/laser_effect.mp3",Music.class);
 
-        assetManager.load("screen/background.png",Texture.class);
+        assetManager.load("screen/settings.jpg",Texture.class);
         assetManager.load("screen/splash.jpg",Texture.class);
         assetManager.load("screen/menu.jpg",Texture.class);
         assetManager.load("screen/victory.jpg",Texture.class);
         assetManager.load("screen/game-over.jpg",Texture.class);
+        assetManager.load("screen/select-campaign.jpg",Texture.class);
         assetManager.finishLoading();
         //load atlas
         textureAtlas=assetManager.get("star-soldier-ui.atlas", TextureAtlas.class);
@@ -66,30 +68,30 @@ public class ResourceManager {
         skin=new Skin(textureAtlas);
         skin.load(Gdx.files.internal("star-soldier-ui.json"));
         //load sound
-        menuTheme=assetManager.get("music/menu.wav", Music.class);
-        loadingTheme=assetManager.get("music/loading.wav",Music.class);
+        menuTheme=assetManager.get("music/menu.mp3", Music.class);
+        settingsTheme=assetManager.get("music/settings.mp3",Music.class);
         selectCampaignTheme=assetManager.get("music/select-campaign.wav",Music.class);
         battleTheme=assetManager.get("music/battle.ogg",Music.class);
         bossTheme=assetManager.get("music/boss.ogg",Music.class);
         victoryTheme=assetManager.get("music/victory.mp3",Music.class);
         gameOverTheme=assetManager.get("music/game-over.mp3",Music.class);
         splashTheme=assetManager.get("music/splash.mp3",Music.class);
-
         //load sfx
         explosionSoundEffect=assetManager.get("sfx/explosion_effect.wav",Music.class);
         laserSoundEffect=assetManager.get("sfx/laser_effect.mp3",Music.class);
         //load background
         menuBackground=assetManager.get("screen/menu.jpg",Texture.class);
-        background=assetManager.get("screen/background.png",Texture.class);
+        settingsBackground=assetManager.get("screen/settings.jpg",Texture.class);
         splashBackground=assetManager.get("screen/splash.jpg",Texture.class);
         victoryBackground=assetManager.get("screen/victory.jpg",Texture.class);
         gameOverBackground=assetManager.get("screen/game-over.jpg",Texture.class);
+        selectCampaignBackground=assetManager.get("screen/select-campaign.jpg",Texture.class);
     }
     //set volume for theme
     public void setMusicVolume(float musicVolume)
     {
         menuTheme.setVolume(musicVolume);
-        loadingTheme.setVolume(musicVolume);
+        settingsTheme.setVolume(musicVolume);
         selectCampaignTheme.setVolume(musicVolume);
         gameOverTheme.setVolume(musicVolume);
         victoryTheme.setVolume(musicVolume);
@@ -111,9 +113,8 @@ public class ResourceManager {
         {
             String campaignName=campaign.getString("name");
             String bossName=campaign.getString("boss");
-            String description=campaign.getString("description");
             int record=campaign.getInt("record");
-            campaigns.add(new Campaign(campaignName,bossName,description,record));
+            campaigns.add(new Campaign(campaignName,bossName,record));
         }
     }
     public void dispose()
@@ -122,7 +123,7 @@ public class ResourceManager {
         textureAtlas.dispose();
         skin.dispose();
         menuTheme.dispose();
-        loadingTheme.dispose();
+        settingsTheme.dispose();
         battleTheme.dispose();
         selectCampaignTheme.dispose();
         bossTheme.dispose();
