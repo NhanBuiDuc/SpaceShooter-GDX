@@ -2,6 +2,7 @@ package hcmute.spaceshooter.Lasers;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.boss2_LaserTypeA_Texture;
+import static hcmute.spaceshooter.GlobalVariables.boss3_LaserTypeA_Texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -13,7 +14,7 @@ public class Boss3_LaserTypeA extends EnemyLaser {
     Rectangle shipBoundingBox;
     public Boss3_LaserTypeA(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
-        laserTexture = boss2_LaserTypeA_Texture;
+        laserTexture = boss3_LaserTypeA_Texture;
         laserWidth = 20f;
         laserHeight = WORLD_HEIGHT;
         typeName = "Boss2_TypeA";

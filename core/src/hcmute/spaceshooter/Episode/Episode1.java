@@ -84,7 +84,7 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     float elapsedTime;
 
     // For Type C only
-    boolean isBoss1_TypeC_Shooting = false;
+    boolean isBoss_TypeC_Shooting = false;
 
     // boolean for horde spawning
     boolean isSpawnHordeTypeA_1 = false;
@@ -523,13 +523,13 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     }
 
     public void SpawnBoss(float deltaTime, SpriteBatch batch){
-        if(elapsedTime == 300){
+        if(elapsedTime == 1){
             if(!enemyBossesList.contains(enemyBoss)){
                 enemyBossesList.push(enemyBoss);
 
             }
         }
-        if(elapsedTime >= 300 && !enemyBoss.IsDead()){
+        if(elapsedTime >= 1 && !enemyBoss.IsDead()){
             enemyBoss.drawShip(batch);
             makeBossLasers(deltaTime, batch, elapsedTime);
             enemyBoss.update(deltaTime);
@@ -629,7 +629,7 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
                                         } else if (laser.getMovementType() == "LEFT") {
                                             laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 20f * deltaTime);
                                         }
-                                        isBoss1_TypeC_Shooting = false;
+                                        isBoss_TypeC_Shooting = false;
                                         laser.drawLaser(batch);
                                     }
                                 }

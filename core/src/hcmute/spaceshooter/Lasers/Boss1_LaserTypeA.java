@@ -58,7 +58,7 @@ public class Boss1_LaserTypeA extends EnemyLaser {
         lasers[0].setLaserWidth(laserWidth);
         lasers[0].setLaserHeight(laserHeight);
         lasers[0].setLaserMovementSpeed(45);
-        lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().width * 0.27f,
+        lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().width * 0.25f,
                 lasers[0].getShipBoundingBox().getY() - lasers[0].getShipBoundingBox().height * 3f,
                 lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
