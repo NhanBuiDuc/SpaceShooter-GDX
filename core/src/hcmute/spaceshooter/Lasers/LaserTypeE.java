@@ -11,38 +11,26 @@ import com.badlogic.gdx.math.Rectangle;
 import hcmute.spaceshooter.GlobalVariables;
 
 public class LaserTypeE extends Laser {
-
+    // level of the laser
     int level = 1;
+    // The array of this type's bullet
     LaserTypeE[] bullets;
+    // the ship's drawing rectangle
     Rectangle shipBoundingBox;
 
-    /**
-     * Constructor of the Laser Type.
+    /** Constructor
      *
-     * @param xCentre            : The horizontal center-coordinate of the ship
-     * @param yBottom            : The vertical center-coordinate of the ship
-     * @param laserWidth         :The width of the laser
-     * @param laserHeight        :The height of the laser
-     * @param laserMovementSpeed :The movement speed of the laser
-     * @param laserTexture      :The texture for rendering the laser
-     **/
-
-    public LaserTypeE(float xCentre, float yBottom, float laserWidth, float laserHeight, float laserMovementSpeed, Texture laserTexture) {
-        super(xCentre, yBottom, laserWidth, laserHeight, laserMovementSpeed, laserTexture);
-        typeName = "GREEN";
-    }
-
-    public LaserTypeE(){
-
-    }
-
-
+     * @param shipBoundingBox the rectangle of the firing ship
+     */
     public LaserTypeE(Rectangle shipBoundingBox) {
+        // the ship's drawing rectangle
         this.shipBoundingBox = shipBoundingBox;
+        // the laser's type name
         typeName = "GREEN";
+        // laser's damage
         damage = 3;
+        // the laser's texture
         laserTexture = greenBulletTexture;
-        explosionTexture = GlobalVariables.explosionTexture;
         // laser width and height
         laserWidth = 4f;
         laserHeight = 6f;
@@ -50,9 +38,6 @@ public class LaserTypeE extends Laser {
         laserMovementSpeed = 40;
         // position and dimensions of the laser
         // laserBoundingBox;
-        // position and dimensions of the explosion
-        explosionWidth = 30f;
-        explosionHeight = 30f;
 
         /**
          * The title width and height of the given Texture
@@ -61,43 +46,37 @@ public class LaserTypeE extends Laser {
          */
         laserTitleWidth = 32;
         laserTitleHeight = 32;
-        explosionTitleWidth = 192;
-        explosionTitleHeight = 192;
         // Total time of the whole animation rendering.
         totalLaserAnimationTime = 1f;
-        totalExplosionAnimationTime = 0.5f;
+        // number of row of image in the texture
         laserRowTextureCount = 1;
+        // number of column of image in the texture
         laserColumnTextureCount = 8;
-        explosionRowTextureCount = 8;
-        explosionColumnTextureCount = 5;
         /**
          *  The number of texture region after splitting the texture,
          *  equals to the number of images from the whole Texture
          */
         laserTextureNum = laserRowTextureCount * laserColumnTextureCount;
-        explosionTextureNum = explosionRowTextureCount * explosionColumnTextureCount;
         // A timer increased with each update method call
         // Gdx's Animation object
         laserAnimation = GetLaserAnimation(laserTexture, laserTitleWidth, laserTitleHeight,
         laserTextureNum, laserRowTextureCount, laserColumnTextureCount);
-        explosionAnimation = GetExplosionAnimation(explosionTexture, explosionTitleWidth, explosionTitleHeight,
-                explosionTextureNum, explosionRowTextureCount, explosionColumnTextureCount);
     }
-
+    /**
+     * Upgrade the level of the laser
+     */
 
     public void Upgrade(){
         this.level++;
     }
-
+    /**
+     *
+     * @return the array of this type
+     */
     public LaserTypeE[] GetBullets(){
         LaserTypeE[] lasers = new LaserTypeE[20];
         if(level == 1)
         {
-//            lasers[0] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.18f, shipBoundingBox.y - laserHeight,
-//                    laserWidth, laserHeight, laserMovementSpeed, laserTextureRegion);
-//            lasers[1] = new Laser_TypeA(shipBoundingBox.x + shipBoundingBox.width * 0.82f, shipBoundingBox.y - laserHeight,
-//                    laserWidth, laserHeight, laserMovementSpeed, laserTextureRegion);
-
             lasers[0] = new LaserTypeE(shipBoundingBox);
             lasers[0].setLaserWidth(laserWidth);
             lasers[0].setLaserHeight(laserHeight);
@@ -314,16 +293,26 @@ public class LaserTypeE extends Laser {
         return lasers;
     }
 
-    @Override
-    public void setTypename(String red) {
 
-    }
-
+    /**
+     * Draw the laser animation
+     *
+     * @param batch Draws batched quads using indices.
+     */
     public void drawLaser(Batch batch) {
         batch.draw(laserTexture,
                 laserBoundingBox.x, laserBoundingBox.y, laserBoundingBox.width, laserBoundingBox.height);
     }
-
+    /** Get the animation based on the texture
+     *
+     * @param texture animation texture
+     * @param titleWidth the width for each image in the texture
+     * @param titleHeight the height for each image in the texture
+     * @param textureNum the number of image in the texture
+     * @param rowTextureCount the rows of images in the texture
+     * @param columnTextureCount the columns of images in the texture
+     * @return
+     */
     @Override
     public Animation<TextureRegion> GetLaserAnimation(Texture texture, int titleWidth, int titleHeight, int textureNum, int rowTextureCount, int columnTextureCount) {
         // split texture
@@ -354,15 +343,15 @@ public class LaserTypeE extends Laser {
     }
 
     //region Getter and Setter
-
-
+    /**
+     * @param typeName set the type name of the laser
+     */
+    @Override
+    public void setTypename(String typeName) {
+        this.typeName = typeName;
+    }
     public int getLevel() {
         return level;
-    }
-
-    @Override
-    public void increaseShootingDuration(float elapsedTime) {
-
     }
 
     public void setLevel(int level) {

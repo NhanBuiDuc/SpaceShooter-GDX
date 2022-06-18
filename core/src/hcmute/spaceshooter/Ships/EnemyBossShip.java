@@ -12,10 +12,13 @@ import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.SpaceShooterGame;
 
 public abstract class EnemyBossShip extends EnemyShip{
-
+    // Direction vector for moving enemy randomly
     Vector2 directionVector;
+    // time since the last direction change
     float timeSinceLastDirectionChange = 0;
+    // the frequency for the enemy to change direction
     float directionChangeFrequency = 0.75f;
+    // Enemy's laser
     IEnemyLaser laserI;
 
     public EnemyBossShip(){
@@ -24,26 +27,42 @@ public abstract class EnemyBossShip extends EnemyShip{
         laserI.setLevel(1);
     }
 
+    /** check if the boss is dead
+     *
+     * @return true if the boss is dead, false if the boss is not dead
+     */
     public boolean IsDead(){
         return HP < 1;
     }
-
+    /**
+     * Random the vector
+     */
     public void randomizeDirectionVector(){
         double bearing = SpaceShooterGame.random.nextDouble() * 6.283185; // 0 to 2 * pi
         directionVector.x = (float) Math.sin(bearing);
         directionVector.y = (float) Math.cos(bearing);
     }
-
+    /** Update the shooting time
+     *
+     * @param deltaTime: Update the status of the Ship respect to the deltaTime
+     */
     public void update(float deltaTime) {
         timeSinceLastShot = timeSinceLastShot + deltaTime;
 
     }
-
+    /** Change the coordinate of the ship
+     *
+     * @param xChange the change in horizontal axis
+     * @param yChange the change in vertical axis
+     */
     @Override
     public void translate(float xChange, float yChange) {
         boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y);
     }
-
+    /** Update the change direction time
+     *
+     * @param deltaTime
+     */
     public void MoveRandomly(float deltaTime){
         timeSinceLastDirectionChange += deltaTime;
         if(timeSinceLastDirectionChange > directionChangeFrequency){
@@ -51,7 +70,10 @@ public abstract class EnemyBossShip extends EnemyShip{
             timeSinceLastDirectionChange -= directionChangeFrequency;
         }
     }
-
+    /** Get the lasers
+     *
+     * @return the list of laser
+     */
     public Stack<IEnemyLaser> GetLasers() {
         if (canFireLaser()) {
             // Enemy lasers
@@ -70,7 +92,10 @@ public abstract class EnemyBossShip extends EnemyShip{
         }
         return null;
     }
-
+    /** Draw the ship
+     *
+     * @param batch Draws batched quads using indices.
+     */
     @Override
     public void drawShip(Batch batch) {
         batch.draw(shipTextureRegion, boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
@@ -78,21 +103,6 @@ public abstract class EnemyBossShip extends EnemyShip{
             batch.draw(shieldTextureRegion, boundingBox.x, boundingBox.y - boundingBox.height * 0.20f, boundingBox.width, boundingBox.height);
         }
     }
-
-//    @Override
-//    public boolean hitAndCheckDestroyed(String laserTypeName) {
-//        if(shield > 0){
-//            shield --;
-//            return false;
-//        }
-//        else{
-//            if(HP > 0){
-//                HP--;
-//                return false;
-//            }
-//            return true;
-//        }
-//    }
 
     //region Getter and Setter
 

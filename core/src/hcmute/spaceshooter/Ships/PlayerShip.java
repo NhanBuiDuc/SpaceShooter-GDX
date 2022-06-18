@@ -17,16 +17,36 @@ import hcmute.spaceshooter.Lasers.LaserTypeD;
 import hcmute.spaceshooter.Lasers.LaserTypeE;
 
 public class PlayerShip extends Ship {
+    // the level of player ship
     int level;
+    // the max level the player can get with corresponding laser level
     int maxLevel = 5;
     // List of player fired Lasers
     LinkedList<ILaser> laserList = new LinkedList<>();
 
+    // The maximum time for the player ship to get invincible
     float invincibleTime = 2f;
+    // The timer to check the time the player getting invincible
     float invincibleTimer = 0;
+    // true if the system start counting invincible time, false if not.
     boolean startCounterInvincibleTime = false;
+    // true if the player is in invincible time, false if not.
     boolean isInvincible = false;
 
+    /**
+     * Constructor of the Ship Type.
+     * @param xCentre : The horizontal center-coordinate of the ship
+     * @param yCentre : The vertical center-coordinate of the ship
+     * @param width : Width of the ship
+     * @param height : Height of the ship
+     * @param movementSpeed : Movement speed of the Ship
+     * @param shield : The number of shields, neglects the damage upon getting hit
+     * @param timeBetweenShots :The amount of time the ship have to wait before shooting a new laser
+     * @param shieldTextureRegion :The texture for rendering the shield
+     * @param shipTextureRegion :The texture for rendering the ship
+     * @param ableToFire: Determine if the ship is able to fire or not
+     * @param HP: Health point of the ship
+     **/
     public PlayerShip(float xCentre, float yCentre,
                       float width, float height,
                       float movementSpeed, int shield, float timeBetweenShots,
@@ -42,26 +62,10 @@ public class PlayerShip extends Ship {
         laserI.setTypename("ORANGE");
     }
 
-    public float getInvincibleTime() {
-        return invincibleTime;
-    }
-
-    public void setInvincibleTime(float invincibleTime) {
-        this.invincibleTime = invincibleTime;
-    }
-
-    public boolean isInvincible() {
-        return isInvincible;
-    }
-
-    public boolean isStartCounterInvincibleTime() {
-        return startCounterInvincibleTime;
-    }
-
-    public void setStartCounterInvincibleTime(boolean startCounterInvincibleTime) {
-        this.startCounterInvincibleTime = startCounterInvincibleTime;
-    }
-
+    /** return true if the invincible time is over
+     *
+     * @return true if over, false if not
+     */
     public boolean isFinishInvincible() {
         if(invincibleTimer - invincibleTime >= 0){
 
@@ -73,15 +77,28 @@ public class PlayerShip extends Ship {
         }
     }
 
+    /** Set the invincible
+     *
+     * @param invincible true to make the player's ship invincible
+     */
     public void setInvincible(boolean invincible) {
         isInvincible = invincible;
     }
+
+    /** Count the invincible time
+     *
+     * @param deltaTime The time in seconds since the last render.
+     */
     public void countInvincibleTime(float deltaTime){
         if(startCounterInvincibleTime == true){
             this.invincibleTimer += deltaTime;
         }
 
     }
+
+    /**
+     *  Get the lasers for the player
+     */
     public void GetLasers() {
         if(canFireLaser()){
             ILaser[] lasers = this.laserI.GetBullets();
@@ -94,6 +111,12 @@ public class PlayerShip extends Ship {
         }
     }
 
+    /** Move the player's bullets and remove them if move out the screen
+     *
+     * @param deltaTime  The time in seconds since the last render.
+     * @param batch Draws batched quads using indices.
+     * @param WORLD_HEIGHT the screen height
+     */
     public void DrawAndRemoveBullets(float deltaTime, Batch batch, int WORLD_HEIGHT){
 
         if(!laserList.isEmpty()){
@@ -141,7 +164,11 @@ public class PlayerShip extends Ship {
             }
         }
     }
-
+    /** Check if the ship is destroyed or not
+     *
+     * @param laserDamage getting the laser damage of the laser
+     * @return true if is destroyed, false if not
+     */
     @Override
     public boolean hitAndCheckDestroyed(int laserDamage) {
         if(shield > 0){
@@ -157,11 +184,10 @@ public class PlayerShip extends Ship {
         }
     }
 
-    @Override
-    public void setLaserI(ILaser laserI) {
-
-    }
-
+    /** Upgrade the player's level
+     *
+     * @param dropDownAnimation the upgrade item
+     */
     public void upgrade(IDropDownAnimation dropDownAnimation){
         if(dropDownAnimation.getTypeName().equals(this.laserI.getTypeName())){
             if(level < maxLevel){
@@ -208,7 +234,10 @@ public class PlayerShip extends Ship {
     }
 
     //region Getter and Setter
-
+    @Override
+    public void setLaserI(ILaser laserI) {
+        this.laserI = laserI;
+    }
     public int getLevel() {
         return level;
     }
@@ -221,24 +250,16 @@ public class PlayerShip extends Ship {
         return laserList;
     }
 
-    public void setLaserList(LinkedList<ILaser> laserList) {
-        this.laserList = laserList;
-    }
-
-    public int getMaxLevel() {
-        return maxLevel;
-    }
-
-    public void setMaxLevel(int maxLevel) {
-        this.maxLevel = maxLevel;
-    }
-
-    public float getInvincibleTimer() {
-        return invincibleTimer;
-    }
-
     public void setInvincibleTimer(float invincibleTimer) {
         this.invincibleTimer = invincibleTimer;
     }
+    public boolean isInvincible() {
+        return isInvincible;
+    }
+
+    public void setStartCounterInvincibleTime(boolean startCounterInvincibleTime) {
+        this.startCounterInvincibleTime = startCounterInvincibleTime;
+    }
+
     //endregion Getter and Setter
 }

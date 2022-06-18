@@ -7,7 +7,9 @@ import static hcmute.spaceshooter.GlobalVariables.greenPowerUpTexture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-
+/**
+ *  The concrete class for the drop-down upgrading type E animation objects
+ */
 public class UpgradeTypeE extends DropDownAnimation {
     String typeName;
     Boolean taken = false;
@@ -58,6 +60,7 @@ public class UpgradeTypeE extends DropDownAnimation {
         }
     }
 
+    //region Getter and Setter
     public String getTypeName() {
         return typeName;
     }
@@ -75,5 +78,5 @@ public class UpgradeTypeE extends DropDownAnimation {
         return taken;
     }
 
-
+    // endregion
 }
