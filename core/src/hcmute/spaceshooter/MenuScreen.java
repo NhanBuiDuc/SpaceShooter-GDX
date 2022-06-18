@@ -42,7 +42,6 @@ public class MenuScreen implements Screen{
     private Stage stage;
     private Viewport viewport;
     private SpriteBatch batch;
-    private int backgroundOffset=0;
     public ResourceManager rm;
     public MenuScreen()
     {
@@ -54,13 +53,14 @@ public class MenuScreen implements Screen{
         //set stage for actors
         stage=new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
+
+    }
+    @Override
+    public void show() {
         //play theme
         rm.menuTheme.setVolume(rm.musicVolume);
         rm.menuTheme.setLooping(true);
         rm.menuTheme.play();
-    }
-    @Override
-    public void show() {
         //create a container for the buttons and title
         Table table=new Table();
         table.top();
@@ -90,6 +90,7 @@ public class MenuScreen implements Screen{
                     @Override
                     public void run()
                     {
+                        rm.menuTheme.stop();
                         ((Game)Gdx.app.getApplicationListener()).setScreen(new SelectCampaignScreen());
 
                     }
@@ -105,6 +106,7 @@ public class MenuScreen implements Screen{
                 stage.addAction(Actions.sequence(Actions.moveTo(-stage.getWidth(),0,.5f),Actions.run(new Runnable() {
                     @Override
                     public void run() {
+                        rm.menuTheme.stop();
                         ((Game)Gdx.app.getApplicationListener()).setScreen(new SettingsScreen());
 
                     }
@@ -134,14 +136,8 @@ public class MenuScreen implements Screen{
         Gdx.gl.glClearColor(0f,0f,0f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        backgroundOffset++;
-        batch.draw(rm.background,0,-backgroundOffset,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-        batch.draw(rm.background,0,-backgroundOffset+Gdx.graphics.getHeight(),Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(rm.menu,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         batch.end();
-        if(backgroundOffset%Gdx.graphics.getHeight()==0)
-        {
-            backgroundOffset=0;
-        }
         stage.act();
         stage.draw();
     }

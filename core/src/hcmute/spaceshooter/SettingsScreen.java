@@ -43,13 +43,14 @@ public class SettingsScreen implements Screen {
         //set stage for actors
         stage=new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
+
+    }
+    @Override
+    public void show() {
         //play theme
         rm.menuTheme.setVolume(rm.musicVolume);
         rm.menuTheme.setLooping(true);
         rm.menuTheme.play();
-    }
-    @Override
-    public void show() {
         //set label style for title
         Label.LabelStyle titleStyle=rm.skin.get("title", Label.LabelStyle.class);
         //create title label
@@ -120,8 +121,8 @@ public class SettingsScreen implements Screen {
                     }
                     else
                     {
-                        muteMusic.setChecked(false);
-                        rm.sfxVolume=sfxSlider.getValue();
+                        muteSfx.setChecked(false);
+                        rm.setSfxVolume(musicSlider.getValue());
                     }
                 }
             }
@@ -157,7 +158,7 @@ public class SettingsScreen implements Screen {
                 }
                 else
                 {
-                    rm.sfxVolume=sfxSlider.getValue();
+                    rm.setSfxVolume(musicSlider.getValue());
                 }
             }
         });
@@ -170,6 +171,7 @@ public class SettingsScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
+                rm.menuTheme.stop();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
             }
         });
@@ -180,6 +182,7 @@ public class SettingsScreen implements Screen {
         muteSfx.setChecked(rm.sfxMute);
         stage.addActor(saveButton);
         stage.addActor(settingsWindow);
+
     }
     @Override
     public void render(float delta) {

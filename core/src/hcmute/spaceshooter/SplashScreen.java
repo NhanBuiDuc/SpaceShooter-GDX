@@ -41,12 +41,15 @@ public class SplashScreen implements Screen {
         title.setSize(220,300);
         title.setPosition(-10,50);
         title.setAlignment(Align.center);
-        SequenceAction actions=new SequenceAction(Actions.sequence(Actions.fadeIn(1f),Actions.delay(1f),Actions.fadeOut(2f),Actions.run(new Runnable() {
+        SequenceAction actions=new SequenceAction(Actions.sequence(Actions.fadeIn(1f),Actions.delay(1f),Actions.fadeOut(1f),Actions.run(new Runnable() {
             @Override
             public void run() {
+                rm.startUpSoundEffect.stop();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
             }
         })));
+        rm.startUpSoundEffect.setVolume(rm.sfxVolume);
+        rm.startUpSoundEffect.play();
         title.addAction(actions);
         stage.addActor(title);
 

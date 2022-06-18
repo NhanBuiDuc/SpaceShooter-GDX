@@ -15,7 +15,7 @@ public class SpaceShooterGame extends Game {
 
 	@Override
 	public void create () {
-		setScreen(new SplashScreen());
+		setScreen(new VictoryScreen());
 	}
 
 	@Override

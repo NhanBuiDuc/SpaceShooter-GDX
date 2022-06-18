@@ -134,6 +134,9 @@ public class GameScreen implements Screen {
         rm=new ResourceManager();
         rm.setMusicVolume(rm.musicVolume);
         rm.setSfxVolume(rm.sfxVolume);
+        rm.battleTheme.play();
+        rm.battleTheme.setLooping(true);
+
         // Set Up Screen
         camera = new OrthographicCamera();
 
@@ -926,13 +929,14 @@ public class GameScreen implements Screen {
      */
     @Override
     public void show() {
-
+        rm.battleTheme.setLooping(true);
+        rm.battleTheme.play();
     }
     /**
      * Called when this screen should release all resources.
      */
     @Override
     public void dispose() {
-
+        rm.dispose();
     }
 }

@@ -17,15 +17,17 @@ public class ResourceManager {
     public SpriteBatch batch;
     public Music menuTheme;
     public Music loadingTheme;
+    public Music selectCampaignTheme;
     public Music battleTheme;
     public Music bossTheme;
-    public static Music explosionSoundEffect;
-    public static Music laserSoundEffect;
-    public static Sound battleStart;
-    public static float musicVolume=.0f;
-    public static float sfxVolume=.0f;
+    public Music explosionSoundEffect;
+    public Music laserSoundEffect;
+    public Music startUpSoundEffect;
+    public static float musicVolume=0.5f;
+    public static float sfxVolume=0.5f;
     public static boolean musicMute=true;
     public static boolean sfxMute=true;
+    public static int campaignIndex=0;
     public AssetManager assetManager;
     public Array<String> campaigns=new Array<String>();
     public Array<String> bosses=new Array<String>();
@@ -37,11 +39,11 @@ public class ResourceManager {
 
         assetManager.load("music/menu.wav",Music.class);
         assetManager.load("music/loading.wav",Music.class);
-        assetManager.load("music/battle.wav",Music.class);
+        assetManager.load("music/select-campaign.wav",Music.class);
         assetManager.load("music/battle.ogg",Music.class);
         assetManager.load("music/boss.ogg",Music.class);
 
-        assetManager.load("sfx/start-level.wav", Sound.class);
+        assetManager.load("sfx/start-up.wav", Music.class);
         assetManager.load("sfx/explosion_effect.wav",Music.class);
         assetManager.load("sfx/laser_effect.mp3",Music.class);
 
@@ -58,10 +60,11 @@ public class ResourceManager {
         //load sound
         menuTheme=assetManager.get("music/menu.wav", Music.class);
         loadingTheme=assetManager.get("music/loading.wav",Music.class);
-        battleTheme=assetManager.get("music/battle.wav",Music.class);
+        selectCampaignTheme=assetManager.get("music/select-campaign.wav",Music.class);
+        battleTheme=assetManager.get("music/battle.ogg",Music.class);
         bossTheme=assetManager.get("music/boss.ogg",Music.class);
         //load sfx
-        battleStart=assetManager.get("sfx/start-level.wav",Sound.class);
+        startUpSoundEffect=assetManager.get("sfx/start-up.wav",Music.class);
         explosionSoundEffect=assetManager.get("sfx/explosion_effect.wav",Music.class);
         laserSoundEffect=assetManager.get("sfx/laser_effect.mp3",Music.class);
         //load background
@@ -83,14 +86,16 @@ public class ResourceManager {
     {
         menuTheme.setVolume(musicVolume);
         loadingTheme.setVolume(musicVolume);
+        selectCampaignTheme.setVolume(musicVolume);
         battleTheme.setVolume(musicVolume);
+        bossTheme.setVolume(musicVolume);
     }
     public void setSfxVolume(float sfxVolume)
     {
         explosionSoundEffect.setVolume(sfxVolume);
         laserSoundEffect.setVolume(sfxVolume);
+        startUpSoundEffect.setVolume(sfxVolume);
     }
-
     public void dispose()
     {
         assetManager.dispose();
@@ -99,6 +104,10 @@ public class ResourceManager {
         menuTheme.dispose();
         loadingTheme.dispose();
         battleTheme.dispose();
-        battleStart.dispose();
+        selectCampaignTheme.dispose();
+        bossTheme.dispose();
+        startUpSoundEffect.dispose();
+        explosionSoundEffect.dispose();
+        laserSoundEffect.dispose();
     }
 }
