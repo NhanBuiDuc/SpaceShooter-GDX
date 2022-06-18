@@ -14,6 +14,7 @@ public abstract class Laser implements ILaser {
     // laser physical characteristics
     public String movementType;
     int level;
+    int damage;
     String typeName;
     // The movement speed of the laser
     float laserMovementSpeed; // world units per second
@@ -73,6 +74,7 @@ public abstract class Laser implements ILaser {
         this.laserHeight = laserHeight;
         this.laserMovementSpeed = laserMovementSpeed;
         this.laserTexture = laserTexture;
+        this.damage = 1;
     }
 
     public Laser() {
@@ -164,7 +166,7 @@ public abstract class Laser implements ILaser {
             }
             if(laserBoundingBox.y > WORLD_HEIGHT){
 //            drawingRectangle.y = WORLD_HEIGHT;
-                laserTexture.dispose();
+                // laserTexture.dispose();
             }
         }
     }
@@ -265,6 +267,10 @@ public abstract class Laser implements ILaser {
 
      public int getLevel() {
          return level;
+     }
+
+     public int getDamage(){
+        return damage;
      }
 
      public String getTypeName() {

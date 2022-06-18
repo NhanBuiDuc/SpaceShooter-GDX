@@ -1,8 +1,12 @@
 package hcmute.spaceshooter;
 
+import static hcmute.spaceshooter.GlobalVariables.GAME_RUNNING;
+import static hcmute.spaceshooter.GlobalVariables.GAME_PAUSED;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
 import static hcmute.spaceshooter.GlobalVariables.WORLD_WIDTH;
-import static hcmute.spaceshooter.GlobalVariables.background;
+import static hcmute.spaceshooter.GlobalVariables.background1;
+import static hcmute.spaceshooter.GlobalVariables.pauseButtonTexture;
+import static hcmute.spaceshooter.GlobalVariables.pauseMenuTexture;
 import static hcmute.spaceshooter.GlobalVariables.textureAtlas;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -20,8 +24,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -35,18 +38,18 @@ import java.util.Stack;
 import hcmute.spaceshooter.Animation.Explosion;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
+import hcmute.spaceshooter.Episode.Episode1;
+import hcmute.spaceshooter.Episode.IEpisode;
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeC;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeA;
 import hcmute.spaceshooter.Ships.EnemyShipTypeB;
 import hcmute.spaceshooter.Ships.EnemyShipTypeC;
-import hcmute.spaceshooter.Ships.EnemyShipTypeD;
-import hcmute.spaceshooter.Ships.EnemyShipTypeE;
-import hcmute.spaceshooter.Episode.Episode;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.PlayerShip;
+import sun.jvm.hotspot.gc.shared.Space;
 
 public class GameScreen implements Screen {
     public ResourceManager rm;
@@ -80,7 +83,7 @@ public class GameScreen implements Screen {
     private float backgroundMaxScrollingSpeed;
 
     // The time to spawn new enemy ships
-    private float timeBetweenEnemySpawns = 5f;
+    private float timeBetweenEnemySpawns = 8f;
     private float enemySpawnTimer = 0;
 
     //
@@ -92,16 +95,18 @@ public class GameScreen implements Screen {
     private PlayerShip playerShip;
 
     // List of Enemy Ships
-    private Stack<EnemyShip> enemyShipList;
+    public Stack<EnemyShip> enemyShipList;
     // List of Enemy Bosses
-    private Stack<EnemyBossShip> enemyBossesList;
+    public Stack<EnemyBossShip> enemyBossesList;
     // List of enemy fired Lasers
-    private Stack<IEnemyLaser> enemyLaserList;
+    public Stack<IEnemyLaser> enemyLaserList;
     // List of enemy bosses' fired Lasers
-    private Stack<IEnemyLaser> enemyBossLaserList;
+    public Stack<IEnemyLaser> enemyBossLaserList;
     // List of Explosion
-    private LinkedList<Explosion> explosionList;
-
+    public LinkedList<Explosion> explosionList;
+    // Upgrade Dropping List:
+    public Stack<IDropDownAnimation> upgradeDroppingItemList = new Stack<>();
+    public Stack<Meteor> meteorList = new Stack<>();
     // Player's score
     private int score = 0;
 
@@ -111,36 +116,43 @@ public class GameScreen implements Screen {
     BitmapFont font;
 
     // The margin, coordinate of the HUDs. A table-like type of display.
-    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudSectionWidth;
+    float hudVerticalMargin, hudLeftX, hudRightX, hudCentreX, hudRow1Y, hudRow2Y, hudRow3Y, hudRow4Y, hudRow5Y, hudRow6Y, hudSectionWidth;
 
     /**
      *  The real time span from the beginning of the program
      */
     float timeSpan;
 
-    // Upgrade Dropping List:
-    Stack<IDropDownAnimation> upgradeDroppingItemList = new Stack<>();
-    private Stack<Meteor> meteorList = new Stack<>();
+
     // Get current time:
     long startTime = TimeUtils.millis();
     // Get time elapsed since startTime:
     long elapsedTime;
 
     //
-    Episode episode;
+    public IEpisode episode;
+
+
+    //Current state
+    int state;
+    Vector3 touchPoint;
+    //Bouding boxes of buttons
+    Rectangle pauseBound;
+    Rectangle resumeBound;
+    Rectangle quitBound;
 
     // Main Constructor.
     public GameScreen() {
         rm=new ResourceManager();
-        rm.setMusicVolume(rm.musicVolume);
         rm.setSfxVolume(rm.sfxVolume);
+        rm.battleTheme.setVolume(rm.musicVolume);
         rm.battleTheme.play();
         rm.battleTheme.setLooping(true);
 
         // Set Up Screen
         camera = new OrthographicCamera();
 
-        //  Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
+        // Set the View Port with the WORLD_WIDTH, WORLD_HEIGHT, and the OrthographicCamera
         viewport = new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
 
         //setting up the backgrounds
@@ -159,7 +171,7 @@ public class GameScreen implements Screen {
         //PlayerShield And EnemyShield
         playerShieldTextureRegion = textureAtlas.findRegion("shield2");
         enemyShieldTextureRegion = textureAtlas.findRegion("shield1");
-        enemyShieldTextureRegion.flip(false, true);
+        //enemyShieldTextureRegion.flip(false, true);
 
         // Explosion
         explosionTexture = new Texture("explosion.png");
@@ -186,7 +198,17 @@ public class GameScreen implements Screen {
         // Render HUD(score, life, shields)
         prepareHud();
 
-        episode = new Episode(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList);
+        state = GAME_RUNNING;
+        touchPoint = new Vector3();
+        pauseBound = new Rectangle(WORLD_WIDTH-14, WORLD_HEIGHT-13, 15, 15);
+        resumeBound = new Rectangle(
+                WORLD_WIDTH/2 - 60/2 + 7f,
+                WORLD_HEIGHT/2 - 45/2 + 15.7f,
+                45, 8);
+        quitBound = new Rectangle(
+                WORLD_WIDTH/2 - 60/2 + 7f,
+                WORLD_HEIGHT/2 - 45/2 + 5.6f,
+                45, 8);
     }
 
     /**
@@ -197,6 +219,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float deltaTime) {
+        //Check GameOver
+        IsGameOver();
+        //Check Victory
+        IsVictory();
         /*
             Sets up the Batch for drawing.
             This will disable depth buffer writing.
@@ -204,57 +230,112 @@ public class GameScreen implements Screen {
          */
         batch.enableBlending();
         batch.begin();
-        // Get The Input Of User
-        detectInput(deltaTime);
-        timeSpan += deltaTime;
-        /** Renders scrolling background, this should be the first graphic method to be called
-         * Otherwise, other graphics will be overwritten
-         */
-        renderBackground(deltaTime);
-        //
-        episode.Start(deltaTime, startTime, batch);
-        //
-        checkGetUpgrades();
-        checkCrashing();
 
-        // player ship
-        playerShip.drawShip(batch);
-        playerShip.countInvincibleTime(deltaTime);
-        // detect collisions between lasers and ships
-        try {
-            detectCollisions(deltaTime);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(state == 1){
+            // Get The Input Of User
+            detectInput(deltaTime);
+            timeSpan += deltaTime;
+            /** Renders scrolling background, this should be the first graphic method to be called
+             * Otherwise, other graphics will be overwritten
+             */
+            renderBackground(deltaTime);
+            //
+            episode.Start(deltaTime, startTime, batch);
+            //
+            checkGetUpgrades();
+            checkCrashing();
+
+            // player ship
+            playerShip.drawShip(batch);
+            playerShip.countInvincibleTime(deltaTime);
+            // detect collisions between lasers and ships
+            try {
+                detectCollisions(deltaTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            detectBossCollisions(deltaTime);
+            // explosions
+            updateAndRenderExplosions(deltaTime);
+            // spawn Boss
+            episode.SpawnBoss(deltaTime, batch);
+
+            //lasers
+            renderLasers(deltaTime);
+            removeEnemyShipsAtBounds();
+            // hud rendering
+            updateAndRenderHUD(deltaTime);
         }
-        detectBossCollisions(deltaTime);
-        // explosions
-        updateAndRenderExplosions(deltaTime);
-
-        // spawnEnemyShips
-        spawnEnemyShips(deltaTime);
-
-        // spawn Boss
-        episode.SpawnBoss1(deltaTime, batch);
-
-        //lasers
-        renderLasers(deltaTime);
-        removeEnemyShipsAtBounds();
-        // hud rendering
-        updateAndRenderHUD(deltaTime);
-
+        //Update game state
+        UpdateState();
+        DrawState();
         batch.end();
     }
 
+    private void UpdateState(){
+        switch (state){
+            case GAME_RUNNING:
+                if (Gdx.input.justTouched()) {
+                    camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+                    if (pauseBound.contains(touchPoint.x, touchPoint.y)) {
+                        state = GAME_PAUSED;
+                    }
+                }
+                break;
+            case GAME_PAUSED:
+                if (Gdx.input.justTouched()) {
+                    camera.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+
+                    if (resumeBound.contains(touchPoint.x, touchPoint.y)) {
+                        state = GAME_RUNNING;
+                    }
+                    if (quitBound.contains(touchPoint.x, touchPoint.y)) {
+                        rm.battleTheme.stop();
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(new SelectCampaignScreen());
+                    }
+                }
+                break;
+        }
+    }
+
+    private void DrawState(){
+        switch (state){
+            case GAME_RUNNING:
+                batch.draw(pauseButtonTexture, WORLD_WIDTH-13, WORLD_HEIGHT-12, 15, 15);
+                break;
+            case GAME_PAUSED:
+                batch.draw(pauseMenuTexture,
+                        0,
+                        0,
+                        WORLD_WIDTH, WORLD_HEIGHT);
+                pause();
+                break;
+        }
+    }
+
+    private void IsGameOver(){
+        if(playerShip.getHP() < 1){
+            rm.battleTheme.stop();
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new GameOverScreen());
+        }
+    }
+
+    private void IsVictory(){
+        if(episode.getEnemyBoss().getHP() < 1){
+            rm.battleTheme.stop();
+            ((Game)Gdx.app.getApplicationListener()).setScreen(new VictoryScreen());
+        }
+    }
 
     // Render HUD(score, life, shields) for the main screen
-
     private void prepareHud() {
         //Create a BitmapFont from out font File
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("EdgeOfTheGalaxyRegular-OVEa6.otf"));
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("./assets/font/upheavtt.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        fontParameter.size = 72;
-        fontParameter.borderWidth = 3.6f;
+        fontParameter.size = 60;
+        fontParameter.borderWidth = 1.6f;
         fontParameter.color = new Color(1, 1, 1, 0.3f);
         fontParameter.borderColor = new Color(0, 0, 0, 0.3f);
 
@@ -269,21 +350,24 @@ public class GameScreen implements Screen {
         hudCentreX = WORLD_WIDTH / 3;
         hudRow1Y = WORLD_HEIGHT - hudVerticalMargin;
         hudRow2Y = hudRow1Y - hudVerticalMargin - font.getCapHeight();
+        hudRow3Y = hudRow2Y - hudVerticalMargin - font.getCapHeight();
+        hudRow4Y = hudRow3Y - 1 - font.getCapHeight();
+        hudRow5Y = hudRow4Y - hudVerticalMargin - font.getCapHeight();
+        hudRow6Y = hudRow5Y - 1 - font.getCapHeight();
         hudSectionWidth = WORLD_WIDTH / 3;
-
     }
 
     //
     private void updateAndRenderHUD(float deltaTime) {
         // render Top row labels
         font.draw(batch, "Score", hudLeftX, hudRow1Y, hudSectionWidth, Align.left, false);
-        font.draw(batch, "Shield", hudCentreX, hudRow1Y, hudSectionWidth, Align.center, false);
-        font.draw(batch, "Lives", hudRightX, hudRow1Y, hudSectionWidth, Align.right, false);
+        font.draw(batch, "Shield", hudLeftX, hudRow3Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, "Lives", hudLeftX, hudRow5Y, hudSectionWidth, Align.left, false);
 
         // render second row values
-        font.draw(batch, String.format(Locale.getDefault(), "%06d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
-        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.shield), hudCentreX, hudRow2Y, hudSectionWidth, Align.center, false);
-        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.getHP()), hudRightX, hudRow2Y, hudSectionWidth, Align.right, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%05d", score), hudLeftX, hudRow2Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.shield), hudLeftX, hudRow4Y, hudSectionWidth, Align.left, false);
+        font.draw(batch, String.format(Locale.getDefault(), "%02d", playerShip.getHP()), hudLeftX, hudRow6Y, hudSectionWidth, Align.left, false);
     }
 
     private void detectInput(float deltaTime) {
@@ -374,7 +458,7 @@ public class GameScreen implements Screen {
                 if(boss != null){
                     if(boss.intersects(laser.getLaserBoundingBox())){
                         // contact with enemy ship
-                        if(boss.hitAndCheckDestroyed())
+                        if(boss.hitAndCheckDestroyed(laser.getDamage()))
                         {
                             rm.explosionSoundEffect.play();
 
@@ -413,7 +497,7 @@ public class GameScreen implements Screen {
                     if(playerShip.isInvincible() == false){
                         playerShip.setStartCounterInvincibleTime(true);
                         playerShip.setInvincible(true);
-                        if(playerShip.hitAndCheckDestroyed()){
+                        if(playerShip.hitAndCheckDestroyed(laser.getDamage())){
                             rm.explosionSoundEffect.play();
                             Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                             Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
@@ -447,7 +531,7 @@ public class GameScreen implements Screen {
                     if(playerShip.isInvincible() == false){
                         playerShip.setStartCounterInvincibleTime(true);
                         playerShip.setInvincible(true);
-                        if(playerShip.hitAndCheckDestroyed()){
+                        if(playerShip.hitAndCheckDestroyed(laser.getDamage())){
                             rm.explosionSoundEffect.play();
                             Rectangle rectangle = new Rectangle(playerShip.getBoundingBox());
                             Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
@@ -494,7 +578,7 @@ public class GameScreen implements Screen {
                 if(enemyShip != null){
                     if(enemyShip.intersects(laser.getLaserBoundingBox())){
                         // contact with enemy ship
-                        if(enemyShip.hitAndCheckDestroyed()){
+                        if(enemyShip.hitAndCheckDestroyed(laser.getDamage())){
                             rm.explosionSoundEffect.play();
 
                             enemyShipListIterator.remove();
@@ -581,7 +665,7 @@ public class GameScreen implements Screen {
 
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
-                    if(playerShip.hitAndCheckDestroyed()){
+                    if(playerShip.hitAndCheckDestroyed(laser.getDamage())){
                         rm.explosionSoundEffect.play();
                         Rectangle rectangle = new Rectangle(laser.getLaserBoundingBox());
                         Explosion smallExplosion = new Explosion(explosionTexture, rectangle, 0.5f);
@@ -639,20 +723,10 @@ public class GameScreen implements Screen {
         float leftLimit, rightLimit, upLimit;
         leftLimit = -enemyShip.getBoundingBox().x;
         rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
-//        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
-//        downLimit = - WORLD_HEIGHT;
         upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
-        float xMove = 0;
-        xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
+        float xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
         float yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//        boolean isStutter = true;
-//        while (isStutter){
-//            enemyShip.randomizeDirectionVector();
-//
-//            yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//            if( Math.abs(xMove + enemyShip.getLastXDirection()) != 0)
-//                isStutter = false;
-//        }
+
 
         if(xMove > 0){
             xMove = Math.min(xMove, rightLimit);
@@ -675,36 +749,51 @@ public class GameScreen implements Screen {
         if(elapsedTime < 300){
             enemySpawnTimer += deltaTime;
             if(enemySpawnTimer > timeBetweenEnemySpawns){
-                if(elapsedTime > 1 && elapsedTime < 70){
-                    for(int i = 0; i < 3; i++){
+                //spawn enemy type A
+                if(elapsedTime > 50 && elapsedTime < 200){
+                    for(int i = 0; i < 4; i++){
                         enemyShipList.add(new EnemyShipTypeA());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 1 && elapsedTime < 150){
-                    for(int j = 0; j < 1; j++){
+                if(elapsedTime > 250 && elapsedTime < 300){
+                    for(int i = 0; i < 2; i++){
+                        enemyShipList.add(new EnemyShipTypeA());
+                        enemySpawnTimer -= timeBetweenEnemySpawns;
+                    }
+                }
+                //spawn enemy type B
+                if(elapsedTime > 1 && elapsedTime < 300){
+                    for(int j = 0; j < 2; j++){
                         enemyShipList.add( new EnemyShipTypeB());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 70 && elapsedTime < 230){
+                //spawn enemy type C
+                if(elapsedTime > 100 && elapsedTime < 200){
                     for(int j = 0; j < 1; j++){
                         enemyShipList.add( new EnemyShipTypeC());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 150 && elapsedTime < 290){
-                    for(int j = 0; j < 1; j++){
-                        enemyShipList.add( new EnemyShipTypeD());
+                if(elapsedTime > 200 && elapsedTime < 300){
+                    for(int j = 0; j < 2; j++){
+                        enemyShipList.add( new EnemyShipTypeC());
                         enemySpawnTimer -= timeBetweenEnemySpawns;
                     }
                 }
-                if(elapsedTime > 150 && elapsedTime < 290){
-                    for(int j = 0; j < 1; j++){
-                        enemyShipList.add( new EnemyShipTypeE());
-                        enemySpawnTimer -= timeBetweenEnemySpawns;
-                    }
-                }
+//                if(elapsedTime > 150 && elapsedTime < 300){
+//                    for(int j = 0; j < 2; j++){
+//                        enemyShipList.add( new EnemyShipTypeD());
+//                        enemySpawnTimer -= timeBetweenEnemySpawns;
+//                    }
+//                }
+//                if(elapsedTime > 150 && elapsedTime < 300){
+//                    for(int j = 0; j < 1; j++){
+//                        enemyShipList.add( new EnemyShipTypeE());
+//                        enemySpawnTimer -= timeBetweenEnemySpawns;
+//                    }
+//                }
                 enemySpawnTimer = 0;
             }
             ListIterator<EnemyShip> enemyShipListIterator = enemyShipList.listIterator();
@@ -712,9 +801,15 @@ public class GameScreen implements Screen {
             while(enemyShipListIterator.hasNext()){
                 // enemy ships
                 EnemyShip enemyShip = enemyShipListIterator.next();
-                moveEnemy(enemyShip, deltaTime);
-                enemyShip.MoveRandomly(deltaTime);
-                enemyShip.drawShip(batch);
+                if(enemyShip.isInHorde() == false){
+                    moveEnemy(enemyShip, deltaTime);
+                    enemyShip.MoveRandomly(deltaTime);
+                    enemyShip.drawShip(batch);
+                }
+                else {
+                    episode.moveHorde(deltaTime);
+                    enemyShip.drawShip(batch);
+                }
             }
             ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
 
@@ -731,6 +826,8 @@ public class GameScreen implements Screen {
         }
     }
 
+
+
     private void checkCrashing(){
         // Check the Meteors crash to the player's ship
         ListIterator<Meteor> itemsIterator = meteorList.listIterator();
@@ -745,7 +842,7 @@ public class GameScreen implements Screen {
                 if(playerShip.isFinishInvincible() == false){
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
-                    playerShip.hitAndCheckDestroyed();
+                    playerShip.hitAndCheckDestroyed(1);
                 }
                 else{
                     if(playerShip.isFinishInvincible() == true){
@@ -768,7 +865,7 @@ public class GameScreen implements Screen {
                 if(playerShip.isInvincible() == false){
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
-                    playerShip.hitAndCheckDestroyed();
+                    playerShip.hitAndCheckDestroyed(1);
                 }
                 else{
                     if(playerShip.isFinishInvincible() == true){
@@ -791,7 +888,7 @@ public class GameScreen implements Screen {
                     rm.explosionSoundEffect.play();
                     playerShip.setStartCounterInvincibleTime(true);
                     playerShip.setInvincible(true);
-                    playerShip.hitAndCheckDestroyed();
+                    playerShip.hitAndCheckDestroyed(1);
                 }
                 else{
                     if(playerShip.isFinishInvincible() == true){
@@ -886,8 +983,8 @@ public class GameScreen implements Screen {
             backgroundOffSet = 0;
         }
 
-        batch.draw(background, 0, -backgroundOffSet, WORLD_WIDTH, WORLD_HEIGHT);
-        batch.draw(background, 0, -backgroundOffSet + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.draw(background1, 0, -backgroundOffSet, WORLD_WIDTH, WORLD_HEIGHT);
+        batch.draw(background1, 0, -backgroundOffSet + WORLD_HEIGHT, WORLD_WIDTH, WORLD_HEIGHT);
     }
 
     /**

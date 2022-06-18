@@ -42,6 +42,7 @@ public class LaserTypeA extends Laser {
     public LaserTypeA(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
         typeName = "ORANGE";
+        damage = 1;
         laserTexture = orangeLaserBulletTexture;
         explosionTexture = GlobalVariables.explosionTexture;
         // laser width and height

@@ -42,7 +42,6 @@ public abstract class EnemyBossShip extends EnemyShip{
     @Override
     public void translate(float xChange, float yChange) {
         boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y);
-        lastXDirection = xChange;
     }
 
     public void MoveRandomly(float deltaTime){
@@ -80,20 +79,20 @@ public abstract class EnemyBossShip extends EnemyShip{
         }
     }
 
-    @Override
-    public boolean hitAndCheckDestroyed() {
-        if(shield > 0){
-            shield --;
-            return false;
-        }
-        else{
-            if(HP > 0){
-                HP--;
-                return false;
-            }
-            return true;
-        }
-    }
+//    @Override
+//    public boolean hitAndCheckDestroyed(String laserTypeName) {
+//        if(shield > 0){
+//            shield --;
+//            return false;
+//        }
+//        else{
+//            if(HP > 0){
+//                HP--;
+//                return false;
+//            }
+//            return true;
+//        }
+//    }
 
     //region Getter and Setter
 

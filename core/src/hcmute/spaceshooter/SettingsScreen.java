@@ -117,12 +117,12 @@ public class SettingsScreen implements Screen {
                     if(sfxSlider.getValue()==0f)
                     {
                         muteSfx.setChecked(true);
-                        rm.sfxVolume=0f;
+                        rm.setSfxVolume(0f);
                     }
                     else
                     {
                         muteSfx.setChecked(false);
-                        rm.setSfxVolume(musicSlider.getValue());
+                        rm.setSfxVolume(sfxSlider.getValue());
                     }
                 }
             }
@@ -139,7 +139,6 @@ public class SettingsScreen implements Screen {
         muteMusic.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                rm.musicMute=muteMusic.isChecked();
                 if(muteMusic.isChecked())
                     rm.setMusicVolume(0f);
                 else
@@ -152,13 +151,12 @@ public class SettingsScreen implements Screen {
         muteSfx.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                rm.sfxMute=muteSfx.isChecked();
                 if(muteMusic.isChecked()) {
-                    rm.sfxVolume = 0f;
+                    rm.setSfxVolume(0f);
                 }
                 else
                 {
-                    rm.setSfxVolume(musicSlider.getValue());
+                    rm.setSfxVolume(sfxSlider.getValue());
                 }
             }
         });
@@ -178,8 +176,14 @@ public class SettingsScreen implements Screen {
         //set saved settings
         musicSlider.setValue(rm.musicVolume);
         sfxSlider.setValue(rm.sfxVolume);
-        muteMusic.setChecked(rm.musicMute);
-        muteSfx.setChecked(rm.sfxMute);
+        if(rm.musicVolume==0)
+        {
+            muteMusic.setChecked(true);
+        }
+        if(rm.sfxVolume==0)
+        {
+            muteSfx.setChecked(true);
+        }
         stage.addActor(saveButton);
         stage.addActor(settingsWindow);
 

@@ -44,12 +44,12 @@ public class SplashScreen implements Screen {
         SequenceAction actions=new SequenceAction(Actions.sequence(Actions.fadeIn(1f),Actions.delay(1f),Actions.fadeOut(1f),Actions.run(new Runnable() {
             @Override
             public void run() {
-                rm.startUpSoundEffect.stop();
+                rm.splashTheme.stop();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
             }
         })));
-        rm.startUpSoundEffect.setVolume(rm.sfxVolume);
-        rm.startUpSoundEffect.play();
+        rm.splashTheme.setVolume(rm.sfxVolume);
+        rm.splashTheme.play();
         title.addAction(actions);
         stage.addActor(title);
 
@@ -60,7 +60,7 @@ public class SplashScreen implements Screen {
         Gdx.gl.glClearColor(0f,0f,0f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(rm.splash,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.draw(rm.splashBackground,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         batch.end();
         stage.act();
         stage.draw();

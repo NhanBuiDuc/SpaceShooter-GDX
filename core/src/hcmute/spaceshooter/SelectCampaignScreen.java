@@ -3,35 +3,27 @@ package hcmute.spaceshooter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.ArrayList;
-
-import javax.swing.WindowConstants;
+import hcmute.spaceshooter.Episode.Episode1;
+import hcmute.spaceshooter.Episode.Episode2;
+import hcmute.spaceshooter.Episode.Episode3;
 
 public class SelectCampaignScreen implements Screen {
     private Stage stage;
@@ -94,16 +86,16 @@ public class SelectCampaignScreen implements Screen {
             final int index=i;
             //create a group of labels and button: campaign name and player's record
             Group g=new Group();
-            Label name=new Label(rm.campaigns.get(index),labelStyle);
+            Label name=new Label(rm.campaigns.get(index).name,labelStyle);
             name.setPosition(50,80);
             name.setFontScale(1.4f);
             name.setTouchable(Touchable.disabled);
             name.setAlignment(Align.left);
-            Label record=new Label("Record:",labelStyle);
+            Label record=new Label("Record: "+rm.campaigns.get(rm.campaignIndex).record,labelStyle);
             record.setPosition(50,50);
             record.setFontScale(0.8f);
             record.setTouchable(Touchable.disabled);
-
+            record.setAlignment(Align.left);
             final TextButton b=new TextButton("",rm.skin);
             campaignButtons.add(b);
             //change boss description to corresponding campaign
@@ -113,7 +105,7 @@ public class SelectCampaignScreen implements Screen {
                 public void clicked(InputEvent event,float x,float y)
                 {
                     rm.campaignIndex=index;
-                    bossDesc.setText(rm.bosses.get(rm.campaignIndex));
+                    bossDesc.setText(rm.campaigns.get(rm.campaignIndex).boss);
                     System.out.println(rm.campaignIndex);
                 }
             });
@@ -148,7 +140,22 @@ public class SelectCampaignScreen implements Screen {
                 rm.selectCampaignTheme.stop();
                 switch (rm.campaignIndex){
                     case 0:
-                        ((Game)Gdx.app.getApplicationListener()).setScreen(new GameScreen());
+                        GameScreen gameScreen1 = new GameScreen();
+                        gameScreen1.episode = new Episode1(gameScreen1.upgradeDroppingItemList, gameScreen1.meteorList,
+                                gameScreen1.enemyBossLaserList, gameScreen1.enemyBossesList, gameScreen1.enemyShipList);
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(gameScreen1);
+                        break;
+                    case 1:
+                        GameScreen gameScreen2 = new GameScreen();
+                        gameScreen2.episode = new Episode2(gameScreen2.upgradeDroppingItemList, gameScreen2.meteorList,
+                                gameScreen2.enemyBossLaserList, gameScreen2.enemyBossesList, gameScreen2.enemyShipList);
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(gameScreen2);
+                        break;
+                    case 2:
+                        GameScreen gameScreen3 = new GameScreen();
+                        gameScreen3.episode = new Episode3(gameScreen3.upgradeDroppingItemList, gameScreen3.meteorList,
+                                gameScreen3.enemyBossLaserList, gameScreen3.enemyBossesList, gameScreen3.enemyShipList);
+                        ((Game)Gdx.app.getApplicationListener()).setScreen(gameScreen3);
                         break;
                     default:
                         Gdx.app.exit();
@@ -159,7 +166,7 @@ public class SelectCampaignScreen implements Screen {
         TextButton returnButton=new TextButton("Return",rm.skin);
         returnButton.getLabel().setFontScale(0.6f);
         returnButton.setSize(130,60);
-        returnButton.setPosition(0,-5);
+        returnButton.setPosition(-10,-5);
         returnButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event,float x,float y)

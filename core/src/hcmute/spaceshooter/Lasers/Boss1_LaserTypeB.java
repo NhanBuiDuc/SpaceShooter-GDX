@@ -2,6 +2,7 @@ package hcmute.spaceshooter.Lasers;
 
 
 import static hcmute.spaceshooter.GlobalVariables.boss1_LaserTypeB_Texture;
+import static hcmute.spaceshooter.GlobalVariables.boss2_LaserTypeB_Texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -185,6 +186,11 @@ public class Boss1_LaserTypeB extends EnemyLaser {
 
     public int getLevel() {
         return level;
+    }
+
+    @Override
+    public int getDamage() {
+        return 1;
     }
 
     @Override

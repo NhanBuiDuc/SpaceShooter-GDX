@@ -36,6 +36,10 @@ public class VictoryScreen implements Screen {
 
     @Override
     public void show() {
+        //set theme
+        rm.victoryTheme.setVolume(rm.musicVolume);
+        rm.victoryTheme.setLooping(true);
+        rm.victoryTheme.play();
         //set label style for title
         Label.LabelStyle titleStyle=rm.skin.get("title", Label.LabelStyle.class);
         //create title label
@@ -53,12 +57,12 @@ public class VictoryScreen implements Screen {
         achievement.setScale(0.5f);
         achievement.setTouchable(Touchable.disabled);
         Label.LabelStyle labelStyle=rm.skin.get("default",Label.LabelStyle.class);
-        Label report=new Label(rm.bosses.get(rm.campaignIndex)+" has been defeated!",labelStyle);
+        Label report=new Label(rm.campaigns.get(rm.campaignIndex).boss+" has been defeated!",labelStyle);
         report.setWrap(true);
         report.setAlignment(Align.center);
         report.setFontScale(1.2f);
         achievement.add(report).size(300,120).row();
-        Label scoreLabel=new Label("Your record",labelStyle);
+        Label scoreLabel=new Label("Your record: "+rm.campaigns.get(rm.campaignIndex).record,labelStyle);
         scoreLabel.setFontScale(1.2f);
         scoreLabel.setAlignment(Align.center);
         achievement.add(scoreLabel).pad(15,15,15,15).row();
@@ -66,7 +70,6 @@ public class VictoryScreen implements Screen {
         score.setFontScale(1.2f);
         score.setAlignment(Align.center);
         achievement.add(score).row();
-        achievement.setDebug(true);
         stage.addActor(achievement);
         TextButton returnButton=new TextButton("Quit",rm.skin);
         returnButton.getLabel().setFontScale(0.45f);
@@ -76,6 +79,7 @@ public class VictoryScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
+                rm.victoryTheme.stop();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new MenuScreen());
             }
         });
@@ -87,6 +91,7 @@ public class VictoryScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
+                rm.victoryTheme.stop();
                 ((Game)Gdx.app.getApplicationListener()).setScreen(new SelectCampaignScreen());
             }
         });
@@ -98,6 +103,9 @@ public class VictoryScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0f,0f,0f,1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.begin();
+        batch.draw(rm.victoryBackground,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        batch.end();
         stage.act();
         stage.draw();
     }
