@@ -10,24 +10,23 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.Stack;
 
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeA;
-import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
+import hcmute.spaceshooter.Lasers.Boss2_LaserTypeA;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Lasers.ILaser;
 
-public class EnemyBoss1 extends EnemyBossShip{
-
-    public EnemyBoss1(){
+public class EnemyBoss2 extends EnemyBossShip {
+    public EnemyBoss2(){
         super();
-        boundingBox = new Rectangle(WORLD_WIDTH / 40, WORLD_HEIGHT - 45, 40, 40);
+        boundingBox = new Rectangle(WORLD_WIDTH / 12, WORLD_HEIGHT - 50, 60, 60);
         movementSpeed = 50;
         shield = 0;
         timeBetweenShots = 10f;
-        shipTextureRegion = textureAtlas.findRegion("boss01");
+        shipTextureRegion = textureAtlas.findRegion("boss02");
         shieldTextureRegion = textureAtlas.findRegion("shield1");
         ableToFire = true;
-        HP = 500;
+        HP = 800;
         directionVector = new Vector2(0, -1);
-        laserI = new Boss1_LaserTypeA(boundingBox);
+        laserI = new Boss2_LaserTypeA(boundingBox);
         laserI.setLevel(1);
     }
 
@@ -68,5 +67,4 @@ public class EnemyBoss1 extends EnemyBossShip{
     public void setLaserI(IEnemyLaser laserI) {
         this.laserI = laserI;
     }
-
 }

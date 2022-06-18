@@ -166,7 +166,7 @@ public abstract class Laser implements ILaser {
             }
             if(laserBoundingBox.y > WORLD_HEIGHT){
 //            drawingRectangle.y = WORLD_HEIGHT;
-                laserTexture.dispose();
+                // laserTexture.dispose();
             }
         }
     }

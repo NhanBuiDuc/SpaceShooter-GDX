@@ -1,23 +1,22 @@
 package hcmute.spaceshooter.Lasers;
 
 import static hcmute.spaceshooter.GlobalVariables.WORLD_HEIGHT;
-import static hcmute.spaceshooter.GlobalVariables.boss1_LaserTypeA_Texture;
 import static hcmute.spaceshooter.GlobalVariables.boss2_LaserTypeA_Texture;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Boss1_LaserTypeA extends EnemyLaser {
+public class Boss2_LaserTypeA extends EnemyLaser {
 
     int level = 1;
     Rectangle shipBoundingBox;
-    public Boss1_LaserTypeA(Rectangle shipBoundingBox) {
+    public Boss2_LaserTypeA(Rectangle shipBoundingBox) {
         this.shipBoundingBox = shipBoundingBox;
-        laserTexture = boss1_LaserTypeA_Texture;
+        laserTexture = boss2_LaserTypeA_Texture;
         laserWidth = 20f;
         laserHeight = WORLD_HEIGHT;
-        typeName = "Boss1_TypeA";
+        typeName = "Boss2_TypeA";
         // laser movement speed
         laserMovementSpeed = 50;
         /**
@@ -58,8 +57,8 @@ public class Boss1_LaserTypeA extends EnemyLaser {
         lasers[0].setLaserWidth(laserWidth);
         lasers[0].setLaserHeight(laserHeight);
         lasers[0].setLaserMovementSpeed(45);
-        lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().width * 0.27f,
-                lasers[0].getShipBoundingBox().getY() - lasers[0].getShipBoundingBox().height * 3f,
+        lasers[0].setLaserBoundingBox(new Rectangle(lasers[0].getShipBoundingBox().getX() + lasers[0].getShipBoundingBox().width * 0.4f,
+                lasers[0].getShipBoundingBox().getY() - lasers[0].getShipBoundingBox().height * 1.5f,
                 lasers[0].getLaserWidth(), lasers[0].getLaserHeight()));
 
 

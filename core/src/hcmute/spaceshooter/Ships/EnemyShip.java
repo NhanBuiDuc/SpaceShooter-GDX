@@ -18,7 +18,7 @@ public abstract class EnemyShip extends Ship{
     float timeSinceLastDirectionChange = 0;
     float directionChangeFrequency = 0.75f;
     IEnemyLaser laserI;
-    float lastXDirection = 1;
+    boolean isInHorde = false;
     public EnemyShip(){
 
     }
@@ -37,15 +37,27 @@ public abstract class EnemyShip extends Ship{
 
     @Override
     public void translate(float xChange, float yChange) {
-        boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);
-        lastXDirection = boundingBox.x;
+        if(isInHorde == false){
+            boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y + yChange);
+        }
+        else {
+            boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y);
+        }
     }
 
     public void MoveRandomly(float deltaTime){
-        timeSinceLastDirectionChange += deltaTime;
-        if(timeSinceLastDirectionChange > directionChangeFrequency){
-            randomizeDirectionVector();
-            timeSinceLastDirectionChange -= directionChangeFrequency;
+        if(isInHorde == false){
+            timeSinceLastDirectionChange += deltaTime;
+            if(timeSinceLastDirectionChange > directionChangeFrequency){
+                randomizeDirectionVector();
+                timeSinceLastDirectionChange -= directionChangeFrequency;
+            }
+        }
+        else {
+            timeSinceLastDirectionChange += deltaTime;
+            if(timeSinceLastDirectionChange > directionChangeFrequency){
+                timeSinceLastDirectionChange -= directionChangeFrequency;
+            }
         }
     }
 
@@ -90,15 +102,18 @@ public abstract class EnemyShip extends Ship{
 
     //region Getter and Setter
 
-    public float getLastXDirection() {
-        return lastXDirection;
-    }
-
 
     public Vector2 getDirectionVector() {
         return directionVector;
     }
 
+    public boolean isInHorde() {
+        return isInHorde;
+    }
+
+    public void setInHorde(boolean inHorde) {
+        isInHorde = inHorde;
+    }
 
     public void setLaserI(IEnemyLaser laserI) {
         this.laserI = laserI;

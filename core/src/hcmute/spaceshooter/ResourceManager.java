@@ -15,11 +15,11 @@ public class ResourceManager {
     public Skin skin;
     public Texture background,splash,menu;
     public SpriteBatch batch;
-    public Music menuTheme;
-    public Music loadingTheme;
-    public Music battleTheme;
-    public Music bossTheme;
-    public Music backgroundTheme;
+    public static Music menuTheme;
+    public static Music loadingTheme;
+    public static Music battleTheme;
+    public static Music bossTheme;
+    public static Music backgroundTheme;
 
     public static Music explosionSoundEffect;
     public static Music laserSoundEffect;
@@ -91,8 +91,8 @@ public class ResourceManager {
     }
     public void setSfxVolume(float sfxVolume)
     {
-        explosionSoundEffect.setVolume(sfxVolume/2);
-        laserSoundEffect.setVolume(sfxVolume/2);
+        explosionSoundEffect.setVolume(sfxVolume/3);
+        laserSoundEffect.setVolume(sfxVolume/3);
     }
 
     public void dispose()

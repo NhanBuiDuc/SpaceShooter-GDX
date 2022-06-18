@@ -42,7 +42,6 @@ public abstract class EnemyBossShip extends EnemyShip{
     @Override
     public void translate(float xChange, float yChange) {
         boundingBox.setPosition(boundingBox.x + xChange, boundingBox.y);
-        lastXDirection = xChange;
     }
 
     public void MoveRandomly(float deltaTime){

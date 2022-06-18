@@ -16,11 +16,12 @@ import hcmute.spaceshooter.Animation.UpgradeTypeB;
 import hcmute.spaceshooter.Animation.UpgradeTypeC;
 import hcmute.spaceshooter.Animation.UpgradeTypeD;
 import hcmute.spaceshooter.Animation.UpgradeTypeE;
-import hcmute.spaceshooter.Lasers.Boss1_LaserTypeA;
-import hcmute.spaceshooter.Lasers.Boss1_LaserTypeB;
-import hcmute.spaceshooter.Lasers.Boss1_LaserTypeC;
+import hcmute.spaceshooter.Lasers.Boss2_LaserTypeA;
+import hcmute.spaceshooter.Lasers.Boss2_LaserTypeB;
+import hcmute.spaceshooter.Lasers.Boss2_LaserTypeC;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
-import hcmute.spaceshooter.Ships.EnemyBoss1;
+import hcmute.spaceshooter.Ships.EnemyBoss2;
+import hcmute.spaceshooter.Ships.EnemyBoss2;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeA;
@@ -30,7 +31,7 @@ import hcmute.spaceshooter.Ships.EnemyShipTypeD;
 import hcmute.spaceshooter.Ships.EnemyShipTypeE;
 import hcmute.spaceshooter.SpaceShooterGame;
 
-public class Episode1 implements IEpisode{ //Upgrade boxes
+public class Episode2 implements IEpisode{ //Upgrade boxes
     //UpgradeTypeA
     UpgradeTypeA upgradeTypeA_1;
     UpgradeTypeA upgradeTypeA_2;
@@ -68,7 +69,7 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     Meteor meteor4;
     Meteor meteor5;
 
-    EnemyBoss1 enemyBoss;
+    EnemyBoss2 enemyBoss;
     // List of mainAnimationList
     Stack<IDropDownAnimation> mainAnimationList;
     // List of Enemy Lasers
@@ -84,7 +85,7 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     float elapsedTime;
 
     // For Type C only
-    boolean isBoss1_TypeC_Shooting = false;
+    boolean isBoss_TypeC_Shooting = false;
 
     // boolean for horde spawning
     boolean isSpawnHordeTypeA_1 = false;
@@ -103,8 +104,7 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     int countAtBound = 0;
     boolean isMoveRight = true;
     boolean isMoveToMiddle = false;
-
-    public Episode1(){
+    public Episode2(){
         upgradeTypeA_1 = new UpgradeTypeA();
         upgradeTypeA_2 = new UpgradeTypeA();
         upgradeTypeA_3 = new UpgradeTypeA();
@@ -209,9 +209,9 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         meteorList.push(meteor4);
         meteorList.push(meteor5);
 
-        enemyBoss = new EnemyBoss1();
+        enemyBoss = new EnemyBoss2();
     }
-    public Episode1(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList,
+    public Episode2(Stack<IDropDownAnimation> mainAnimationList, Stack<Meteor> meteorList, Stack<IEnemyLaser> enemyBossLaserList,
                     Stack<EnemyBossShip> enemyBossesList, Stack<EnemyShip> enemyShipList) {
         this.mainAnimationList = mainAnimationList;
         this.meteorList = meteorList;
@@ -323,7 +323,7 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
         meteorList.push(meteor4);
         meteorList.push(meteor5);
 
-        enemyBoss = new EnemyBoss1();
+        enemyBoss = new EnemyBoss2();
     }
 
     public void Start(float deltaTime, long startTime, SpriteBatch batch){
@@ -523,13 +523,15 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     }
 
     public void SpawnBoss(float deltaTime, SpriteBatch batch){
-        if(elapsedTime == 300){
+
+        if(elapsedTime == 1){
             if(!enemyBossesList.contains(enemyBoss)){
                 enemyBossesList.push(enemyBoss);
 
             }
         }
-        if(elapsedTime >= 300 && !enemyBoss.IsDead()){
+
+        if(elapsedTime >= 1 && !enemyBoss.IsDead()){
             enemyBoss.drawShip(batch);
             makeBossLasers(deltaTime, batch, elapsedTime);
             enemyBoss.update(deltaTime);
@@ -545,7 +547,7 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
             enemyBossShip.update(deltaTime);
 
             if (enemyBossShip.canFireLaser()) {
-                enemyBossShip.setLaserI(new Boss1_LaserTypeA(enemyBossShip.getBoundingBox()));
+                enemyBossShip.setLaserI(new Boss2_LaserTypeA(enemyBossShip.getBoundingBox()));
                 if (elapsedTime % 10 == 0) {
                     for (IEnemyLaser laser : enemyBossShip.GetLasers()) {
                         if(laser.isFinished() == false)
@@ -553,14 +555,14 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
                     }
                 }
                 if (elapsedTime % 3 == 0) {
-                    enemyBossShip.setLaserI(new Boss1_LaserTypeB(enemyBossShip.getBoundingBox()));
+                    enemyBossShip.setLaserI(new Boss2_LaserTypeB(enemyBossShip.getBoundingBox()));
                     for(IEnemyLaser laser: enemyBossShip.FireTypeB(deltaTime)){
                         enemyBossLaserList.push(laser);
                     }
                 }
                 if (elapsedTime % 4 == 0) {
                     float randomX = SpaceShooterGame.random.nextFloat() * (WORLD_WIDTH);
-                    enemyBossShip.setLaserI(new Boss1_LaserTypeC(enemyBossShip.getBoundingBox()));
+                    enemyBossShip.setLaserI(new Boss2_LaserTypeC(enemyBossShip.getBoundingBox()));
                     for(IEnemyLaser laser: enemyBossShip.GetLasers()){
 
                         laser.getLaserBoundingBox().setX(randomX);
@@ -585,12 +587,12 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
             while (iterator.hasNext()) {
                 IEnemyLaser laser = iterator.next();
                 if (laser != null) {
-                    if (laser instanceof Boss1_LaserTypeA) {
+                    if (laser instanceof Boss2_LaserTypeA) {
                         laser.drawLasersWithAnimation(deltaTime, batch);
                         if (laser.isFinished() == true)
                             iterator.remove();
                     } else {
-                        if (laser instanceof Boss1_LaserTypeB) {
+                        if (laser instanceof Boss2_LaserTypeB) {
                             if (laser.getLaserBoundingBox().getY() + laser.getLaserBoundingBox().getHeight() < (-50)) {
                                 iterator.remove();
                             } else {
@@ -598,7 +600,7 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
                                 laser.drawLaser(batch);
                             }
                         } else {
-                            if (laser instanceof Boss1_LaserTypeC) {
+                            if (laser instanceof Boss2_LaserTypeC) {
 
                                 if (laser.getLaserBoundingBox().getY() + laser.getLaserBoundingBox().getHeight() < (0)) {
 
@@ -606,12 +608,12 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
                                 }
                                 else {
 
-                                    if (((Boss1_LaserTypeC) laser).getLaserBoundingBox().getY() > WORLD_HEIGHT / 3 && (((Boss1_LaserTypeC) laser).isSpreading() == false)) {
+                                    if (((Boss2_LaserTypeC) laser).getLaserBoundingBox().getY() > WORLD_HEIGHT / 3 && (((Boss2_LaserTypeC) laser).isSpreading() == false)) {
                                         laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() - laser.getLaserMovementSpeed() * deltaTime);
                                         laser.drawLaser(batch);
                                     }
                                     else {
-                                        ((Boss1_LaserTypeC) laser).setSpreading(true);
+                                        ((Boss2_LaserTypeC) laser).setSpreading(true);
                                         if (laser.getMovementType() == "UP_LEFT") {
                                             laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 15f * deltaTime);
                                             laser.getLaserBoundingBox().setY(laser.getLaserBoundingBox().getY() + laser.getLaserMovementSpeed() * deltaTime);
@@ -629,7 +631,7 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
                                         } else if (laser.getMovementType() == "LEFT") {
                                             laser.getLaserBoundingBox().setX(laser.getLaserBoundingBox().getX() - 20f * deltaTime);
                                         }
-                                        isBoss1_TypeC_Shooting = false;
+                                        isBoss_TypeC_Shooting = false;
                                         laser.drawLaser(batch);
                                     }
                                 }
@@ -934,4 +936,6 @@ public class Episode1 implements IEpisode{ //Upgrade boxes
     public void setMeteorList(Stack<Meteor> meteorList) {
         this.meteorList = meteorList;
     }
+
+
 }

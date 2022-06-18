@@ -25,9 +25,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -41,21 +38,20 @@ import java.util.Stack;
 import hcmute.spaceshooter.Animation.Explosion;
 import hcmute.spaceshooter.Animation.IDropDownAnimation;
 import hcmute.spaceshooter.Animation.Meteor;
+import hcmute.spaceshooter.Episode.Episode1;
+import hcmute.spaceshooter.Episode.IEpisode;
 import hcmute.spaceshooter.Lasers.Boss1_LaserTypeC;
 import hcmute.spaceshooter.Lasers.IEnemyLaser;
 import hcmute.spaceshooter.Ships.EnemyBossShip;
 import hcmute.spaceshooter.Ships.EnemyShipTypeA;
 import hcmute.spaceshooter.Ships.EnemyShipTypeB;
 import hcmute.spaceshooter.Ships.EnemyShipTypeC;
-import hcmute.spaceshooter.Ships.EnemyShipTypeD;
-import hcmute.spaceshooter.Ships.EnemyShipTypeE;
-import hcmute.spaceshooter.Episode.Episode1;
 import hcmute.spaceshooter.Lasers.ILaser;
 import hcmute.spaceshooter.Ships.EnemyShip;
 import hcmute.spaceshooter.Ships.PlayerShip;
 import sun.jvm.hotspot.gc.shared.Space;
 
-public class GameScreen1 implements Screen {
+public class GameScreen implements Screen {
     public ResourceManager rm;
 
     //screen Base class for OrthographicCamera and PerspectiveCamera.
@@ -99,16 +95,18 @@ public class GameScreen1 implements Screen {
     private PlayerShip playerShip;
 
     // List of Enemy Ships
-    private Stack<EnemyShip> enemyShipList;
+    public Stack<EnemyShip> enemyShipList;
     // List of Enemy Bosses
-    private Stack<EnemyBossShip> enemyBossesList;
+    public Stack<EnemyBossShip> enemyBossesList;
     // List of enemy fired Lasers
-    private Stack<IEnemyLaser> enemyLaserList;
+    public Stack<IEnemyLaser> enemyLaserList;
     // List of enemy bosses' fired Lasers
-    private Stack<IEnemyLaser> enemyBossLaserList;
+    public Stack<IEnemyLaser> enemyBossLaserList;
     // List of Explosion
-    private LinkedList<Explosion> explosionList;
-
+    public LinkedList<Explosion> explosionList;
+    // Upgrade Dropping List:
+    public Stack<IDropDownAnimation> upgradeDroppingItemList = new Stack<>();
+    public Stack<Meteor> meteorList = new Stack<>();
     // Player's score
     private int score = 0;
 
@@ -125,16 +123,15 @@ public class GameScreen1 implements Screen {
      */
     float timeSpan;
 
-    // Upgrade Dropping List:
-    Stack<IDropDownAnimation> upgradeDroppingItemList = new Stack<>();
-    private Stack<Meteor> meteorList = new Stack<>();
+
     // Get current time:
     long startTime = TimeUtils.millis();
     // Get time elapsed since startTime:
     long elapsedTime;
 
     //
-    Episode1 episode1;
+    public IEpisode episode;
+
 
     //Current state
     int state;
@@ -145,7 +142,7 @@ public class GameScreen1 implements Screen {
     Rectangle quitBound;
 
     // Main Constructor.
-    public GameScreen1() {
+    public GameScreen() {
         rm=new ResourceManager();
         rm.setMusicVolume(rm.musicVolume);
         rm.setSfxVolume(rm.sfxVolume);
@@ -200,8 +197,6 @@ public class GameScreen1 implements Screen {
         // Render HUD(score, life, shields)
         prepareHud();
 
-        episode1 = new Episode1(upgradeDroppingItemList, meteorList, enemyBossLaserList, enemyBossesList);
-
         state = GAME_RUNNING;
         touchPoint = new Vector3();
         pauseBound = new Rectangle(WORLD_WIDTH-14, WORLD_HEIGHT-13, 15, 15);
@@ -244,7 +239,7 @@ public class GameScreen1 implements Screen {
              */
             renderBackground(deltaTime);
             //
-            episode1.Start(deltaTime, startTime, batch);
+            episode.Start(deltaTime, startTime, batch);
             //
             checkGetUpgrades();
             checkCrashing();
@@ -261,12 +256,8 @@ public class GameScreen1 implements Screen {
             detectBossCollisions(deltaTime);
             // explosions
             updateAndRenderExplosions(deltaTime);
-
-            // spawnEnemyShips
-            spawnEnemyShips(deltaTime);
-
             // spawn Boss
-            episode1.SpawnBoss1(deltaTime, batch);
+            episode.SpawnBoss(deltaTime, batch);
 
             //lasers
             renderLasers(deltaTime);
@@ -329,7 +320,7 @@ public class GameScreen1 implements Screen {
     }
 
     private void IsVictory(){
-        if(episode1.GetEnemyBoss1().getHP() < 1){
+        if(episode.getEnemyBoss().getHP() < 1){
             ((Game)Gdx.app.getApplicationListener()).setScreen(new SelectCampaignScreen());
         }
     }
@@ -729,20 +720,10 @@ public class GameScreen1 implements Screen {
         float leftLimit, rightLimit, upLimit;
         leftLimit = -enemyShip.getBoundingBox().x;
         rightLimit = WORLD_WIDTH - enemyShip.getBoundingBox().x - enemyShip.getBoundingBox().width;
-//        downLimit = (float) WORLD_HEIGHT / 2 - enemyShip.getBoundingBox().y;
-//        downLimit = - WORLD_HEIGHT;
         upLimit = WORLD_HEIGHT - enemyShip.getBoundingBox().y - enemyShip.getBoundingBox().height;
-        float xMove = 0;
-        xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
+        float xMove = enemyShip.getDirectionVector().x * enemyShip.getMovementSpeed() * deltaTime;
         float yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//        boolean isStutter = true;
-//        while (isStutter){
-//            enemyShip.randomizeDirectionVector();
-//
-//            yMove = enemyShip.getDirectionVector().y * enemyShip.getMovementSpeed() * deltaTime;
-//            if( Math.abs(xMove + enemyShip.getLastXDirection()) != 0)
-//                isStutter = false;
-//        }
+
 
         if(xMove > 0){
             xMove = Math.min(xMove, rightLimit);
@@ -817,9 +798,15 @@ public class GameScreen1 implements Screen {
             while(enemyShipListIterator.hasNext()){
                 // enemy ships
                 EnemyShip enemyShip = enemyShipListIterator.next();
-                moveEnemy(enemyShip, deltaTime);
-                enemyShip.MoveRandomly(deltaTime);
-                enemyShip.drawShip(batch);
+                if(enemyShip.isInHorde() == false){
+                    moveEnemy(enemyShip, deltaTime);
+                    enemyShip.MoveRandomly(deltaTime);
+                    enemyShip.drawShip(batch);
+                }
+                else {
+                    episode.moveHorde(deltaTime);
+                    enemyShip.drawShip(batch);
+                }
             }
             ListIterator<EnemyBossShip> enemyBossShipListIterator = enemyBossesList.listIterator();
 
@@ -835,6 +822,8 @@ public class GameScreen1 implements Screen {
             enemyShipList.clear();
         }
     }
+
+
 
     private void checkCrashing(){
         // Check the Meteors crash to the player's ship
